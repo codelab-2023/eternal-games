@@ -1,9 +1,9 @@
 'use client'
 import * as React from 'react'
-import { FaArrowUp, FaRandom, FaCarSide, FaCar, FaDoorOpen, FaUsers, FaPuzzlePiece, FaRunning, FaFire, FaGlobeAmericas, FaBasketballBall } from 'react-icons/fa'
-import { FaGun, FaEllo, FaUserGroup } from 'react-icons/fa6'
-import { GiPumpkinMask, GiStoneCrafting, GiPoolTableCorner, GiTargeting, GiTargeted, GiGuardedTower, GiVineFlower, GiCardAceSpades, GiJoystick, GiConsoleController } from 'react-icons/gi'
-import { MdFlashOn, MdSportsFootball, MdDirectionsBike, MdOutlineAdsClick } from 'react-icons/md'
+import { FaArrowUp, FaBasketballBall, FaCar, FaDoorOpen, FaFire, FaGlobeAmericas, FaPuzzlePiece, FaRandom, FaRunning, FaUsers } from 'react-icons/fa'
+import { FaEllo, FaGun, FaUserGroup } from 'react-icons/fa6'
+import { GiCardAceSpades, GiConsoleController, GiGuardedTower, GiJoystick, GiPoolTableCorner, GiPumpkinMask, GiStoneCrafting, GiTargeted, GiTargeting, GiVineFlower } from 'react-icons/gi'
+import { MdDirectionsBike, MdFlashOn, MdOutlineAdsClick, MdSportsFootball } from 'react-icons/md'
 // import { Link } from "react-router-dom";
 import ImageList from '@mui/material/ImageList'
 import ImageListItem from '@mui/material/ImageListItem'
@@ -18,7 +18,6 @@ import 'swiper/css'
 import 'swiper/css/navigation'
 import 'swiper/css/pagination'
 import 'swiper/css/scrollbar'
-import GamePage from './components/game/page'
 
 const itemData = [
   {
