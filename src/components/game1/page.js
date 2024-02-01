@@ -1,11 +1,8 @@
 'use client'
-import react from 'react'
-import Image from 'next/image'
 import Link from 'next/link'
 import ReactPlayer from 'react-player'
 import { FaArrowUp, FaRegPlayCircle, FaShareAlt } from 'react-icons/fa'
 import { ImEmbed2 } from 'react-icons/im'
-import * as React from 'react'
 
 export default function GamePage() {
 
@@ -104,7 +101,7 @@ export default function GamePage() {
                   return (
                       <div key={index}>
                         <Link href="/components/game">
-                          <img className="rounded-lg mb-4 h-[100%]" src={game.img} width={173} height={100} alt="game"/>
+                          <img className="rounded-lg mb-4 h-full" src={game.img} width={173} height={100} alt="game"/>
                         </Link>
                       </div>
                   )
@@ -117,7 +114,7 @@ export default function GamePage() {
                     width="100%"
                     height="600px"
                     url="https://www.youtube.com/watch?v=nq1M_Wc4FIc&pp=ygUMc3BpZGVyIG1hbiAy"
-                    autoplay={true}
+                    autoPlay={true}
                     controls={false}
                     muted={true}
                     loop={true}

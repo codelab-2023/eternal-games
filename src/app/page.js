@@ -4,16 +4,14 @@ import { FaArrowUp, FaBasketballBall, FaCar, FaDoorOpen, FaFire, FaGlobeAmericas
 import { FaEllo, FaGun, FaUserGroup } from 'react-icons/fa6'
 import { GiCardAceSpades, GiConsoleController, GiGuardedTower, GiJoystick, GiPoolTableCorner, GiPumpkinMask, GiStoneCrafting, GiTargeted, GiTargeting, GiVineFlower } from 'react-icons/gi'
 import { MdDirectionsBike, MdFlashOn, MdOutlineAdsClick, MdSportsFootball } from 'react-icons/md'
-// import { Link } from "react-router-dom";
 import ImageList from '@mui/material/ImageList'
 import ImageListItem from '@mui/material/ImageListItem'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Autoplay } from 'swiper/modules'
 import Image from 'next/image'
 import Link from 'next/link'
-import { gamerBoy, offLineMultiplayer, onLineMultiplayer } from './assets/index'
+import { gamerBoy, offLineMultiplayer, onLineMultiplayer } from '../assets/index'
 
-// Import Swiper styles
 import 'swiper/css'
 import 'swiper/css/navigation'
 import 'swiper/css/pagination'
@@ -325,7 +323,7 @@ export default function Home() {
               {itemData.map((item) => (
                   <ImageListItem key={item.img} cols={item.cols || 1} rows={item.rows || 1}>
                     <SwiperSlide>
-                      <Link href="/components/game">
+                      <Link href="/src/components/game">
                         <img
                             className="rounded-lg h-[100%]"
                             width={500}
@@ -349,7 +347,7 @@ export default function Home() {
             >
               {items.map((item, index) => (
                   <SwiperSlide key={index}>
-                    <Link href="/components/game">
+                    <Link href="/src/components/game">
                       <img className="rounded-xl h-[100%]" width={400} src={item.image} alt="game"/>
                     </Link>
                   </SwiperSlide>
@@ -370,7 +368,7 @@ export default function Home() {
             >
               {items.map((item, index) => (
                   <SwiperSlide key={index}>
-                    <Link href="/components/game">
+                    <Link href="/src/components/game">
                       <img className="rounded-xl h-[100%]" width={400} src={item.image} alt="game"/>
                     </Link>
                   </SwiperSlide>
@@ -393,7 +391,7 @@ export default function Home() {
               {items.map((item, index) => (
 
                   <SwiperSlide key={index}>
-                    <Link href="/components/game">
+                    <Link href="/src/components/game">
                       <img className="rounded-xl h-[100%]" width={400} src={item.image} alt="game"/>
                     </Link>
                   </SwiperSlide>
@@ -415,7 +413,7 @@ export default function Home() {
               {items.map((item, index) => (
 
                   <SwiperSlide key={index}>
-                    <Link href="/components/game">
+                    <Link href="/src/components/game">
                       <img className="rounded-xl h-[100%]" width={400} src={item.image} alt="game"/>
                     </Link>
                   </SwiperSlide>
@@ -437,7 +435,7 @@ export default function Home() {
               {items.map((item, index) => (
 
                   <SwiperSlide key={index}>
-                    <Link href="/components/game">
+                    <Link href="/src/components/game">
                       <img className="rounded-xl h-[100%]" width={400} src={item.image} alt="game"/>
                     </Link>
                   </SwiperSlide>
@@ -501,7 +499,7 @@ export default function Home() {
               {items.map((item, index) => (
 
                   <SwiperSlide key={index}>
-                    <Link href="/components/game">
+                    <Link href="/src/components/game">
                       <img className="rounded-xl h-[100%]" width={400} src={item.image} alt="game"/>
                     </Link>
                   </SwiperSlide>
@@ -523,7 +521,7 @@ export default function Home() {
               {items.map((item, index) => (
 
                   <SwiperSlide key={index}>
-                    <Link href="/components/game">
+                    <Link href="/src/components/game">
                       <img className="rounded-xl h-[100%]" width={400} src={item.image} alt="game"/>
                     </Link>
                   </SwiperSlide>
@@ -584,7 +582,7 @@ export default function Home() {
               {items.map((item, index) => (
 
                   <SwiperSlide key={index}>
-                    <Link href="/components/game">
+                    <Link href="/src/components/game">
                       <img className="rounded-xl h-[100%]" width={400} src={item.image} alt="game"/>
                     </Link>
                   </SwiperSlide>
@@ -606,7 +604,7 @@ export default function Home() {
               {items.map((item, index) => (
 
                   <SwiperSlide key={index}>
-                    <Link href="/components/game">
+                    <Link href="/src/components/game">
                       <img className="rounded-xl h-[100%]" width={400} src={item.image} alt="game"/>
                     </Link>
                   </SwiperSlide>
@@ -628,7 +626,7 @@ export default function Home() {
               {items.map((item, index) => (
 
                   <SwiperSlide key={index}>
-                    <Link href="/components/game">
+                    <Link href="/src/components/game">
                       <img className="rounded-xl h-[100%]" width={400} src={item.image} alt="game"/>
                     </Link>
                   </SwiperSlide>
