@@ -1,10 +1,10 @@
-import { FaBasketballBall, FaCar, FaDoorOpen, FaDownload, FaFire, FaGlobeAmericas, FaHome, FaPuzzlePiece, FaRegClock, FaRunning, FaUsers } from 'react-icons/fa';
-import { MdDirectionsBike, MdFlashOn, MdOutlineAdsClick, MdSportsFootball } from 'react-icons/md';
-import { FaEllo, FaGun, FaUserGroup } from 'react-icons/fa6';
-import { GiCardAceSpades, GiConsoleController, GiGuardedTower, GiJoystick, GiPoolTableCorner, GiPumpkinMask, GiStoneCrafting, GiTargeted, GiTargeting, GiVineFlower } from 'react-icons/gi';
-import * as React from 'react';
-import { BsFire, BsStars } from 'react-icons/bs';
-import { PiLinuxLogoFill } from 'react-icons/pi';
+import { FaBasketballBall, FaCar, FaDoorOpen, FaDownload, FaFire, FaGlobeAmericas, FaHome, FaPuzzlePiece, FaRegClock, FaRunning, FaUsers } from 'react-icons/fa'
+import { MdDirectionsBike, MdFlashOn, MdOutlineAdsClick, MdSportsFootball } from 'react-icons/md'
+import { FaEllo, FaGun, FaUserGroup } from 'react-icons/fa6'
+import { GiCardAceSpades, GiConsoleController, GiGuardedTower, GiJoystick, GiPoolTableCorner, GiPumpkinMask, GiStoneCrafting, GiTargeted, GiTargeting, GiVineFlower } from 'react-icons/gi'
+import * as React from 'react'
+import { BsFire, BsStars } from 'react-icons/bs'
+import { PiLinuxLogoFill } from 'react-icons/pi'
 
 const mainSliderThumbnails = [
   {
@@ -108,7 +108,7 @@ const mainSliderThumbnails = [
     img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSNC5gkdzMPpqE0MkXN-n4lbBPGYpLM5AwoMA&usqp=CAU',
     title: 'Cyberpunk'
   }
-];
+]
 
 const gameThumbnails = [
   {
@@ -155,283 +155,354 @@ const gameThumbnails = [
     image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR2dx-PH0o0sxU9_fQ0i_9YgoJ1ykegvlUbjg&usqp=CAU',
     title: 'Cyberpunk'
   }
-];
+]
 
 const categories = [
   {
     tag1: {
-      icon: <FaCar />,
+      icon: <FaCar/>,
       title: 'Driving'
     },
     tag2: {
-      icon: <FaDoorOpen />,
+      icon: <FaDoorOpen/>,
       title: 'Escape'
     }
   },
   {
     tag1: {
-      icon: <MdFlashOn />,
+      icon: <MdFlashOn/>,
       title: 'Flash'
     },
     tag2: {
-      icon: <FaGun />,
+      icon: <FaGun/>,
       title: 'FPS'
     }
   }, {
     tag1: {
-      icon: <GiPumpkinMask />,
+      icon: <GiPumpkinMask/>,
       title: 'Horror'
     },
     tag2: {
-      icon: <FaEllo />,
+      icon: <FaEllo/>,
       title: '.io'
     }
   }, {
     tag1: {
-      icon: <FaUsers />,
+      icon: <FaUsers/>,
       title: 'Multiplayer'
     },
     tag2: {
-      icon: <GiStoneCrafting />,
+      icon: <GiStoneCrafting/>,
       title: 'Minecraft'
     }
   }, {
     tag1: {
-      icon: <GiPoolTableCorner />,
+      icon: <GiPoolTableCorner/>,
       title: 'Pool'
     },
     tag2: {
-      icon: <FaPuzzlePiece />,
+      icon: <FaPuzzlePiece/>,
       title: 'Puzzle'
     }
   }, {
     tag1: {
-      icon: <GiTargeted />,
+      icon: <GiTargeted/>,
       title: 'Shooting'
     },
     tag2: {
-      icon: <GiTargeting />,
+      icon: <GiTargeting/>,
       title: 'Socker'
     }
   }, {
     tag1: {
-      icon: <FaRunning />,
+      icon: <FaRunning/>,
       title: 'Stickman'
     },
     tag2: {
-      icon: <MdSportsFootball />,
+      icon: <MdSportsFootball/>,
       title: 'Sports'
     }
   }, {
     tag1: {
-      icon: <GiGuardedTower />,
+      icon: <GiGuardedTower/>,
       title: 'Defense'
     },
     tag2: {
-      icon: <FaFire />,
+      icon: <FaFire/>,
       title: 'Action'
     }
   }, {
     tag1: {
-      icon: <FaGlobeAmericas />,
+      icon: <FaGlobeAmericas/>,
       title: 'Adventure'
     },
     tag2: {
-      icon: <FaUserGroup />,
+      icon: <FaUserGroup/>,
       title: '2 Player'
     }
   }, {
     tag1: {
-      icon: <FaBasketballBall />,
+      icon: <FaBasketballBall/>,
       title: 'BasketBall'
     },
     tag2: {
-      icon: <MdDirectionsBike />,
+      icon: <MdDirectionsBike/>,
       title: 'Bike'
     }
   }, {
     tag1: {
-      icon: <GiVineFlower />,
+      icon: <GiVineFlower/>,
       title: 'Beauty'
     },
     tag2: {
-      icon: <FaDoorOpen />,
+      icon: <FaDoorOpen/>,
       title: 'Card'
     }
   },
   {
     tag1: {
-      icon: <GiCardAceSpades />,
+      icon: <GiCardAceSpades/>,
       title: 'car'
     },
     tag2: {
-      icon: <GiJoystick />,
+      icon: <GiJoystick/>,
       title: 'Casual'
     }
   },
   {
     tag1: {
-      icon: <MdOutlineAdsClick />,
+      icon: <MdOutlineAdsClick/>,
       title: 'Clicker'
     },
     tag2: {
-      icon: <GiConsoleController />,
+      icon: <GiConsoleController/>,
       title: 'Controller'
     }
   }
-];
+]
 
 const sidebarCategories = [
   {
-    icon: <FaCar />,
+    icon: <FaCar/>,
     title: 'Driving'
   },
   {
-    icon: <FaDoorOpen />,
+    icon: <FaDoorOpen/>,
     title: 'Escape'
   },
-
   {
-    icon: <MdFlashOn />,
+    icon: <MdFlashOn/>,
     title: 'Flash'
   },
   {
-    icon: <FaGun />,
+    icon: <FaGun/>,
     title: 'FPS'
   },
-
   {
-    icon: <GiPumpkinMask />,
+    icon: <GiPumpkinMask/>,
     title: 'Horror'
   },
   {
-    icon: <FaEllo />,
+    icon: <FaEllo/>,
     title: '.io'
   },
-
   {
-    icon: <FaUsers />,
+    icon: <FaUsers/>,
     title: 'Multiplayer'
   },
   {
-    icon: <GiStoneCrafting />,
+    icon: <GiStoneCrafting/>,
     title: 'Minecraft'
   },
-
   {
-    icon: <GiPoolTableCorner />,
+    icon: <GiPoolTableCorner/>,
     title: 'Pool'
   },
   {
-    icon: <FaPuzzlePiece />,
+    icon: <FaPuzzlePiece/>,
     title: 'Puzzle'
   },
-
   {
-    icon: <GiTargeted />,
+    icon: <GiTargeted/>,
     title: 'Shooting'
   },
   {
-    icon: <GiTargeting />,
+    icon: <GiTargeting/>,
     title: 'Socker'
   },
-
   {
-    icon: <FaRunning />,
+    icon: <FaRunning/>,
     title: 'Stickman'
   },
   {
-    icon: <MdSportsFootball />,
+    icon: <MdSportsFootball/>,
     title: 'Sports'
   },
   {
-    icon: <GiGuardedTower />,
+    icon: <GiGuardedTower/>,
     title: 'Defense'
   },
   {
-    icon: <FaFire />,
+    icon: <FaFire/>,
     title: 'Action'
   },
-
   {
-    icon: <FaGlobeAmericas />,
+    icon: <FaGlobeAmericas/>,
     title: 'Adventure'
   },
   {
-    icon: <FaUserGroup />,
+    icon: <FaUserGroup/>,
     title: '2 Player'
   },
   {
-    icon: <FaBasketballBall />,
+    icon: <FaBasketballBall/>,
     title: 'BasketBall'
   },
   {
-    icon: <MdDirectionsBike />,
+    icon: <MdDirectionsBike/>,
     title: 'Bike'
   },
   {
-    icon: <GiVineFlower />,
+    icon: <GiVineFlower/>,
     title: 'Beauty'
   },
   {
-    icon: <FaDoorOpen />,
+    icon: <FaDoorOpen/>,
     title: 'Card'
   },
-
   {
-    icon: <GiCardAceSpades />,
+    icon: <GiCardAceSpades/>,
     title: 'car'
   },
   {
-    icon: <GiJoystick />,
+    icon: <GiJoystick/>,
     title: 'Casual'
   },
-
   {
-    icon: <MdOutlineAdsClick />,
+    icon: <MdOutlineAdsClick/>,
     title: 'Clicker'
   },
   {
-    icon: <GiConsoleController />,
+    icon: <GiConsoleController/>,
     title: 'Controller'
   }
-];
+]
 
 const sidebarFeatures = [
   {
     title: 'Home',
-    icon: <FaHome />
+    icon: <FaHome/>
   },
   {
     title: 'recent-played',
-    icon: <FaRegClock />
+    icon: <FaRegClock/>
   },
   {
     title: 'New',
-    icon: <BsStars />
+    icon: <BsStars/>
   },
   {
     title: 'Trending now',
-    icon: <BsFire />
+    icon: <BsFire/>
   },
   {
     title: 'Updated',
-    icon: <FaDownload />
+    icon: <FaDownload/>
   },
   {
     title: 'Originals',
-    icon: <PiLinuxLogoFill />
+    icon: <PiLinuxLogoFill/>
   },
   {
     title: 'Random',
-    icon: <BsStars />
+    icon: <BsStars/>
   }
-];
+]
+
+const gamePlayGamesImg = [
+  {
+    img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSDoDOJZbUuf2mU6r1AxYP0PoNn5XEnCuaG7w&usqp=CAU'
+  },
+  {
+    img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSZRgtgJjIznsit1CsxTUbLXei6cq1kKry9ug&usqp=CAU'
+  },
+  {
+    img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSN8Pn8Ye-NBuBFgANv4PM_Z4yooAyjH0F8Jw&usqp=CAU'
+  },
+  {
+    img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSQw32qO2WqwzJq2pAVFfIBqMSS2HhA6pK5CQ&usqp=CAU'
+  },
+  {
+    img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRvwvymgCpKRxvzl56mT7bF9BkrBaHgb2mbLw&usqp=CAU'
+  },
+  {
+    img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTatoKSTytIzEVsX43869utuHvmOsJcABqwfQ&usqp=CAU'
+  },
+  {
+    img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTZ1kOi7EbHvyDWOmIUK4TOZn--HhAWjkvRiw&usqp=CAU'
+  },
+  {
+    img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTILOTD7gx911tvT-HPetHP9BYZmyKXVKn9Vg&usqp=CAU'
+  },
+  {
+    img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS05urv-NFz8JbygeMN5U7l3oA3hvw9rjH0Bg&usqp=CAU'
+  },
+  {
+    img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS04mC-F78eUkHmStuvqTsbNYNuEaIRcZXJcn2__Y1szk215syapt4-p4nFo17uMbxYQxc&usqp=CAU'
+  },
+  {
+    img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS79W7IQoKzY4if02D7jR5KZm1JotnzwjY0TQ&usqp=CAU'
+  },
+  {
+    img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQGMLLrTo7XZuSDymEnLwF7ShwZXowYUDD7FQ&usqp=CAU'
+  }
+]
+
+const gamePlayGameTags = [
+  {
+    img: 'https://img.icons8.com/?size=50&id=8931&format=png',
+    title: 'Action'
+  },
+  {
+    img: 'https://img.icons8.com/?size=80&id=lp9Lv0PWqOBh&format=png',
+    title: '3D'
+  },
+  {
+    img: 'https://img.icons8.com/?size=60&id=lRaI3B0GhAgD&format=png',
+    title: 'Battle'
+  },
+  {
+    img: 'https://img.icons8.com/?size=48&id=80604&format=png',
+    title: 'Sci-fi'
+  },
+  {
+    img: 'https://img.icons8.com/?size=80&id=zbGZokGkWvLX&format=png',
+    title: 'Adventure'
+  },
+  {
+    img: 'https://img.icons8.com/?size=40&id=ghQPAZtxmNbQ&format=png',
+    title: 'Graphics'
+  },
+  {
+    img: 'https://img.icons8.com/?size=64&id=PEfxi3mNT0kR&format=png',
+    title: 'power'
+  },
+  {
+    img: 'https://img.icons8.com/?size=80&id=R9nmG80rVKvZ&format=png',
+    title: 'Super Human'
+  },
+  {
+    img: 'https://img.icons8.com/?size=80&id=iW0pxfkIq0Ck&format=png',
+    title: 'Bromance'
+  }
+]
 
 export {
   gameThumbnails,
   mainSliderThumbnails,
   categories,
   sidebarFeatures,
-  sidebarCategories
-};
+  sidebarCategories,
+  gamePlayGamesImg,
+  gamePlayGameTags
+}

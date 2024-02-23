@@ -22,12 +22,36 @@ body {
       to bottom,
       transparent,
       rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  ) rgb(var(--background-start-rgb));
 }
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
+  }
+
+  ::-webkit-scrollbar {
+    width: 3px;
+  }
+
+  /* Track */
+  ::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 1px grey;
+    border-radius: 15px;
+  }
+
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #1E2E58;
+    border-radius: 15px;
+  }
+
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #1A284B;
+  }
+
+  .about-zenGames {
+    height: inherit;
   }
 }
