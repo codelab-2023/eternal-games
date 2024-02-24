@@ -1,6 +1,7 @@
+import React from 'react'
+import Link from 'next/link'
 import { sidebarCategories, sidebarFeatures } from '../../helper/helper'
 import { FaTags } from 'react-icons/fa6'
-import React from 'react'
 
 const SideBar = ({ isOpen, onClose }) => {
   if (!isOpen && onClose) return null
@@ -11,10 +12,12 @@ const SideBar = ({ isOpen, onClose }) => {
           {
             sidebarFeatures.map((item, index) =>
                 <div key={index}>
-                  <div className="flex items-center pl-4 py-2 gap-6 ">
-                    <div className="text-slate-400 text-lg">{item.icon}</div>
-                    <div className="text-white">{item.title}</div>
-                  </div>
+                  <Link href={item.link}>
+                    <div className="flex items-center pl-4 py-2 gap-6 ">
+                      <div className="text-slate-400 text-lg">{item.icon}</div>
+                      <div className="text-white">{item.title}</div>
+                    </div>
+                  </Link>
                 </div>
             )
           }
@@ -36,6 +39,13 @@ const SideBar = ({ isOpen, onClose }) => {
           <div className="flex items-center pl-4 py-2 gap-6 border-t-2 border-slate-700">
             <div className="text-slate-400 text-lg"><FaTags/></div>
             <div className="text-white">Tags</div>
+          </div>
+          <div className="flex items-center justify-center my-2">
+            <a href="mailto:test@test.com&body=Hello!">
+              <button className="px-6 py-3 bg-primary hover:bg-darkPrimary hover:shadow-sm hover:shadow-lightPrimary transition-colors rounded-full">
+                Contact Us
+              </button>
+            </a>
           </div>
         </div>
       </div>

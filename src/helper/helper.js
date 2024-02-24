@@ -391,30 +391,37 @@ const sidebarCategories = [
 const sidebarFeatures = [
   {
     title: 'Home',
+    link: '/',
     icon: <FaHome/>
   },
   {
     title: 'recent-played',
+    link: '/',
     icon: <FaRegClock/>
   },
   {
     title: 'New',
+    link: '/',
     icon: <BsStars/>
   },
   {
     title: 'Trending now',
+    link: '/',
     icon: <BsFire/>
   },
   {
     title: 'Updated',
+    link: '/',
     icon: <FaDownload/>
   },
   {
     title: 'Originals',
+    link: '/',
     icon: <PiLinuxLogoFill/>
   },
   {
     title: 'Random',
+    link: '/',
     icon: <BsStars/>
   }
 ]

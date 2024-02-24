@@ -22,8 +22,16 @@ module.exports = {
     },
     colors: {
       ...colors,
-      primary: '#1156fb'
-    }
+      primary: '#1156fb',
+      darkPrimary: '#1A4BBD',
+      deepPrimary: '#092669',
+      aboutCardBG: '#ec4899',
+      // slightlyDarkBlue: '#0E47D1',
+      // darkerMutedBlue: '#0C3EB1',
+      // navyBlue: '#092E8A',
+      // softBlue: '#63A4FF'
+
+}
   },
   plugins: []
 }
