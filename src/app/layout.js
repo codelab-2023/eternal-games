@@ -14,7 +14,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
       <html lang="en">
-      <body className={`${inter.className} relative`}>
+      <body className={`min-h-screen ${inter.className}`}>
       <Suspense>
         <NavBar/>
       </Suspense>
