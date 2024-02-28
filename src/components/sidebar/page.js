@@ -7,7 +7,7 @@ const SideBar = ({ isOpen, onClose }) => {
   if (!isOpen && onClose) return null
 
   return (
-      <div className={`bg-slate-900/90 px-4 text-white h-dvh absolute left-0 top-18 transition-transform transform ${isOpen ? 'translate-x-0 ' : '-translate-x-full'}`}>
+      <div className={`sidebar bg-slate-900/90 px-4 text-white h-dvh w-max top-0 overflow-y-scroll  transition-transform transform ${isOpen ? 'translate-x-0 ' : '-translate-x-full'}`}>
         <div className="border-b-2 py-4 border-slate-700">
           {
             sidebarFeatures.map((item, index) =>
@@ -22,7 +22,7 @@ const SideBar = ({ isOpen, onClose }) => {
             )
           }
         </div>
-        <div className="h-1/2 overflow-y-scroll py-2">
+        <div className="py-2">
           <div className="py-4">
             {
               sidebarCategories.map((categories, index) =>

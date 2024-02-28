@@ -1,33 +1,16 @@
 'use client'
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import Link from 'next/link'
 import { FaBars, FaFantasyFlightGames, FaRegHeart } from 'react-icons/fa6'
 import { IoSearch } from 'react-icons/io5'
 import SideBar from '../sidebar/page'
 
-export default function Navbar() {
-  const [ openSideBar, setOpenSideBar ] = useState(false)
-
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth > 600 && openSideBar) {
-        setOpenSideBar(false)
-      }
-    }
-
-    window.addEventListener('resize', handleResize)
-    return () => window.removeEventListener('resize', handleResize)
-  })
-
-  function handleToggle() {
-    setOpenSideBar((prevState) => !prevState)
-  }
+export default function Navbar({toggleSideBar}) {
 
   return (
       <>
         <div className="flex items-center top-0 left-0 right-0 px-6 py-4 bg-slate-900/90 z-50 backdrop-blur-sm relative">
-          <SideBar isOpen={openSideBar} onClose={handleToggle}/>
-          <button className="mr-10" onClick={handleToggle}>
+          <button className="mr-10" onClick={toggleSideBar}>
             <FaBars size={25}/>
           </button>
 
