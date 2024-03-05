@@ -1,12 +1,12 @@
-'use client'
-import { Inter } from 'next/font/google'
-import './globals.css'
-import NavBar from '../components/navbar/page'
-import Footer from '../components/footer/page'
-import React, { Suspense, useEffect, useState } from 'react';
+'use client';
+import { Inter } from 'next/font/google';
+import './globals.css';
+import NavBar from '../components/navbar/page';
+import Footer from '../components/footer/page';
+import React, { Suspense, useState } from 'react';
 import SideBar from '../components/sidebar/page';
 
-const inter = Inter({ subsets: [ 'latin' ] })
+const inter = Inter({ subsets: [ 'latin' ] });
 
 // export const metadata = {
 //   title: 'ZenGames',
@@ -14,39 +14,29 @@ const inter = Inter({ subsets: [ 'latin' ] })
 // }
 
 export default function RootLayout({ children }) {
+  const [ openSideBar, setOpenSideBar ] = useState(false);
 
-  const [ openSideBar, setOpenSideBar ] = useState(false)
-
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth > 600 && openSideBar) {
-        setOpenSideBar(false)
-      }
-    }
-
-    window.addEventListener('resize', handleResize)
-    return () => window.removeEventListener('resize', handleResize)
-  })
 
   function handleToggle() {
-    setOpenSideBar((prevState) => !prevState)
+    setOpenSideBar((prevState) => !prevState);
   }
 
   return (
-      <html lang="en">
-      <body className={`min-h-screen ${inter.className}`}>
-      <Suspense>
-        <NavBar toggleSideBar={handleToggle}/>
-      </Suspense>
-      <div>
-        <SideBar isOpen={openSideBar} onClose={handleToggle}/>
-
+    <html lang='en'>
+    <body className={`w-screen min-h-screen ${inter.className}`}>
+    <Suspense>
+      <NavBar toggleSideBar={handleToggle} />
+    </Suspense>
+    <div className={`w-full ${openSideBar ? 'h-screen overflow-y-scroll ' : ''}`}>
+        <SideBar isOpen={openSideBar} onClose={handleToggle} />
+      <div className={` ${openSideBar ? 'xs:ml-auto base:ml-[190px] h-screen overflow-y-scroll' : ''}`}>
         {children}
       </div>
-      <Suspense>
-        <Footer/>
-      </Suspense>
-      </body>
-      </html>
-  )
+    </div>
+    <Suspense>
+      <Footer />
+    </Suspense>
+    </body>
+    </html>
+  );
 }

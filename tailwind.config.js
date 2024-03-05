@@ -1,5 +1,5 @@
-import colors from 'tailwindcss/colors'
-import { spacing } from 'tailwindcss/defaultTheme'
+import colors from 'tailwindcss/colors';
+import { spacing } from 'tailwindcss/defaultTheme';
 
 module.exports = {
   content: [
@@ -9,6 +9,26 @@ module.exports = {
     './src/app/**/*.{js,ts,jsx,tsx,mdx}'
   ],
   theme: {
+    screens: {
+      'xs': '320px',
+      // => @media (min-width: 640px) { ... }
+
+      'base': '435px',
+
+      'nm': '555px',
+
+      'md': '768px',
+      // => @media (min-width: 768px) { ... }
+
+      'lg': '1024px',
+      // => @media (min-width: 1024px) { ... }
+
+      'xl': '1300px',
+      // => @media (min-width: 1280px) { ... }
+
+      '2xl': '1536px'
+      // => @media (min-width: 1536px) { ... }
+    },
     spacing: {
       ...spacing,
       '18': '76px'
@@ -17,7 +37,7 @@ module.exports = {
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'gradient-conic':
-            'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))'
+          'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))'
       }
     },
     colors: {
@@ -25,13 +45,13 @@ module.exports = {
       primary: '#1156fb',
       darkPrimary: '#1A4BBD',
       deepPrimary: '#092669',
-      aboutCardBG: '#ec4899',
+      aboutCardBG: '#ec4899'
       // slightlyDarkBlue: '#0E47D1',
       // darkerMutedBlue: '#0C3EB1',
       // navyBlue: '#092E8A',
       // softBlue: '#63A4FF'
 
-}
+    }
   },
   plugins: []
-}
+};
