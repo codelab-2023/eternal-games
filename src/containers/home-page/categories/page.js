@@ -7,8 +7,8 @@ import 'swiper/css';
 const Categories = () => {
   return (
     <div className='lg:flex mx-6 my-10 gap-6'>
-      <div className='about-zenGame p-6 bg-slate-900 rounded-xl xs:mb-6 lg:mb-0'>
-        <h2 className='font-sans font-bold pb-4 xs:text-base ld:text-lg'>About ZenGames</h2>
+      <div className='about-Eternalgames p-6 bg-slate-900 rounded-xl xs:mb-6 lg:mb-0'>
+        <h2 className='font-sans font-bold pb-4 xs:text-base ld:text-lg'>About Eternal games</h2>
         <p className='text-wrap pb-4 text-sm text-gray-400 xs:text-sm ld:text-base'>CrazyGames features the latest and best free online games. You can enjoy playing fun games without
           interruptions from downloads, intrusive ads, or pop-ups.
         </p>

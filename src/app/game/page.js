@@ -6,6 +6,7 @@ import { FaShareAlt } from 'react-icons/fa';
 import { ImEmbed2 } from 'react-icons/im';
 import gameService from '../../services/game.service';
 import parse from 'html-react-parser';
+const moment = require('moment');
 
 export default function Page() {
   const descriptionRef = useRef();
@@ -102,15 +103,15 @@ export default function Page() {
                   <div className="text-sm border-b pb-4 border-gray-700">
                     <div className="flex gap-2">
                       <div className="w-28 mt-1 text-gray-500">Rating:</div>
-                      <div><b className="text-lg">9.4</b>{games.rating}</div>
+                      <div><b className="text-lg">{games.rating}</b></div>
                     </div>
                     <div className="flex gap-2 mt-1 ">
                       <div className="w-28 text-gray-500">Released:</div>
-                      <div>{games.createdOn}</div>
+                      <div>{moment(games.createdOn).format('DD MMM, YYYY')}</div>
                     </div>
                     <div className="flex gap-2 mt-1 ">
                       <div className="w-28 text-gray-500">Last Updated:</div>
-                      <div>{games.updatedOn}</div>
+                      <div>{moment(games.updatedOn).format('DD MMM, YYYY')}</div>
                     </div>
                     <div className="flex gap-2 mt-1 ">
                       <div className="w-28 text-gray-500">Technology:</div>
