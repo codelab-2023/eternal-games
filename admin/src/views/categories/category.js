@@ -226,7 +226,7 @@ const Category = () => {
                         label='Status'
                         labelId='demo-simple-select-label'
                         name='status'
-                        value={category.status || status.value}
+                        value={category.status || STATUS.value}
                         onChange={(e) => setCategory({ ...category, status: e.target.value })}
                       >
                         {STATUS.map((status) => (

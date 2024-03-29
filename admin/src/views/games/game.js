@@ -319,7 +319,7 @@ const Game = () => {
                           </Stack>
                         )}
                       >
-                        {categories.map((category) => {
+                        {categories?.map((category) => {
                           const isSelected = game.categories.find((gameCategory) => gameCategory._id === category._id);
                           return (
                             <MenuItem
@@ -348,7 +348,7 @@ const Game = () => {
                         label='Status'
                         labelId='demo-simple-select-label'
                         name='status'
-                        value={game.status || status.value}
+                        value={game.status || STATUS.value}
                         onChange={(e) => setGame({ ...game, status: e.target.value })}
                       >
                         {STATUS.map((status) => (

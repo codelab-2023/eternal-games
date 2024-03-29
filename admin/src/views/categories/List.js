@@ -318,7 +318,7 @@ const Categories = () => {
                             label='Status'
                             labelId='demo-simple-select-label'
                             name='status'
-                            value={createCategory.status || status.value}
+                            value={createCategory.status || STATUS.value}
                             onChange={(e) => setCreateCategory({ ...createCategory, status: e.target.value })}
                           >
                             {

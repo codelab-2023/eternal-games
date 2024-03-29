@@ -395,7 +395,7 @@ const Games = () => {
                             label='Status'
                             labelId='demo-simple-select-label'
                             name='status'
-                            value={createGame.status || status.value}
+                            value={createGame.status || STATUS.value}
                             onChange={(e) => setCreateGame({ ...createGame, status: e.target.value })}
                           >
                             {STATUS.map((status, index) => (
