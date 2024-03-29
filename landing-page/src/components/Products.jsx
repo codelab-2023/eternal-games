@@ -1,0 +1,79 @@
+import Product from "./Product";
+import ProductData from "../static/Global";
+import { useState, useEffect } from "react";
+// import axios from "axios"; for API
+import Skeleton from './Skeleton';
+
+function Products() {
+  // const [games, setGames] = useState([]) for API
+  const [loading, setLoading] = useState(false)
+  const colors = [
+    {
+      bgcolor: "bg-orange-500",
+    },
+    {
+      bgcolor: "bg-teal-500",
+    },
+    {
+      bgcolor: "bg-violet-500",
+    },
+    {
+      bgcolor: "bg-rose-500",
+    },
+    {
+      bgcolor: "bg-amber-500",
+    },
+    {
+      bgcolor: "bg-green-700",
+    },
+    {
+      bgcolor: "bg-sky-600",
+    },
+    {
+      bgcolor: "bg-gray-400",
+    },
+    {
+      bgcolor: "bg-red-400	",
+    },
+    {
+      bgcolor: "bg-indigo-400	",
+    },
+    {
+      bgcolor: "bg-lime-600",
+    },
+    {
+      bgcolor: "bg-yellow-800",
+    }
+  ];
+
+
+  function getRandomTheme() {
+    return colors[Math.floor(Math.random() * colors.length)]
+  }
+
+  // for API
+  // useEffect(() => {
+  //   setLoading(true)
+  //   axios.get("https://whole-rocks-drop.loca.lt/v1/website").then((res) => {
+  //     console.log(res.data.websites);
+  //     setGames(res.data.websites)
+  //     setLoading(false)
+  //   })
+  // }, [])
+
+  return (<>
+    {loading ?
+     <section> 
+      <Skeleton count={12} /> 
+      </section>
+       :
+      <div className="animate-slow-pulse bg-[#d9f6f8] grid 2xl:grid-cols-4 xl:grid-cols-3 lg:grid-cols-2 md:grid-flow-row lg:gap-10 xl:gap-2 2xl:px-28 min-[2560px]:gap-10 min-[2560px]:px-60 md:px-44 sm:px-40 pt-10">
+        {
+          ProductData.map((productItem, index) => <Product key={index} data={productItem} theme={getRandomTheme()} />)
+        }
+      </div>
+    }
+  </>
+  );
+}
+export default Products;
