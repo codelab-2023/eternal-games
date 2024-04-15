@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { multiPlayer, offLineMultiplayer, onLineMultiplayer } from '../../../assets/images';
+import { multiPlayer, offLineMultiplayer, onLineMultiplayer } from '../../assets/images';
 import * as React from 'react';
 
 const Multiplayer = () => {

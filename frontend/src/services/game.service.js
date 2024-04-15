@@ -3,7 +3,7 @@ import axiosInstance from './axiosInstance';
 export default class gameService {
   static async getGameList() {
     try {
-      const response = await axiosInstance.get('http://localhost:8080/v1/game');
+      const response = await axiosInstance.get('/v1/game');
 
       return response.data;
     } catch (error) {
@@ -13,7 +13,7 @@ export default class gameService {
 
   static async getGame(id) {
     try {
-      const response = await axiosInstance.get(`http://localhost:8080/v1/game/${id}`);
+      const response = await axiosInstance.get(`/v1/game/${id}`);
 
       return response.data;
     } catch (error) {

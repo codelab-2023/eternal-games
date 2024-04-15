@@ -1,3 +1,4 @@
+'use client'
 import { Box, Container, List, ListItem, ListItemText, Typography } from '@mui/material';
 import Link from '@mui/material/Link';
 
@@ -59,7 +60,7 @@ export default function Page() {
         </Typography>
         <Typography variant="body1" paragraph>
           Your submission of information through the Site is governed by the CrazyGames Privacy Policy, located at
-          <Link href="mailto:https://www.crazygames.com/privacy-policy" color="primary" underline="always" sx={{ margin: '0 8px' }}>https://www.crazygames.com/privacy-policy</Link>
+          <Link href="mailto:" color="primary" underline="always" sx={{ margin: '0 8px' }}>https://www.crazygames.com/privacy-policy</Link>
           (the “Privacy Policy”). You represent and warrant that any information you provide in connection with the Site is and will remain accurate and complete, and that you will maintain and update
           such information as needed. To the extent that there is any contradiction between the provisions of this Agreement and the Privacy Policy regarding personal data, the provisions of the
           Privacy Policy shall prevail.

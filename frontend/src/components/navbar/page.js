@@ -16,7 +16,7 @@ export default function Navbar({ toggleSideBar }) {
         <Link href='/'>
           <div className='flex gap-4'>
             <FaFantasyFlightGames size={30} />
-            <div className='text-[24px] font-bold text-lime-400 font-sans'>Eternal games</div>
+            <div className='text-[24px] font-bold text-lime-400 font-sans'>EternalGames</div>
           </div>
         </Link>
         </div>

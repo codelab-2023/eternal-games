@@ -1,3 +1,4 @@
+'use client'
 import { Box, Container, List, ListItem, ListItemText, Typography } from '@mui/material';
 import Link from '@mui/material/Link';
 

@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { categories } from '../../../helper/helper';
+import { categories } from '../../helper/helper';
 import * as React from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
@@ -12,7 +12,7 @@ const Categories = () => {
         <p className='text-wrap pb-4 text-sm text-gray-400 xs:text-sm ld:text-base'>CrazyGames features the latest and best free online games. You can enjoy playing fun games without
           interruptions from downloads, intrusive ads, or pop-ups.
         </p>
-        <Link className='text-lime-400 font-bold font-sans xs:text-sm ld:text-base' href='/'>Learn More</Link>
+        <Link className='text-lime-400 font-bold font-sans xs:text-sm ld:text-base' href='/frontend/public'>Learn More</Link>
       </div>
       <div className='h-full lg:w-3/4 w-full'>
         <Swiper

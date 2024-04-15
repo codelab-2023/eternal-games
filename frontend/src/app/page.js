@@ -1,8 +1,8 @@
 'use client';
 import React, { useEffect, useState } from 'react';
-import Multiplayer from '../containers/home-page/multiplayer/page';
-import Categories from '../containers/home-page/categories/page';
-import CarouselMain from '../containers/home-page/carousel-main/page';
+import Multiplayer from '@/containers/multiplayer/page';
+import Categories from '@/containers/categories/page';
+import CarouselMain from '@/containers/carousel-main/page';
 import Desktop from '../components/desktop-component/page';
 import gameService from '../services/game.service';
 
