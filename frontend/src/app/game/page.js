@@ -148,7 +148,7 @@ export default function Page() {
                   })
                 }
               </div>
-              <img className="m-auto mb-8" src="https://images.crazygames.com/store-logos/steam-button.png?auto=format%2Ccompress&q=45&cs=strip&ch=DPR" width={200} height={100} alt="download" />
+              {/* <img className="m-auto mb-8" src="https://images.crazygames.com/store-logos/steam-button.png?auto=format%2Ccompress&q=45&cs=strip&ch=DPR" width={200} height={100} alt="download" /> */}
             </div>
           </div>
           <div className="w-1/4 xs:hidden xl:block">

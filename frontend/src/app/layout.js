@@ -4,7 +4,7 @@ import './globals.css';
 import NavBar from '../components/navbar/page';
 import Footer from '../components/footer/page';
 import React, { Suspense, useState } from 'react';
-import SideBar from '../components/sidebar/page';
+// import SideBar from '../components/sidebar/page';
 
 const inter = Inter({ subsets: [ 'latin' ] });
 
@@ -23,16 +23,19 @@ export default function RootLayout({ children }) {
 
   return (
     <html lang='en'>
-    <body className={`w-screen min-h-screen ${inter.className}`}>
+    <body className={`w-screen text-white min-h-screen ${inter.className}`}>
     <Suspense>
       <NavBar toggleSideBar={handleToggle} />
     </Suspense>
-    <div className={`w-full ${openSideBar ? 'h-screen overflow-y-scroll ' : ''}`}>
+
+    {children}
+
+    {/* <div className={`w-full ${openSideBar ? 'h-screen overflow-y-scroll ' : ''}`}>
         <SideBar isOpen={openSideBar} onClose={handleToggle} />
       <div className={` ${openSideBar ? 'xs:ml-auto base:ml-[190px] h-screen overflow-y-scroll' : ''}`}>
-        {children}
+        
       </div>
-    </div>
+    </div> */}
     <Suspense>
       <Footer />
     </Suspense>

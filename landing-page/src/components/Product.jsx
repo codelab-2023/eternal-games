@@ -10,14 +10,12 @@ function Product({ data, theme }) {
   return (
     <>
       <div
-        className={`overflow-hidden hover:scale-105 hover:ease-in-out duration-200 z-10 shadow-xl flex-col max-sm:m-10 md:m-2  xl:m-6 max-xl:my-2 rounded-3xl font-sans flex items-center ${theme.bgcolor}`}
-      >
+        className={`overflow-hidden hover:scale-105 hover:ease-in-out duration-200 z-10 shadow-xl flex-col max-sm:m-10 md:m-2  xl:m-6 max-xl:my-2 rounded-3xl font-sans flex items-center ${theme.bgcolor}`}>
         <img
-          src={data.coverImage}
+          src={data.cover}
           alt="logo"
           width={800}
-          className="pb-4 max-sm:pb-2 rounded-lg h-full "
-        />
+          className="object-contain pb-4 max-sm:pb-2 rounded-lg h-full"/>
         <div className="p-2 w-full">
           <div className="flex justify-start items-center mb-6 max-sm:mb-2">
             <img className='rounded-2xl mx-4' src={data.logo} alt="logo" width={80} />
@@ -27,7 +25,7 @@ function Product({ data, theme }) {
           </div>
         </div>
 
-        <div className={`bg-transparent font-bold justify-between flex text-wh	`}>
+        <div className="bg-transparent w-full font-bold flex justify-evenly text-wh">
           <div className="bg-gray-200 rounded-xl p-3 max-sm:p-2 mb-4 hover:scale-90 hover:ease-in-out duration-200">
             {data.iosLink ? (<button onClick={() => openLink(data.iosLink)} >
               <div className="flex items-center">
@@ -42,7 +40,7 @@ function Product({ data, theme }) {
               : null}
           </div>
 
-          <div className="max-sm:ms-1 ms-3 bg-gray-200 rounded-xl p-3 max-sm:p-2 mb-4 hover:scale-90 hover:ease-in-out duration-200 ">
+          <div className="max-sm:ms-1 ms-3 bg-gray-200 rounded-xl p-3 max-sm:p-2 mb-4 hover:scale-90 hover:ease-in-out duration-200">
             {data.androidLink ? (
               <button onClick={() => openLink(data.androidLink)}>
                 <div className="flex items-center">

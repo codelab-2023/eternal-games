@@ -1,11 +1,11 @@
 import Product from "./Product";
-import ProductData from "../static/Global";
+// import ProductData from "../static/Global";
 import { useState, useEffect } from "react";
-// import axios from "axios"; for API
+import axios from "axios";
 import Skeleton from './Skeleton';
 
 function Products() {
-  // const [games, setGames] = useState([]) for API
+  const [games, setGames] = useState([])
   const [loading, setLoading] = useState(false)
   const colors = [
     {
@@ -52,14 +52,14 @@ function Products() {
   }
 
   // for API
-  // useEffect(() => {
-  //   setLoading(true)
-  //   axios.get("https://whole-rocks-drop.loca.lt/v1/website").then((res) => {
-  //     console.log(res.data.websites);
-  //     setGames(res.data.websites)
-  //     setLoading(false)
-  //   })
-  // }, [])
+  useEffect(() => {
+    setLoading(true)
+      axios.get("https://api.eternalgames.io/v1/website").then((res) => {
+      console.log(res);
+      setGames(res.data.websites)
+      setLoading(false)
+    })
+  }, [])
 
   return (<>
     {loading ?
@@ -67,9 +67,9 @@ function Products() {
       <Skeleton count={12} /> 
       </section>
        :
-      <div className="animate-slow-pulse bg-[#d9f6f8] grid 2xl:grid-cols-4 xl:grid-cols-3 lg:grid-cols-2 md:grid-flow-row lg:gap-10 xl:gap-2 2xl:px-28 min-[2560px]:gap-10 min-[2560px]:px-60 md:px-44 sm:px-40 pt-10">
+      <div className="w-screen animate-slow-pulse bg-[#d9f6f8] grid 2xl:grid-cols-4 xl:grid-cols-3 lg:grid-cols-2 md:grid-flow-row lg:gap-10 xl:gap-2 2xl:px-28 min-[2560px]:gap-10 min-[2560px]:px-60 md:px-44 sm:px-40 pt-10">
         {
-          ProductData.map((productItem, index) => <Product key={index} data={productItem} theme={getRandomTheme()} />)
+          games.map((productItem, index) => <Product key={index} data={productItem} theme={getRandomTheme()} />)
         }
       </div>
     }

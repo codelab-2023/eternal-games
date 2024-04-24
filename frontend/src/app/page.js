@@ -32,7 +32,7 @@ export default function Home() {
         <Desktop name='Adventure Games' helper={game} />
         <Desktop name='CrazyGames Originals' helper={game} />
         <Desktop name='Casual Games' helper={game} />
-        <Multiplayer />
+        {/* <Multiplayer /> */}
         <Desktop name='Puzzle Games' helper={game} />
         <Desktop name='Action Games' helper={game} />
         <Categories />

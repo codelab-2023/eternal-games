@@ -9,6 +9,7 @@ function App() {
 
   return (
     <>
+      
       <Navbar />
       <Banner />
       <Products />
@@ -17,6 +18,7 @@ function App() {
         <h1 className='text-2xl'>eternal@support.com</h1>
       </div>
       <Footer />
+    
     </>
   );
 }

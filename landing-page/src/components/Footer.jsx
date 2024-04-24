@@ -2,7 +2,7 @@ const Footer = () => {
   return (
     <footer className=" bg-white dark:bg-[#0c1015]">
       <div className="container px-6 py-12 mx-auto">
-        <div className="flex justify-between">
+        <div className="flex max-[540px]:flex-col justify-between">
           <div className="sm:col-span-2">
             <h1 className="max-w-lg text-xl sm:text-md font-semibold tracking-tight text-gray-800 xl:text-2xl dark:text-white">
               Subscribe our newsletter to get update.
@@ -22,7 +22,7 @@ const Footer = () => {
             </div>
           </div>
 
-          <div>
+          <div className="max-[540px]:pt-4">
             <p className="font-semibold text-gray-800 dark:text-white">
               Quick Link
             </p>
