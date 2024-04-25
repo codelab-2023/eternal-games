@@ -57,6 +57,7 @@ const Website = () => {
 
   async function updateWebsite(websiteId, website) {
     try {
+      console.log("website", website);
       setLoading(true);
 
       await websiteService.updateWebsite(websiteId, {
@@ -203,7 +204,7 @@ const Website = () => {
                     label="Cover"
                     placeholder="Cover"
                     value={website.cover}
-                    onChange={(e) => setWebsite({ ...website, url: e.target.value })}
+                    onChange={(e) => setWebsite({ ...website, cover: e.target.value })}
                   />
                 </Grid>
 
@@ -215,7 +216,7 @@ const Website = () => {
                     label="Android Link"
                     placeholder="Android Link"
                     value={website.androidLink}
-                    onChange={(e) => setWebsite({ ...website, logo: e.target.value })}
+                    onChange={(e) => setWebsite({ ...website, androidLink: e.target.value })}
                   />
                 </Grid>
                 <Grid item xs={6}>
@@ -226,7 +227,7 @@ const Website = () => {
                     label="iOS Link"
                     placeholder="iOS Link"
                     value={website.iosLink}
-                    onChange={(e) => setWebsite({ ...website, url: e.target.value })}
+                    onChange={(e) => setWebsite({ ...website, iosLink: e.target.value })}
                   />
                 </Grid>
 

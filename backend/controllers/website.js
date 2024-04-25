@@ -62,12 +62,13 @@ const getWebsiteListPublic = async (req, res) => {
 const updateWebsite = async (req, res) => {
   try {
     const websiteId = req.params.id;
+    console.log("backend", req.body);
     const {
       logo,
       name,
-      url,
-      isSupportAndroid,
-      isSupportIos
+      cover,
+      androidLink,
+      iosLink
     } = req.body;
 
     if (!websiteId) {
@@ -77,9 +78,9 @@ const updateWebsite = async (req, res) => {
     const updateWebsite = await WebsiteStore.updateOne({ _id: websiteId }, {
       logo,
       name,
-      url,
-      isSupportAndroid,
-      isSupportIos
+      cover,
+      androidLink,
+      iosLink
     });
 
     if (!updateWebsite) {

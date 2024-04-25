@@ -67,7 +67,10 @@ function Products() {
       <Skeleton count={12} /> 
       </section>
        :
-      <div className="w-screen animate-slow-pulse bg-[#d9f6f8] grid 2xl:grid-cols-4 xl:grid-cols-3 lg:grid-cols-2 md:grid-flow-row lg:gap-10 xl:gap-2 2xl:px-28 min-[2560px]:gap-10 min-[2560px]:px-60 md:px-44 sm:px-40 pt-10">
+      <div className="w-screen animate-slow-pulse bg-[#d9f6f8] grid grid-cols-2 gap-2 2xl:grid-cols-4 xl:grid-cols-3 lg:grid-cols-3 md:grid-cols-2
+      lg:gap-10 xl:gap-2 2xl:px-28 max-sm:p-1
+      min-[2560px]:gap-10 min-[2560px]:px-60
+      md:px-4 sm:px-10 pt-10">
         {
           games.map((productItem, index) => <Product key={index} data={productItem} theme={getRandomTheme()} />)
         }

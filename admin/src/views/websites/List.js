@@ -147,7 +147,9 @@ const Websites = () => {
   async function fetchWebsites() {
     try {
       const response = await websiteService.getWebsiteList();
+      console.log("list of websites", response.websites);
       setWebsites(response.websites);
+
     } catch (error) {
       console.log(error.message);
     }
