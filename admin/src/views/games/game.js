@@ -260,7 +260,7 @@ const Game = () => {
                       label='Game URL'
                       placeholder='Game URL'
                       value={game.url}
-                      onChange={(e) => setGame({ ...Game, url: e.target.value })}
+                      onChange={(e) => setGame({ ...game, url: e.target.value })}
                     />
                   </Grid>
                   <Grid item xs={4}>

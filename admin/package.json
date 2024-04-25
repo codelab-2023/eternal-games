@@ -22,6 +22,7 @@
     "@tabler/icons": "^1.72.0",
     "apexcharts": "^3.35.3",
     "axios": "^1.6.3",
+    "dotenv": "^16.4.5",
     "encrypt-storage": "^2.12.22",
     "formik": "^2.2.9",
     "framer-motion": "^6.3.16",
