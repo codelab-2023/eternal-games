@@ -41,11 +41,13 @@ import {
   IconX,
 } from "@tabler/icons";
 import categoryService from "../../services/category.service";
+import { LoadingButton } from "@mui/lab";
 
 const Game = () => {
   const params = useParams();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
+  const   [uploadLoading, setUploadLoading] = useState(false)
   const [game, setGame] = useState({
     gameName: "",
     description: "",
@@ -137,6 +139,7 @@ const Game = () => {
   }
 
   async function handleFileUpload(e) {
+    setUploadLoading(true) 
     const file = e.target.files[0];
     if (file && file.type === "application/zip") {
       const formData = new FormData();
@@ -145,6 +148,7 @@ const Game = () => {
 
       const response = await gameService.uploadGameZip(formData);
       setGame({ ...game, url: response.gameUrl })
+      setUploadLoading(false)
     }
   }
 
@@ -373,7 +377,8 @@ const Game = () => {
                       onChange={handleFileUpload}
                     />
                     <label htmlFor="contained-button-file">
-                      <Button
+                      <LoadingButton
+                       loading={uploadLoading}
                         variant="contained"
                         disabled={!isUpdateMode}
                         component="span"
@@ -384,7 +389,7 @@ const Game = () => {
                         startIcon={<CloudUploadIcon />}
                       >
                         Upload ZIP
-                      </Button>
+                      </LoadingButton>
                     </label>  
                   </Grid>
                  
