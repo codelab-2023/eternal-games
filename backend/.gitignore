@@ -2,6 +2,8 @@
 
 # dependencies
 /node_modules
+/games
+/zip
 /.pnp
 .pnp.js
 .vscode
@@ -34,3 +36,5 @@ yarn-error.log*
 .vercel
 .idea
 *.lock
+
+#zip-upload

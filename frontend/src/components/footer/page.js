@@ -13,7 +13,7 @@ const scrollToTop = () => {
 const Footer = () => {
   return (
     <>
-      <div className='px-8 py-4 bg-slate-900 shadow-inner shadow-slate-800 rounded-xl w-full'>
+      <div className='px-8 sticky top-full py-4 bg-slate-900 shadow-inner shadow-slate-800 rounded-xl w-full'>
         <div className='flex flex-column flex-wrap items-center justify-center gap-6 text-lg text-gray-300 font-medium my-3'>
           {/* <Link className='hover:text-primary transition-colors duration-300' href='/about-us'>About Us</Link>| */}
           <Link className='hover:text-primary transition-colors duration-300' href='/terms-and-condition'>Terms & Condition</Link>|

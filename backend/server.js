@@ -5,20 +5,27 @@ const cors = require('cors')
 const express = require('express')
 const app = express()
 const morganBody = require('morgan-body')
+const path = require('path')
 const { publicRoutes, privateRoutes } = require('./routes')
 const mongodb = require('./mongodb-config')
 const authentication = require('./middleware/Authentication')
+const fileUpload = require('express-fileupload');
 
 const initialize = async () => {
   await mongodb.getOrInitializeDatabase()
 
   app.use(express.json())
   app.use(cors())
+  app.use(fileUpload());
+
 
   morganBody(app, {
     prettify: false,
     includeNewLine: true
   })
+
+  const dirname = path.resolve()
+  app.use('/games', express.static(path.join(dirname, '/games')))
 
 
   // Public Routes! i.e. Login, SignUp etc.

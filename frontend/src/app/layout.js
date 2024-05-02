@@ -23,7 +23,7 @@ export default function RootLayout({ children }) {
 
   return (
     <html lang='en'>
-    <body className={`w-screen text-white min-h-screen ${inter.className}`}>
+    <body className={`w-screen text-white min-h-screen overflow-x-hidden ${inter.className}`}>
     <Suspense>
       <NavBar toggleSideBar={handleToggle} />
     </Suspense>

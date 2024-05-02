@@ -21,6 +21,20 @@ export default class gameService {
     }
   }
 
+  static async uploadGameZip(formData) {
+    try {
+      const response = await axiosInstance.post('v1/games/upload', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      });
+
+      return response.data;
+    }catch (error) {
+      console.log(error.message);
+    }
+  }
+
   static async dashboardCards() {
     try {
       const response = await axiosInstance.get('/v1/games/dashboard-cards');
