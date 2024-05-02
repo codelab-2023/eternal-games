@@ -17,12 +17,17 @@ const initialize = async () => {
   app.use(express.json())
   app.use(cors())
   app.use(fileUpload());
-
+  
 
   morganBody(app, {
     prettify: false,
     includeNewLine: true
   })
+
+  const uploadDir = 'zip/'
+  if (!fs.existsSync(uploadDir)) {
+    fs.mkdirSync(uploadDir)
+  }
 
   const dirname = path.resolve()
   app.use('/games', express.static(path.join(dirname, '/games')))
