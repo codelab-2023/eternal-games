@@ -68,17 +68,17 @@ const Desktop = ({ helper, name }) => {
       {/*    }*/}
       {/*  </Swiper>*/}
       {/*</ImageList>*/}
-      <div className="flex flex-row items-center flex-wrap justify-center shrink gap-5 mt-4 mb-10">
+      <div className="flex flex-row items-center flex-wrap justify-center shrink gap-4 mt-4 mb-10">
             {
               helper.map((item) => (
-                <ImageListItem key={item.thumbnail} cols={item.cols || 1} rows={item.rows || 1}>
+                <ImageListItem key={item.thumbnail} cols={item.cols || 2} rows={item.rows || 1}>
                     <Link href={{
                       pathname: '/game',
                       query: {
                         id: item._id
                       }
                     }}>
-                      <img className='rounded-xl h-48' width={300} src={item.thumbnail} alt='game' />
+                      <img className='homepage-games rounded-xl' src={item.thumbnail} alt='game' />
                     </Link>
                 </ImageListItem>
 

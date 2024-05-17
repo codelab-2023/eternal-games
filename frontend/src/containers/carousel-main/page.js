@@ -10,7 +10,8 @@ const CarouselMain = ({ helper }) => {
 
   return (
       <ImageList
-          sx={{ margin: '40px 20px 60px', width: 'auto', height: 250, display: 'flex' }}
+          sx={{ margin: '40px 20px 60px', width: 'auto', display: 'flex' }}
+          className="home-slider"
           variant="quilted"
           cols={4}
           rowHeight={135}
@@ -64,7 +65,6 @@ const CarouselMain = ({ helper }) => {
                       <img
                           className="rounded-lg h-full"
                           width={500}
-                          // height={}
                           src={item.thumbnail}
                           alt={item.gameName}
                       />

@@ -7,7 +7,7 @@ export default function Page() {
   return (
     <Container className="bg-slate-900 rounded-xl p-10 mx-auto my-8">
 
-      <Typography variant="h4" component="h1" gutterBottom>
+      <Typography variant="h3" component="h1" gutterBottom>
         <b>Terms and Conditions</b>
       </Typography>
       <Box mt={2}>
@@ -41,7 +41,7 @@ export default function Page() {
         </Typography>
 
 
-        <Typography variant="h6" sx={{ margin: '0.6em 0' }}>
+        <Typography variant="h5" sx={{ margin: '0.6em 0' }}>
           <b>1. Changes</b>
         </Typography>
         <Typography variant="body1" paragraph>
@@ -55,7 +55,7 @@ export default function Page() {
         </Typography>
 
 
-        <Typography variant="h6" sx={{ margin: '0.6em 0' }}>
+        <Typography variant="h5" sx={{ margin: '0.6em 0' }}>
           <b>2. Information Submitted Through the Site</b>
         </Typography>
         <Typography variant="body1" paragraph>
@@ -67,7 +67,7 @@ export default function Page() {
         </Typography>
 
 
-        <Typography variant="h6" sx={{ margin: '0.6em 0' }}>
+        <Typography variant="h5" sx={{ margin: '0.6em 0' }}>
           <b>3. Jurisdictional Issues</b>
         </Typography>
         <Typography variant="body1" paragraph>
@@ -77,7 +77,7 @@ export default function Page() {
         </Typography>
 
 
-        <Typography variant="h6" sx={{ margin: '0.6em 0' }}>
+        <Typography variant="h5" sx={{ margin: '0.6em 0' }}>
           <b>4. Rules of Conduct</b>
         </Typography>
         <Typography variant="body1" paragraph>
@@ -128,7 +128,7 @@ export default function Page() {
           </ListItem>
         </List>
 
-        <Typography variant="h6" sx={{ margin: '0.6em 0' }}>
+        <Typography variant="h5" sx={{ margin: '0.6em 0' }}>
           <b>5. Embedding Games</b>
         </Typography>
         <Typography variant="body1" paragraph>
@@ -171,7 +171,7 @@ export default function Page() {
         </Typography>
 
 
-        <Typography variant="h6" sx={{ margin: '0.6em 0' }}>
+        <Typography variant="h5" sx={{ margin: '0.6em 0' }}>
           <b>6. Products</b>
         </Typography>
         <Typography variant="body1" paragraph>
@@ -184,7 +184,7 @@ export default function Page() {
         </Typography>
 
 
-        <Typography variant="h6" sx={{ margin: '0.6em 0' }}>
+        <Typography variant="h5" sx={{ margin: '0.6em 0' }}>
           <b>7. Profiles and Forums.</b>
         </Typography>
         <Typography variant="body1" paragraph>
@@ -196,7 +196,7 @@ export default function Page() {
         </Typography>
 
 
-        <Typography variant="h6" sx={{ margin: '0.6em 0' }}>
+        <Typography variant="h5" sx={{ margin: '0.6em 0' }}>
           <b>8. License.</b>
         </Typography>
         <Typography variant="body1" paragraph>
@@ -220,7 +220,7 @@ export default function Page() {
         </Typography>
 
 
-        <Typography variant="h6" sx={{ margin: '0.6em 0' }}>
+        <Typography variant="h5" sx={{ margin: '0.6em 0' }}>
           <b>9. Monitoring</b>
         </Typography>
         <Typography variant="body1" paragraph>
@@ -229,7 +229,7 @@ export default function Page() {
         </Typography>
 
 
-        <Typography variant="h6" sx={{ margin: '0.6em 0' }}>
+        <Typography variant="h5" sx={{ margin: '0.6em 0' }}>
           <b>10. Your Limited Rights</b>
         </Typography>
         <Typography variant="body1" paragraph>
@@ -238,7 +238,7 @@ export default function Page() {
         </Typography>
 
 
-        <Typography variant="h6" sx={{ margin: '0.6em 0' }}>
+        <Typography variant="h5" sx={{ margin: '0.6em 0' }}>
           <b>11. CrazyGames’ Proprietary Rights</b>
         </Typography>
         <Typography variant="body1" paragraph>
@@ -249,7 +249,7 @@ export default function Page() {
         </Typography>
 
 
-        <Typography variant="h6" sx={{ margin: '0.6em 0' }}>
+        <Typography variant="h5" sx={{ margin: '0.6em 0' }}>
           <b>12. Third Party Materials; Links</b>
         </Typography>
         <Typography variant="body1" paragraph>
@@ -271,7 +271,7 @@ export default function Page() {
         </Typography>
 
 
-        <Typography variant="h6" sx={{ margin: '0.6em 0' }}>
+        <Typography variant="h5" sx={{ margin: '0.6em 0' }}>
           <b>13. Promotions</b>
         </Typography>
         <Typography variant="body1" paragraph>
@@ -281,7 +281,7 @@ export default function Page() {
         </Typography>
 
 
-        <Typography variant="h6" sx={{ margin: '0.6em 0' }}>
+        <Typography variant="h5" sx={{ margin: '0.6em 0' }}>
           <b>14. Disclaimer Of Warranties</b>
         </Typography>
         <Typography variant="body1" paragraph>
@@ -300,7 +300,7 @@ export default function Page() {
         </Typography>
 
 
-        <Typography variant="h6" sx={{ margin: '0.6em 0' }}>
+        <Typography variant="h5" sx={{ margin: '0.6em 0' }}>
           <b>15. Limitation Of Liability</b>
         </Typography>
         <Typography variant="body1" paragraph>
@@ -315,7 +315,7 @@ export default function Page() {
         </Typography>
 
 
-        <Typography variant="h6" sx={{ margin: '0.6em 0' }}>
+        <Typography variant="h5" sx={{ margin: '0.6em 0' }}>
           <b>16. Indemnity</b>
         </Typography>
         <Typography variant="body1" paragraph>
@@ -325,7 +325,7 @@ export default function Page() {
         </Typography>
 
 
-        <Typography variant="h6" sx={{ margin: '0.6em 0' }}>
+        <Typography variant="h5" sx={{ margin: '0.6em 0' }}>
           <b>17. Termination</b>
         </Typography>
         <Typography variant="body1" paragraph>
@@ -336,7 +336,7 @@ export default function Page() {
         </Typography>
 
 
-        <Typography variant="h6" sx={{ margin: '0.6em 0' }}>
+        <Typography variant="h5" sx={{ margin: '0.6em 0' }}>
           <b>18. Governing Law; Arbitration</b>
         </Typography>
         <Typography variant="body1" paragraph>
@@ -353,7 +353,7 @@ export default function Page() {
         </Typography>
 
 
-        <Typography variant="h6" sx={{ margin: '0.6em 0' }}>
+        <Typography variant="h5" sx={{ margin: '0.6em 0' }}>
           <b>19. Filtering</b>
         </Typography>
         <Typography variant="body1" paragraph>
@@ -365,7 +365,7 @@ export default function Page() {
         </Typography>
 
 
-        <Typography variant="h6" sx={{ margin: '0.6em 0' }}>
+        <Typography variant="h5" sx={{ margin: '0.6em 0' }}>
           <b>20. Information or Complaints</b>
         </Typography>
         <Typography variant="body1" paragraph>
@@ -377,7 +377,7 @@ export default function Page() {
         </Typography>
 
 
-        <Typography variant="h6" sx={{ margin: '0.6em 0' }}>
+        <Typography variant="h5" sx={{ margin: '0.6em 0' }}>
           <b>21. Copyright Infringement Claims</b>
         </Typography>
         <Typography variant="body1" paragraph>
@@ -391,7 +391,7 @@ export default function Page() {
         </Typography>
 
 
-        <Typography variant="h6" sx={{ margin: '0.6em 0' }}>
+        <Typography variant="h5" sx={{ margin: '0.6em 0' }}>
           <b>22. Miscellaneous</b>
         </Typography>
         <Typography variant="body1" paragraph>

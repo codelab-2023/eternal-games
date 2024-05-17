@@ -1,8 +1,8 @@
 'use client';
 import { Inter } from 'next/font/google';
 import './globals.css';
-import NavBar from '../components/navbar/page';
-import Footer from '../components/footer/page';
+// import NavBar from '../components/navbar/page';
+// import Footer from '../components/footer/page';
 import React, { Suspense, useState } from 'react';
 // import SideBar from '../components/sidebar/page';
 
@@ -24,21 +24,21 @@ export default function RootLayout({ children }) {
   return (
     <html lang='en'>
     <body className={`w-screen text-white min-h-screen overflow-x-hidden ${inter.className}`}>
-    <Suspense>
-      <NavBar toggleSideBar={handleToggle} />
-    </Suspense>
+    {/*<Suspense>*/}
+    {/*  <NavBar toggleSideBar={handleToggle} />*/}
+    {/*</Suspense>*/}
 
     {children}
 
-    {/* <div className={`w-full ${openSideBar ? 'h-screen overflow-y-scroll ' : ''}`}>
-        <SideBar isOpen={openSideBar} onClose={handleToggle} />
-      <div className={` ${openSideBar ? 'xs:ml-auto base:ml-[190px] h-screen overflow-y-scroll' : ''}`}>
-        
-      </div>
-    </div> */}
-    <Suspense>
-      <Footer />
-    </Suspense>
+    {/*<div className={`w-full ${openSideBar ? 'h-screen overflow-y-scroll ' : ''}`}>*/}
+    {/*    <SideBar isOpen={openSideBar} onClose={handleToggle} />*/}
+    {/*  <div className={` ${openSideBar ? 'xs:ml-auto base:ml-[190px] h-screen overflow-y-scroll' : ''}`}>*/}
+
+    {/*  </div>*/}
+    {/*</div>*/}
+    {/*<Suspense>*/}
+    {/*  <Footer />*/}
+    {/*</Suspense>*/}
     </body>
     </html>
   );
