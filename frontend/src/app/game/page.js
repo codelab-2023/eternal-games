@@ -107,7 +107,7 @@ export default function Page() {
 
   return (
       <>
-        {loading ? <Loading/> : <div>
+        {loading ? <Loading/> : <div className="w-screen text-white min-h-screen overflow-x-hidden">
           {isFullScreen ? null : <NavBar/>}
           <div className={`${isFullScreen ? 'mx-1' : 'lg:mx-24 font-sans'}`}>
             <div className={`${isFullScreen ? '' : 'flex flex-row gap-4 pt-3'}`}>
