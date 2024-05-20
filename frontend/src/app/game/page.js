@@ -168,30 +168,6 @@ export default function Page() {
                     </div>
                   </Box>
                 </Modal>
-                // <Modal
-                //     open={open}
-                //     onClose={() => setShareModelOpen(false)}
-                //     aria-labelledby="modal-modal-title"
-                //     aria-describedby="modal-modal-description"
-                // >
-                //   <Box className="absolute w-full flex justify-center z-50 top-[40%]">
-                //     <div className="bg-slate-800 border border-slate-900 p-3 rounded-xl">
-                //       <div className="float-right" onClick={() => setShareModelOpen(false)}><MdClose color="#979797" size={26}/></div>
-                //       <div className="mt-6 text-xl font-bold text-center">Share the game</div>
-                //       <div className="my-4 flex flex-row justify-center gap-3">
-                //         <div className="p-3 rounded-full bg-[#2b5ee3]"><FaFacebookF size={24}/></div>
-                //         <div className="p-3 rounded-full bg-black"><FaXTwitter size={24}/></div>
-                //         <div className="p-3 rounded-full bg-[#53af52]"><FaWhatsapp size={24}/></div>
-                //         <div className="p-3 rounded-full bg-[#2c5eaf]"><FaLinkedinIn size={24}/></div>
-                //         <div className="p-3 rounded-full bg-[#d85e3c]"><ImReddit size={24}/></div>
-                //       </div>
-                //       <div className="flex flex-row items-center gap-3 bg-slate-950 py-3 px-4 mb-10 rounded-xl text-gray-500">
-                //         <div>{window.location.href}</div>
-                //         <button className="py-1 px-3 bg-lime-500 text-white text-base font-bold rounded-full" onClick={() => handleCopy()}>Copy</button>
-                //       </div>
-                //     </div>
-                //   </Box>
-                // </Modal>
                 : null
           }
           {loading ? <div className="absolute w-full top-[46%]">
