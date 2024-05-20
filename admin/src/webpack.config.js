@@ -1,8 +1,8 @@
 // webpack.config.js
 
-const webpack = require('webpack');
-const path = require('path');
-const { styles } = require('@ckeditor/ckeditor5-dev-utils');
+const webpack = require('webpack')
+const path = require('path')
+const { styles } = require('@ckeditor/ckeditor5-dev-utils')
 
 module.exports = {
   entry: path.resolve(__dirname, 'app.js'),
@@ -60,4 +60,4 @@ module.exports = {
 
   // By default, webpack logs warnings if the bundle is bigger than 200kb.
   performance: { hints: false }
-};
+}

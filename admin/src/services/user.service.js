@@ -1,5 +1,5 @@
-import encryptStorage from './storage';
-import axiosInstance from './axiosInstance';
+import encryptStorage from './storage'
+import axiosInstance from './axiosInstance'
 
 export default class UserService {
   static async login(email, password) {
@@ -7,27 +7,27 @@ export default class UserService {
       const response = await axiosInstance.post('/v1/login', {
         email,
         password
-      });
+      })
 
-      const token = response.data.token;
+      const token = response.data.token
       if (token) {
-        encryptStorage.setItem('token', token);
+        encryptStorage.setItem('token', token)
       }
 
-      return response.data;
+      return response.data
     } catch (error) {
-      console.log(error.message);
+      console.log(error.message)
     }
   }
 
   static async logout() {
     try {
       // const response = await axiosInstance.post('/logout');
-      encryptStorage.removeItem('token');
+      encryptStorage.removeItem('token')
 
       // return response.data;
     } catch (error) {
-      console.log(error.message);
+      console.log(error.message)
     }
   }
 }

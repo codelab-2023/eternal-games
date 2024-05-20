@@ -1,4 +1,4 @@
-const router = require('express').Router();
+const router = require('express').Router()
 
 const {
   createGame,
@@ -8,15 +8,15 @@ const {
   updateGame,
   deleteGames,
   uploadGameZip
-} = require('../../controllers/game');
+} = require('../../controllers/game')
 
 // User routes - /v1/games
-router.get('/dashboard-cards', dashboardCards);
-router.get('/:id', getGame);
-router.get('/', getGameList);
-router.post('/create', createGame);
-router.put('/:id', updateGame);
-router.delete('/:id', deleteGames);
-router.post('/upload',uploadGameZip)
+router.get('/dashboard-cards', dashboardCards)
+router.get('/:id', getGame)
+router.get('/', getGameList)
+router.post('/create', createGame)
+router.put('/:id', updateGame)
+router.delete('/:id', deleteGames)
+router.post('/upload', uploadGameZip)
 
-module.exports = router;
+module.exports = router

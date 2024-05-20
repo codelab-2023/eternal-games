@@ -1,15 +1,15 @@
-import PropTypes from 'prop-types';
+import PropTypes from 'prop-types'
 
 // material-ui
-import { styled, useTheme } from '@mui/material/styles';
-import { Avatar, Box, Grid, Typography } from '@mui/material';
+import { styled, useTheme } from '@mui/material/styles'
+import { Avatar, Box, Grid, Typography } from '@mui/material'
 
 // project imports
-import MainCard from 'ui-component/cards/MainCard';
-import SkeletonGamesCard from 'ui-component/cards/Skeleton/GamesCard';
+import MainCard from 'ui-component/cards/MainCard'
+import SkeletonGamesCard from 'ui-component/cards/Skeleton/GamesCard'
 
 // assets
-import { IconTags } from '@tabler/icons';
+import { IconTags } from '@tabler/icons'
 
 const CardWrapper = styled(MainCard)(({ theme }) => ({
   backgroundColor: theme.palette.primary.dark,
@@ -51,70 +51,70 @@ const CardWrapper = styled(MainCard)(({ theme }) => ({
       right: -70
     }
   }
-}));
+}))
 
 // ==============================|| DASHBOARD - TOTAL ORDER LINE CHART CARD ||============================== //
 
 const CategoriesCard = ({ isLoading, categoriesCount }) => {
-  const theme = useTheme();
+  const theme = useTheme()
 
   return (
-    <>
-      {isLoading ? (
-        <SkeletonGamesCard />
-      ) : (
-        <CardWrapper border={false} content={false}>
-          <Box sx={{ p: 2.25 }}>
-            <Grid container direction='column'>
-              <Grid item>
-                <Grid container justifyContent='space-between'>
+      <>
+        {isLoading ? (
+            <SkeletonGamesCard/>
+        ) : (
+            <CardWrapper border={false} content={false}>
+              <Box sx={{ p: 2.25 }}>
+                <Grid container direction="column">
                   <Grid item>
-                    <Avatar
-                      variant='rounded'
-                      sx={{
-                        ...theme.typography.commonAvatar,
-                        ...theme.typography.largeAvatar,
-                        backgroundColor: theme.palette.primary[800],
-                        color: '#fff',
-                        mt: 1
-                      }}
-                    >
-                      <IconTags fontSize='inherit' />
-                    </Avatar>
-                  </Grid>
+                    <Grid container justifyContent="space-between">
+                      <Grid item>
+                        <Avatar
+                            variant="rounded"
+                            sx={{
+                              ...theme.typography.commonAvatar,
+                              ...theme.typography.largeAvatar,
+                              backgroundColor: theme.palette.primary[800],
+                              color: '#fff',
+                              mt: 1
+                            }}
+                        >
+                          <IconTags fontSize="inherit"/>
+                        </Avatar>
+                      </Grid>
 
-                </Grid>
-              </Grid>
-              <Grid item>
-                <Grid container alignItems='center'>
+                    </Grid>
+                  </Grid>
                   <Grid item>
-                    <Typography sx={{ fontSize: '2.125rem', fontWeight: 500, mr: 1, mt: 1.75, mb: 0.75 }}>
-                      {categoriesCount}
+                    <Grid container alignItems="center">
+                      <Grid item>
+                        <Typography sx={{ fontSize: '2.125rem', fontWeight: 500, mr: 1, mt: 1.75, mb: 0.75 }}>
+                          {categoriesCount}
+                        </Typography>
+                      </Grid>
+                    </Grid>
+                  </Grid>
+                  <Grid item sx={{ mb: 1.25 }}>
+                    <Typography
+                        sx={{
+                          fontSize: '1rem',
+                          fontWeight: 500,
+                          color: theme.palette.primary[200]
+                        }}
+                    >
+                      Total Categories
                     </Typography>
                   </Grid>
                 </Grid>
-              </Grid>
-              <Grid item sx={{ mb: 1.25 }}>
-                <Typography
-                  sx={{
-                    fontSize: '1rem',
-                    fontWeight: 500,
-                    color: theme.palette.primary[200]
-                  }}
-                >
-                  Total Categories
-                </Typography>
-              </Grid>
-            </Grid>
-          </Box>
-        </CardWrapper>
-      )}
-    </>
-  );
-};
+              </Box>
+            </CardWrapper>
+        )}
+      </>
+  )
+}
 
 CategoriesCard.propTypes = {
   isLoading: PropTypes.bool
-};
+}
 
-export default CategoriesCard;
+export default CategoriesCard

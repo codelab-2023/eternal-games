@@ -1,29 +1,29 @@
-import { lazy } from 'react';
+import { lazy } from 'react'
 
-import Loadable from 'ui-component/Loadable';
-import MinimalLayout from 'layout/MinimalLayout';
+import Loadable from 'ui-component/Loadable'
+import MinimalLayout from 'layout/MinimalLayout'
 
-const AuthLogin = Loadable(lazy(() => import('views/pages/authentication/auth/Login')));
-const AuthRegister = Loadable(lazy(() => import('views/pages/authentication/auth/Register')));
-const NotFound = Loadable(lazy(() => import('views/utilities/404')));
+const AuthLogin = Loadable(lazy(() => import('views/pages/authentication/auth/Login')))
+const AuthRegister = Loadable(lazy(() => import('views/pages/authentication/auth/Register')))
+const NotFound = Loadable(lazy(() => import('views/utilities/404')))
 
 const AuthenticationRoutes = {
   path: '/',
-  element: <MinimalLayout />,
+  element: <MinimalLayout/>,
   children: [
     {
       path: '/login',
-      element: <AuthLogin />
+      element: <AuthLogin/>
     },
     {
       path: '/register',
-      element: <AuthRegister />
+      element: <AuthRegister/>
     },
     {
       path: '*',
-      element: <NotFound />
+      element: <NotFound/>
     }
   ]
-};
+}
 
-export default AuthenticationRoutes;
+export default AuthenticationRoutes

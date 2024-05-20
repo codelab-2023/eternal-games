@@ -81,7 +81,7 @@ const verifyUser = async (req, res) => {
   try {
     const { email, password } = req.body
 
-    const user = await UserStore.findOne({email})
+    const user = await UserStore.findOne({ email })
 
     if (!user) {
       return sendError(res, 'Invalid Email', null, 404)
@@ -216,11 +216,11 @@ const register2FA = async (req, res) => {
 
     const user = await UserStore.findOne({ _id: userId })
 
-    if(!user){
+    if (!user) {
       return sendError(res, 'User not found', null, 400)
     }
 
-    const secret = speakeasy.generateSecret({length: 20})
+    const secret = speakeasy.generateSecret({ length: 20 })
     user[userId] = { secret: secret.base32, enable: false }
     const secretKey = { secret: secret.base32, uri: secret.otpauth_url }
     sendSuccess(res, { data: secretKey })
@@ -242,7 +242,6 @@ const verify2FAToken = async (req, res) => {
     //   return sendSuccess(res, 'Login successful')
     // }
 
-
     const verifyToken = speakeasy.totp.verify({
       secret: user[userId].secret,
       encoding: 'base32',
@@ -258,7 +257,6 @@ const verify2FAToken = async (req, res) => {
     return sendError(res, 'Invalid 2FA token', error, 500)
   }
 }
-
 
 const logIn2FA = async (req, res) => {
   try {
@@ -300,7 +298,6 @@ const logIn2FA = async (req, res) => {
     return sendError(res, 'User 2FA token is not valid for login', error, 500)
   }
 }
-
 
 module.exports = {
   getUsers,

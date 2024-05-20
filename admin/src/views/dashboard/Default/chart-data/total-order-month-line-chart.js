@@ -47,6 +47,6 @@ const chartData = {
       data: [ 45, 66, 41, 89, 25, 44, 9, 54 ]
     }
   ]
-};
+}
 
-export default chartData;
+export default chartData

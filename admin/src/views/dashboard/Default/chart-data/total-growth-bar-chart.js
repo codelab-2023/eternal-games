@@ -83,5 +83,5 @@ const chartData = {
       data: [ 0, 0, 75, 0, 0, 115, 0, 0, 0, 0, 150, 0 ]
     }
   ]
-};
-export default chartData;
+}
+export default chartData

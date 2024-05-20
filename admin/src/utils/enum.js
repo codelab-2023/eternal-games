@@ -3,4 +3,4 @@ exports.STATUS = [
   { value: 'inactive', label: 'Inactive' },
   { value: 'deleted', label: 'Deleted' },
   { value: 'pending', label: 'Pending' }
-];
+]

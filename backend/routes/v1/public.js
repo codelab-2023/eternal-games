@@ -2,7 +2,8 @@ const router = require('express').Router()
 
 const { login, register, verifyUser } = require('../../controllers/user')
 const { getGame, getGameList } = require('../../controllers/game')
-const { getWebsiteListPublic } = require('../../controllers/website');
+const { getWebsiteListPublic } = require('../../controllers/website')
+const { getPageDetails } = require('../../controllers/page')
 
 // User routes - /v1/users
 router.post('/login', login)
@@ -10,10 +11,13 @@ router.post('/register', register)
 router.post('/verify-user', verifyUser)
 
 // User routes - /v1/game
-router.get('/game/:id', getGame);
-router.get('/game', getGameList);
+router.get('/game/:id', getGame)
+router.get('/game', getGameList)
 
 //User routes - /v1/website
-router.get('/website', getWebsiteListPublic);
+router.get('/website', getWebsiteListPublic)
+
+// pages routes - /v1
+router.get('/page/:id', getPageDetails)
 
 module.exports = router

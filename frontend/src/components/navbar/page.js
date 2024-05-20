@@ -1,7 +1,7 @@
 'use client'
 import React from 'react'
 import Link from 'next/link'
-import { FaBars, FaFantasyFlightGames, FaRegHeart } from 'react-icons/fa6'
+import { FaFantasyFlightGames, FaRegHeart } from 'react-icons/fa6'
 import { IoSearch } from 'react-icons/io5'
 
 export default function Navbar({ toggleSideBar }) {

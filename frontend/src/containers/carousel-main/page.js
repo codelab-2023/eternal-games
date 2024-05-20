@@ -53,7 +53,7 @@ const CarouselMain = ({ helper }) => {
             }}
         >
           {
-            helper.map((item) => (
+            helper.slice(0, 5).map((item) => (
                 <ImageListItem key={item._id} cols={item.cols || 1} rows={item.rows || 1}>
                   <SwiperSlide>
                     <Link href={{

@@ -69,5 +69,5 @@ export default function themePalette(theme) {
       paper: theme.paper,
       default: theme.backgroundDefault
     }
-  };
+  }
 }

@@ -1,5 +1,5 @@
-import colors from 'tailwindcss/colors';
-import { spacing } from 'tailwindcss/defaultTheme';
+import colors from 'tailwindcss/colors'
+import { spacing } from 'tailwindcss/defaultTheme'
 
 module.exports = {
   content: [
@@ -10,7 +10,7 @@ module.exports = {
   ],
   theme: {
     screens: {
-      'xs': '320px',
+      'xs': '300px',
       // => @media (min-width: 640px) { ... }
 
       'base': '435px',
@@ -37,7 +37,7 @@ module.exports = {
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'gradient-conic':
-          'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))'
+            'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))'
       }
     },
     colors: {
@@ -46,9 +46,9 @@ module.exports = {
       darkPrimary: '#1A4BBD',
       deepPrimary: '#092669',
       aboutCardBG: '#ec4899',
-      transBlack: 'rgb(0,0,0,0.6)'
-
+      transBlack: 'rgb(0,0,0,0.6)',
+      transBlack2: 'rgba(7,7,7)'
     }
   },
   plugins: []
-};
+}

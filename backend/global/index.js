@@ -7,7 +7,7 @@ exports.mongoDB = {
   username: process.env.mongoDB_username,
   password: process.env.mongoDB_password,
   cluster: process.env.mongoDB_cluster,
-  databaseName: process.env.mongoDB_databaseName,
+  databaseName: process.env.mongoDB_databaseName
 }
 
 // JWT

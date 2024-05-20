@@ -2,10 +2,10 @@
 import React, { useEffect, useState } from 'react'
 import CarouselMain from '../containers/carousel-main/page'
 import Desktop from '../components/desktop-component/page'
-import gameService from '../services/game.service'
 import NavBar from '../components/navbar/page'
 import Footer from '../components/footer/page'
-import Loading from './loading'
+import PacmanLoader from 'react-spinners/PacmanLoader'
+import gameService from '../services/game.service'
 
 export default function Home() {
 
@@ -29,10 +29,22 @@ export default function Home() {
 
   return (
       <>
-        {
-          loading ? <Loading/> :
-              <div className="w-screen text-white min-h-screen overflow-x-hidden">
-                <NavBar/>
+        <div className="w-screen text-white min-h-screen overflow-x-hidden">
+          <NavBar/>
+          {
+            loading ?
+                <div className="absolute w-full top-[43%]">
+                  <PacmanLoader
+                      color="rgb(190 242 100)"
+                      size={20}
+                      speedMultiplier={2}
+                      cssOverride={{
+                        flex: 1,
+                        marginLeft: 'auto',
+                        marginRight: 'auto'
+                      }}
+                  />
+                </div> :
                 <div className="h-auto">
                   <CarouselMain helper={game}/>
                   {/*<Desktop name='Featured Games' helper={game} />*/}
@@ -48,9 +60,9 @@ export default function Home() {
                   {/*<Desktop name='Car Games' helper={game} />*/}
                   {/*<Desktop name='2 Player Games' helper={game} />*/}
                 </div>
-                <Footer/>
-              </div>
-        }
+          }
+          <Footer/>
+        </div>
       </>
   )
 }

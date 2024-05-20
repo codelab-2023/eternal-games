@@ -1,7 +1,7 @@
-const mongoose = require('mongoose');
-const { v4: uuidv4 } = require('uuid');
-const { Schema } = mongoose;
-const { defaultFields, defaultSchemaOptions } = require('./model-utils');
+const mongoose = require('mongoose')
+const { v4: uuidv4 } = require('uuid')
+const { Schema } = mongoose
+const { defaultFields, defaultSchemaOptions } = require('./model-utils')
 
 const websiteSchema = new Schema({
   _id: { type: Schema.Types.String, required: true, default: uuidv4 },
@@ -15,6 +15,6 @@ const websiteSchema = new Schema({
   ...defaultSchemaOptions
 })
 
-const Website = mongoose.model('website', websiteSchema, 'websites');
+const Website = mongoose.model('website', websiteSchema, 'websites')
 
-module.exports = Website;
+module.exports = Website

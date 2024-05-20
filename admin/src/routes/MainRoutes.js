@@ -1,56 +1,67 @@
-import { lazy } from 'react';
+import { lazy } from 'react'
 
-import MainLayout from 'layout/MainLayout';
-import Loadable from 'ui-component/Loadable';
+import MainLayout from 'layout/MainLayout'
+import Loadable from 'ui-component/Loadable'
 
-const DashboardDefault = Loadable(lazy(() => import('views/dashboard/Default')));
+const DashboardDefault = Loadable(lazy(() => import('views/dashboard/Default')))
 
-const Games = Loadable(lazy(() => import('views/games/List')));
-const Game = Loadable(lazy(() => import('views/games/game')));
+const Games = Loadable(lazy(() => import('views/games/List')))
+const Game = Loadable(lazy(() => import('views/games/game')))
 
-const Categories = Loadable(lazy(() => import('views/categories/List')));
-const Category = Loadable(lazy(() => import('views/categories/category')));
+const Categories = Loadable(lazy(() => import('views/categories/List')))
+const Category = Loadable(lazy(() => import('views/categories/category')))
 
-const Websites = Loadable(lazy(() => import('views/websites/List')));
-const Website = Loadable(lazy(() => import('views/websites/website')));
+const Websites = Loadable(lazy(() => import('views/websites/List')))
+const Website = Loadable(lazy(() => import('views/websites/website')))
+
+const Privacy = Loadable(lazy(() => import('views/privacy/Privacy')))
+const TermsAndCondition = Loadable(lazy(() => import('views/termsAndCondition/TermsCondition')))
 
 const MainRoutes = {
   path: '/',
-  element: <MainLayout />,
+  element: <MainLayout/>,
   children: [
     {
       path: '/',
-      element: <DashboardDefault />
+      element: <DashboardDefault/>
     },
     {
       path: 'dashboard',
-      element: <DashboardDefault />
+      element: <DashboardDefault/>
     },
     {
       path: 'games/:id',
-      element: <Game />
+      element: <Game/>
     },
     {
       path: 'games',
-      element: <Games />
+      element: <Games/>
     },
     {
       path: 'categories/:id',
-      element: <Category />
+      element: <Category/>
     },
     {
       path: 'categories',
-      element: <Categories />
+      element: <Categories/>
+    },
+    {
+      path: 'privacy',
+      element: <Privacy/>
+    },
+    {
+      path: 'terms-condition',
+      element: <TermsAndCondition/>
     },
     {
       path: 'websites',
-      element: <Websites />
+      element: <Websites/>
     },
     {
       path: 'websites/:id',
-      element: <Website />
+      element: <Website/>
     }
   ]
-};
+}
 
-export default MainRoutes;
+export default MainRoutes

@@ -1,11 +1,11 @@
-import PropTypes from 'prop-types';
-import * as React from 'react';
-import { useEffect, useState } from 'react';
-import { makeStyles, useTheme } from '@mui/styles';
-import { visuallyHidden } from '@mui/utils';
-import MainCard from 'ui-component/cards/MainCard';
-import categoryService from '../../services/category.service';
-import { getComparator, rowsInitial, stableSort } from '../../utils/table-filter';
+import PropTypes from 'prop-types'
+import * as React from 'react'
+import { useEffect, useState } from 'react'
+import { makeStyles, useTheme } from '@mui/styles'
+import { visuallyHidden } from '@mui/utils'
+import MainCard from 'ui-component/cards/MainCard'
+import categoryService from '../../services/category.service'
+import { getComparator, rowsInitial, stableSort } from '../../utils/table-filter'
 
 import {
   Button,
@@ -34,12 +34,12 @@ import {
   TextField,
   Toolbar,
   Typography
-} from '@mui/material';
+} from '@mui/material'
 
-import { Search as SearchIcon, VisibilityTwoTone as VisibilityTwoToneIcon } from '@mui/icons-material';
-import { useNavigate } from 'react-router-dom';
-import { STATUS } from '../../utils/enum';
-import { IconPlus } from '@tabler/icons';
+import { Search as SearchIcon, VisibilityTwoTone as VisibilityTwoToneIcon } from '@mui/icons-material'
+import { useNavigate } from 'react-router-dom'
+import { STATUS } from '../../utils/enum'
+import { IconPlus } from '@tabler/icons'
 
 const headCells = [
   {
@@ -66,7 +66,7 @@ const headCells = [
     label: 'Created on',
     align: 'left'
   }
-];
+]
 
 // style constant
 const useStyles = makeStyles((theme) => ({
@@ -81,7 +81,7 @@ const useStyles = makeStyles((theme) => ({
     minWidth: 750
   },
   sortSpan: visuallyHidden
-}));
+}))
 
 const useToolbarStyles = makeStyles((theme) => ({
   root: {
@@ -95,42 +95,42 @@ const useToolbarStyles = makeStyles((theme) => ({
   title: {
     flex: '1 1 100%'
   }
-}));
+}))
 
 // ===========================|| TABLE HEADER ||=========================== //
 
 function EnhancedTableHead({ classes, order, orderBy, onRequestSort }) {
   const createSortHandler = (property) => (event) => {
-    onRequestSort(event, property);
-  };
+    onRequestSort(event, property)
+  }
 
   return (
-    <TableHead>
-      <TableRow>
-        {headCells.map((headCell) => (
-          <TableCell
-            key={headCell.id}
-            align={headCell.align}
-            padding={headCell.disablePadding ? 'none' : 'normal'}
-            sortDirection={orderBy === headCell.id ? order : false}
-          >
-            <TableSortLabel
-              active={orderBy === headCell.id}
-              direction={orderBy === headCell.id ? order : 'asc'}
-              onClick={createSortHandler(headCell.id)}
-            >
-              {headCell.label}
-              {orderBy === headCell.id ? (
-                <span className={classes.sortSpan}>{order === 'desc' ? 'sorted descending' : 'sorted ascending'}</span>
-              ) : null}
-            </TableSortLabel>
-          </TableCell>
-        ))}
+      <TableHead>
+        <TableRow>
+          {headCells.map((headCell) => (
+              <TableCell
+                  key={headCell.id}
+                  align={headCell.align}
+                  padding={headCell.disablePadding ? 'none' : 'normal'}
+                  sortDirection={orderBy === headCell.id ? order : false}
+              >
+                <TableSortLabel
+                    active={orderBy === headCell.id}
+                    direction={orderBy === headCell.id ? order : 'asc'}
+                    onClick={createSortHandler(headCell.id)}
+                >
+                  {headCell.label}
+                  {orderBy === headCell.id ? (
+                      <span className={classes.sortSpan}>{order === 'desc' ? 'sorted descending' : 'sorted ascending'}</span>
+                  ) : null}
+                </TableSortLabel>
+              </TableCell>
+          ))}
 
-        <TableCell align={'center'}>View</TableCell>
-      </TableRow>
-    </TableHead>
-  );
+          <TableCell align={'center'}>View</TableCell>
+        </TableRow>
+      </TableHead>
+  )
 }
 
 EnhancedTableHead.propTypes = {
@@ -139,285 +139,285 @@ EnhancedTableHead.propTypes = {
   order: PropTypes.oneOf([ 'asc', 'desc' ]).isRequired,
   orderBy: PropTypes.string.isRequired,
   rowCount: PropTypes.number.isRequired
-};
+}
 
 // ===========================|| TABLE HEADER TOOLBAR ||=========================== //
 
 const EnhancedTableToolbar = () => {
-  const classes = useToolbarStyles();
+  const classes = useToolbarStyles()
 
   return (
-    <Toolbar>
-      <Typography className={classes.title} variant='h6' id='tableTitle' component='div'>
-        Nutrition
-      </Typography>
-    </Toolbar>
-  );
-};
+      <Toolbar>
+        <Typography className={classes.title} variant="h6" id="tableTitle" component="div">
+          Nutrition
+        </Typography>
+      </Toolbar>
+  )
+}
 
-EnhancedTableToolbar.propTypes = {};
+EnhancedTableToolbar.propTypes = {}
 
 // ===========================|| CUSTOMER LIST ||=========================== //
 
 const Categories = () => {
-  const classes = useStyles();
-  const theme = useTheme();
-  const navigate = useNavigate();
+  const classes = useStyles()
+  const theme = useTheme()
+  const navigate = useNavigate()
 
-  const [ categories, setCategories ] = useState([]);
+  const [ categories, setCategories ] = useState([])
   const [ createCategory, setCreateCategory ] = useState({
     categoryName: '',
     categoryIcon: '',
     isDeleted: false,
     isActive: false
-  });
-  const [ order, setOrder ] = React.useState('asc');
-  const [ orderBy, setOrderBy ] = React.useState('calories');
-  const [ page, setPage ] = React.useState(0);
-  const [ rowsPerPage, setRowsPerPage ] = React.useState(10);
-  const [ search, setSearch ] = React.useState('');
-  const [ rows, setRows ] = React.useState(rowsInitial);
-  const [ openModel, setOpenModel ] = React.useState(false);
+  })
+  const [ order, setOrder ] = React.useState('asc')
+  const [ orderBy, setOrderBy ] = React.useState('calories')
+  const [ page, setPage ] = React.useState(0)
+  const [ rowsPerPage, setRowsPerPage ] = React.useState(10)
+  const [ search, setSearch ] = React.useState('')
+  const [ rows, setRows ] = React.useState(rowsInitial)
+  const [ openModel, setOpenModel ] = React.useState(false)
 
   useEffect(() => {
-    fetchCategories();
-  }, []);
+    fetchCategories()
+  }, [])
 
   async function fetchCategories() {
     try {
-      const response = await categoryService.getCategoryList();
-      setCategories(response.categories);
+      const response = await categoryService.getCategoryList()
+      setCategories(response.categories)
     } catch (error) {
-      console.log(error);
+      console.log(error)
     }
   }
 
   async function addCategory(event) {
     try {
-      event.preventDefault();
-      const res = await categoryService.createCategory(createCategory);
+      event.preventDefault()
+      const res = await categoryService.createCategory(createCategory)
 
-      setCategories([ ...Categories, res.category ]);
+      setCategories([ ...Categories, res.category ])
       setCreateCategory({
         categoryName: '',
         categoryIcon: '',
         isDeleted: false,
         isActive: false
-      });
+      })
     } catch (error) {
-      console.log(error.message);
+      console.log(error.message)
     } finally {
-      setOpenModel(false);
+      setOpenModel(false)
     }
   }
 
   const handleSearch = (event) => {
-    const newString = event.target.value;
-    setSearch(newString);
+    const newString = event.target.value
+    setSearch(newString)
 
     if (newString) {
       const newRows = rows.filter((row) => {
-        let matches = true;
+        let matches = true
 
-        const properties = [ 'name', 'email', 'location', 'orders' ];
-        let containsQuery = false;
+        const properties = [ 'name', 'email', 'location', 'orders' ]
+        let containsQuery = false
 
         properties.forEach((property) => {
           if (row[property].toString().toLowerCase().includes(newString.toString().toLowerCase())) {
-            containsQuery = true;
+            containsQuery = true
           }
-        });
+        })
 
         if (!containsQuery) {
-          matches = false;
+          matches = false
         }
-        return matches;
-      });
-      setRows(newRows);
+        return matches
+      })
+      setRows(newRows)
     } else {
-      setRows(rowsInitial);
+      setRows(rowsInitial)
     }
-  };
+  }
 
   const handleRequestSort = (event, property) => {
-    const isAsc = orderBy === property && order === 'asc';
-    setOrder(isAsc ? 'desc' : 'asc');
-    setOrderBy(property);
-  };
+    const isAsc = orderBy === property && order === 'asc'
+    setOrder(isAsc ? 'desc' : 'asc')
+    setOrderBy(property)
+  }
 
   const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
+    setPage(newPage)
+  }
 
   const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-  };
+    setRowsPerPage(parseInt(event.target.value, 10))
+    setPage(0)
+  }
 
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0
 
   return (
-    <MainCard title='Categories' content={false}>
-      <CardContent>
-        <Grid container justifyContent='space-between' alignItems='center' spacing={2}>
-          <Grid item xs={12} sm={6}>
-            <TextField
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position='start'>
-                    <SearchIcon fontSize='small' />
-                  </InputAdornment>
-                )
-              }}
-              onChange={handleSearch}
-              placeholder='Search category'
-              value={search}
-              size='small'
-            />
-          </Grid>
-          <Grid item xs={12} sm={2} sx={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'flex-end', marginRight: '10px' }}>
-            <Fab sx={{ width: '40px', height: '40px', backgroundColor: 'rgb(103, 58, 183)', color: 'white', ':hover': { backgroundColor: 'rgb(126, 82, 201)' } }}
-                 aria-label='add'
-                 onClick={() => setOpenModel(true)}
-            >
-              <IconPlus stroke={2.5} size='1.3rem' /></Fab>
-            <Modal open={openModel} onClose={() => setOpenModel(false)} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <Grid item xs={12} sm={6} sx={{ backgroundColor: 'white', padding: '20px', borderRadius: '20px' }}>
-                <DialogTitle sx={{ fontSize: '22px', fontWeight: '600', padding: 0, paddingBottom: '10px', color: 'rgb(97, 68, 146)' }}>Add Categories</DialogTitle>
-                <DialogContent sx={{ fontSize: '16px', paddingX: 0, paddingBottom: '25px', color: 'rgb(93, 62, 146)' }}>Fill in the information of Your Category.</DialogContent>
-                <form onSubmit={addCategory}>
-                  <Stack spacing={3}>
-                    <TextField
-                      sx={{ width: '100%' }}
-                      required
-                      variant='outlined'
-                      type='text'
-                      label='Category Name'
-                      placeholder='Category Name'
-                      value={createCategory.categoryName || ''}
-                      onChange={(e) => setCreateCategory({ ...createCategory, categoryName: e.target.value })}
-                    />
-                    <TextField
-                      sx={{ width: '100%' }}
-                      required
-                      variant='outlined'
-                      type='url'
-                      label='Category Icon URL'
-                      placeholder='Category Icon URL'
-                      value={createCategory.categoryIcon || ''}
-                      onChange={(e) => setCreateCategory({ ...createCategory, categoryIcon: e.target.value })}
-                    />
-                    <Grid item xs={12} sx={{ display: 'flex', gap: '20px' }}>
-                      <Grid item xs={4}>
-                        <FormControl fullWidth>
-                          <InputLabel id='demo-simple-select-label'>Status</InputLabel>
-                          <Select
-                            required
-                            variant='outlined'
-                            type='text'
-                            label='Status'
-                            labelId='demo-simple-select-label'
-                            name='status'
-                            value={createCategory.status || STATUS.value}
-                            onChange={(e) => setCreateCategory({ ...createCategory, status: e.target.value })}
-                          >
-                            {
-                              STATUS.map((status) => <MenuItem key={status.value} value={status.value}>
-                                {status.label}
-                              </MenuItem>)
-                            }
-                          </Select>
-                        </FormControl>
+      <MainCard title="Categories" content={false}>
+        <CardContent>
+          <Grid container justifyContent="space-between" alignItems="center" spacing={2}>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                  InputProps={{
+                    startAdornment: (
+                        <InputAdornment position="start">
+                          <SearchIcon fontSize="small"/>
+                        </InputAdornment>
+                    )
+                  }}
+                  onChange={handleSearch}
+                  placeholder="Search category"
+                  value={search}
+                  size="small"
+              />
+            </Grid>
+            <Grid item xs={12} sm={2} sx={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'flex-end', marginRight: '10px' }}>
+              <Fab sx={{ width: '40px', height: '40px', backgroundColor: 'rgb(103, 58, 183)', color: 'white', ':hover': { backgroundColor: 'rgb(126, 82, 201)' } }}
+                   aria-label="add"
+                   onClick={() => setOpenModel(true)}
+              >
+                <IconPlus stroke={2.5} size="1.3rem"/></Fab>
+              <Modal open={openModel} onClose={() => setOpenModel(false)} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <Grid item xs={12} sm={6} sx={{ backgroundColor: 'white', padding: '20px', borderRadius: '20px' }}>
+                  <DialogTitle sx={{ fontSize: '22px', fontWeight: '600', padding: 0, paddingBottom: '10px', color: 'rgb(97, 68, 146)' }}>Add Categories</DialogTitle>
+                  <DialogContent sx={{ fontSize: '16px', paddingX: 0, paddingBottom: '25px', color: 'rgb(93, 62, 146)' }}>Fill in the information of Your Category.</DialogContent>
+                  <form onSubmit={addCategory}>
+                    <Stack spacing={3}>
+                      <TextField
+                          sx={{ width: '100%' }}
+                          required
+                          variant="outlined"
+                          type="text"
+                          label="Category Name"
+                          placeholder="Category Name"
+                          value={createCategory.categoryName || ''}
+                          onChange={(e) => setCreateCategory({ ...createCategory, categoryName: e.target.value })}
+                      />
+                      <TextField
+                          sx={{ width: '100%' }}
+                          required
+                          variant="outlined"
+                          type="url"
+                          label="Category Icon URL"
+                          placeholder="Category Icon URL"
+                          value={createCategory.categoryIcon || ''}
+                          onChange={(e) => setCreateCategory({ ...createCategory, categoryIcon: e.target.value })}
+                      />
+                      <Grid item xs={12} sx={{ display: 'flex', gap: '20px' }}>
+                        <Grid item xs={4}>
+                          <FormControl fullWidth>
+                            <InputLabel id="demo-simple-select-label">Status</InputLabel>
+                            <Select
+                                required
+                                variant="outlined"
+                                type="text"
+                                label="Status"
+                                labelId="demo-simple-select-label"
+                                name="status"
+                                value={createCategory.status || STATUS.value}
+                                onChange={(e) => setCreateCategory({ ...createCategory, status: e.target.value })}
+                            >
+                              {
+                                STATUS.map((status) => <MenuItem key={status.value} value={status.value}>
+                                  {status.label}
+                                </MenuItem>)
+                              }
+                            </Select>
+                          </FormControl>
+                        </Grid>
                       </Grid>
-                    </Grid>
-                    <Button variant='contained' color='success' sx={{ color: 'rgb(35, 8, 82)' }} type='submit'>Add Category</Button>
-                  </Stack>
-                </form>
-              </Grid>
-            </Modal>
+                      <Button variant="contained" color="success" sx={{ color: 'rgb(35, 8, 82)' }} type="submit">Add Category</Button>
+                    </Stack>
+                  </form>
+                </Grid>
+              </Modal>
+            </Grid>
           </Grid>
-        </Grid>
-      </CardContent>
+        </CardContent>
 
-      {/* table */}
-      <TableContainer sx={{ width: '95%', margin: 'auto' }}>
-        <Table className={classes.table} aria-labelledby='categoryTable'>
-          <EnhancedTableHead classes={classes} order={order} orderBy={orderBy} onRequestSort={handleRequestSort} rowCount={rows.length} />
-          <TableBody>
-            {stableSort(rows, getComparator(order, orderBy)).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => {
-              const labelId = `enhanced-table-checkbox-${index}`;
-
-              return (
-                <TableRow hover tabIndex={-1} key={index}>
-                  <TableCell component='th' id={labelId} scope='row' sx={{ cursor: 'pointer' }}>
-                    <Typography variant='subtitle1' sx={{ color: theme.palette.mode === 'dark' ? theme.palette.grey[600] : 'grey.900' }}>
-                      {row.icon}
-                    </Typography>
-                  </TableCell>
-                  <TableCell align='left'> {row.name} </TableCell>
-                  <TableCell align='left'>{row.status}</TableCell>
-                  <TableCell align='left'>{row.createdOn}</TableCell>
-                  <TableCell align='center' sx={{ pr: 3 }} onClick={() => navigate(`/categories/${row.id}`)}>
-                    <IconButton color='primary'>
-                      <VisibilityTwoToneIcon sx={{ fontSize: '1.3rem' }} />
-                    </IconButton>
-                  </TableCell>
-                </TableRow>
-              );
-            })}
-
-            {
-              categories.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => {
-                const labelId = `enhanced-table-checkbox-${index}`;
+        {/* table */}
+        <TableContainer sx={{ width: '95%', margin: 'auto' }}>
+          <Table className={classes.table} aria-labelledby="categoryTable">
+            <EnhancedTableHead classes={classes} order={order} orderBy={orderBy} onRequestSort={handleRequestSort} rowCount={rows.length}/>
+            <TableBody>
+              {stableSort(rows, getComparator(order, orderBy)).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => {
+                const labelId = `enhanced-table-checkbox-${index}`
 
                 return (
-                  <TableRow hover tabIndex={-1} key={index}>
-                    <TableCell align='left' component='th' id={labelId} scope='row' sx={{ cursor: 'pointer' }}>
-                      <Grid item xs={12} sx={{ display: 'flex', gap: '14px' }}>
-                        <img src={row.categoryIcon} width='30px' height='30px' style={{ borderRadius: '50px', objectFit: 'cover' }} alt='category' />
-
-                      </Grid>
-                    </TableCell>
-                    <TableCell variant='subtitle1' sx={{ marginX: 'auto', color: theme.palette.mode === 'dark' ? theme.palette.grey[600] : 'grey.900' }}>
-                      {row.categoryName}
-                    </TableCell>
-                    <TableCell align='left'>
-                      {row.status === 'active' && <Chip label='Active' size='small' color='success' />}
-                      {row.status === 'inactive' && <Chip label='Inactive' size='small' color='primary' />}
-                      {row.status === 'deleted' && <Chip label='Deleted' size='small' color='error' />}
-                      {row.status === 'pending' && <Chip label='Pending' size='small' color='warning' />}
-                    </TableCell>
-                    <TableCell align='left'>{row.createdOn}</TableCell>
-                    <TableCell align='center' sx={{ pr: 3 }} onClick={() => navigate(`/categories/${row._id}`)}>
-                      <IconButton color='primary'>
-                        <VisibilityTwoToneIcon sx={{ fontSize: '1.3rem' }} />
-                      </IconButton>
-                    </TableCell>
-                  </TableRow>
-                );
+                    <TableRow hover tabIndex={-1} key={index}>
+                      <TableCell component="th" id={labelId} scope="row" sx={{ cursor: 'pointer' }}>
+                        <Typography variant="subtitle1" sx={{ color: theme.palette.mode === 'dark' ? theme.palette.grey[600] : 'grey.900' }}>
+                          {row.icon}
+                        </Typography>
+                      </TableCell>
+                      <TableCell align="left"> {row.name} </TableCell>
+                      <TableCell align="left">{row.status}</TableCell>
+                      <TableCell align="left">{row.createdOn}</TableCell>
+                      <TableCell align="center" sx={{ pr: 3 }} onClick={() => navigate(`/categories/${row.id}`)}>
+                        <IconButton color="primary">
+                          <VisibilityTwoToneIcon sx={{ fontSize: '1.3rem' }}/>
+                        </IconButton>
+                      </TableCell>
+                    </TableRow>
+                )
               })}
 
-            {emptyRows > 0 && (
-              <TableRow style={{ height: 53 * emptyRows }}>
-                <TableCell colSpan={6} />
-              </TableRow>
-            )}
-          </TableBody>
-        </Table>
-      </TableContainer>
+              {
+                categories.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => {
+                  const labelId = `enhanced-table-checkbox-${index}`
 
-      {/* table pagination */}
-      <TablePagination
-        rowsPerPageOptions={[ 5, 10, 25 ]}
-        component='div'
-        count={rows.length}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        onPageChange={handleChangePage}
-        onRowsPerPageChange={handleChangeRowsPerPage}
-      />
-    </MainCard>
-  );
-};
+                  return (
+                      <TableRow hover tabIndex={-1} key={index}>
+                        <TableCell align="left" component="th" id={labelId} scope="row" sx={{ cursor: 'pointer' }}>
+                          <Grid item xs={12} sx={{ display: 'flex', gap: '14px' }}>
+                            <img src={row.categoryIcon} width="30px" height="30px" style={{ borderRadius: '50px', objectFit: 'cover' }} alt="category"/>
 
-export default Categories;
+                          </Grid>
+                        </TableCell>
+                        <TableCell variant="subtitle1" sx={{ marginX: 'auto', color: theme.palette.mode === 'dark' ? theme.palette.grey[600] : 'grey.900' }}>
+                          {row.categoryName}
+                        </TableCell>
+                        <TableCell align="left">
+                          {row.status === 'active' && <Chip label="Active" size="small" color="success"/>}
+                          {row.status === 'inactive' && <Chip label="Inactive" size="small" color="primary"/>}
+                          {row.status === 'deleted' && <Chip label="Deleted" size="small" color="error"/>}
+                          {row.status === 'pending' && <Chip label="Pending" size="small" color="warning"/>}
+                        </TableCell>
+                        <TableCell align="left">{row.createdOn}</TableCell>
+                        <TableCell align="center" sx={{ pr: 3 }} onClick={() => navigate(`/categories/${row._id}`)}>
+                          <IconButton color="primary">
+                            <VisibilityTwoToneIcon sx={{ fontSize: '1.3rem' }}/>
+                          </IconButton>
+                        </TableCell>
+                      </TableRow>
+                  )
+                })}
+
+              {emptyRows > 0 && (
+                  <TableRow style={{ height: 53 * emptyRows }}>
+                    <TableCell colSpan={6}/>
+                  </TableRow>
+              )}
+            </TableBody>
+          </Table>
+        </TableContainer>
+
+        {/* table pagination */}
+        <TablePagination
+            rowsPerPageOptions={[ 5, 10, 25 ]}
+            component="div"
+            count={rows.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+        />
+      </MainCard>
+  )
+}
+
+export default Categories

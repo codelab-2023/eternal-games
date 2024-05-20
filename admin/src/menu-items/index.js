@@ -1,4 +1,4 @@
-import { IconDashboard, IconDeviceGamepad2, IconTags, IconWorld } from '@tabler/icons';
+import { IconClipboardTypography, IconDashboard, IconDeviceGamepad2, IconShieldLock, IconTags, IconWorld } from '@tabler/icons'
 
 const QuickView = {
   id: 'quickView',
@@ -15,7 +15,7 @@ const QuickView = {
       breadcrumbs: false
     }
   ]
-};
+}
 
 const pages = {
   id: 'pages',
@@ -40,7 +40,7 @@ const pages = {
       breadcrumbs: false
     }
   ]
-};
+}
 
 const website = {
   id: 'pages',
@@ -53,12 +53,28 @@ const website = {
       url: '/websites',
       icon: IconWorld,
       breadcrumbs: false
+    },
+    {
+      id: 'privacy',
+      title: 'Privacy Policy',
+      type: 'item',
+      url: '/privacy',
+      icon: IconShieldLock,
+      breadcrumbs: false
+    },
+    {
+      id: 'terms-condition',
+      title: 'Terms & Conditions',
+      type: 'item',
+      url: '/terms-condition',
+      icon: IconClipboardTypography,
+      breadcrumbs: false
     }
   ]
-};
+}
 
 const menuItems = {
   items: [ QuickView, pages, website ]
-};
+}
 
-export default menuItems;
+export default menuItems
