@@ -12,8 +12,6 @@ export default class pageService {
 
   static async updatePage(pageId, description) {
     try {
-      console.log('🚀🚀🚀 updatvngnePageDetails => pageId :: ', pageId)
-      console.log('🚀🚀🚀 updatngngnePageDetails => pageInfo :: ', description)
       const response = await axiosInstance.put(`/v1/pages/${pageId}`, { description })
       return response.data
     } catch (error) {

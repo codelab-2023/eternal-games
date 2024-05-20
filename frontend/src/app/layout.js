@@ -3,7 +3,7 @@ import { Inter } from 'next/font/google'
 import './globals.css'
 // import NavBar from '../components/navbar/page';
 // import Footer from '../components/footer/page';
-import React, { useState } from 'react'
+import React, { Suspense, useState } from 'react'
 // import SideBar from '../components/sidebar/page';
 
 const inter = Inter({ subsets: [ 'latin' ] })
@@ -26,8 +26,9 @@ export default function RootLayout({ children }) {
       {/*<Suspense>*/}
       {/*  <NavBar toggleSideBar={handleToggle} />*/}
       {/*</Suspense>*/}
-
-      {children}
+      <Suspense>
+        {children}
+      </Suspense>
 
       {/*<div className={`w-full ${openSideBar ? 'h-screen overflow-y-scroll ' : ''}`}>*/}
       {/*    <SideBar isOpen={openSideBar} onClose={handleToggle} />*/}

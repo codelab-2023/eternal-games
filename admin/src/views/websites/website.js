@@ -43,7 +43,6 @@ const Website = () => {
 
   async function updateWebsite(websiteId, website) {
     try {
-      console.log('website', website)
       setLoading(true)
 
       await websiteService.updateWebsite(websiteId, {

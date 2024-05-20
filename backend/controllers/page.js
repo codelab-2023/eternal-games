@@ -20,8 +20,6 @@ const updatePageDetails = async (req, res) => {
     if (!pageId) {
       return sendError(res, 'Invalid page id', null, 400)
     }
-    console.log('🚀🚀🚀 updatePageDetails1 => pageId :: ', pageId)
-    console.log('🚀🚀🚀 updatePageDetails2 => pageInfo :: ', pageInfo)
     const pageData = await PageStore.findOneAndUpdate({ _id: pageId }, pageInfo, { upsert: true, returnOriginal: false })
 
     return sendSuccess(res, pageData)

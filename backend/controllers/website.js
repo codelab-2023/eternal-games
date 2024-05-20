@@ -48,7 +48,6 @@ const getWebsiteList = async (req, res) => {
 const getWebsiteListPublic = async (req, res) => {
   try {
     const websites = await WebsiteStore.find().select({ createdOn: 0, updatedOn: 0 })
-    console.log('websites', websites)
 
     return sendSuccess(res, { websites })
   } catch (error) {
@@ -59,7 +58,6 @@ const getWebsiteListPublic = async (req, res) => {
 const updateWebsite = async (req, res) => {
   try {
     const websiteId = req.params.id
-    console.log('backend', req.body)
     const {
       logo,
       name,

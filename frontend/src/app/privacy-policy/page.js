@@ -14,7 +14,6 @@ export default function Page() {
   useEffect(() => {
     getPage()
   }, [ params ])
-  console.log('🚀🚀🚀 Page => description :: ', description)
 
   async function getPage() {
     try {
