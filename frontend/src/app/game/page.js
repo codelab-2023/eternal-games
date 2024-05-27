@@ -71,7 +71,7 @@ export default function Page() {
   const goFullscreen = () => {
     const content = document.documentElement;
     if (!isFullScreen) {
-      if (content.requestFullscreen) {
+      if (!content.requestFullscreen) {
         content.requestFullscreen();
       } else if (content.mozRequestFullScreen) { // Firefox
         content.mozRequestFullScreen();
