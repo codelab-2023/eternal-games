@@ -69,34 +69,34 @@ export default function Page() {
   }
 
   const goFullscreen = () => {
-    const content = document.documentElement
+    const content = document.documentElement;
     if (!isFullScreen) {
       if (content.requestFullscreen) {
-        content.requestFullscreen()
-      } else if (content.mozRequestFullScreen) {
-        content.mozRequestFullScreen()
-      } else if (content.webkitRequestFullscreen) {
-        content.webkitRequestFullscreen()
-      } else if (content.msRequestFullscreen) {
-        content.msRequestFullscreen()
+        content.requestFullscreen();
+      } else if (content.mozRequestFullScreen) { // Firefox
+        content.mozRequestFullScreen();
+      } else if (content.webkitRequestFullscreen) { // Chrome, Safari, Opera
+        content.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
+      } else if (content.msRequestFullscreen) { // IE/Edge
+        content.msRequestFullscreen();
+      } else if (content.webkitEnterFullscreen) { // iPhone Safari
+        content.webkitEnterFullscreen();
       }
     } else {
       if (document.exitFullscreen) {
-        document.exitFullscreen()
-        setIsFullScreen(prevState => !prevState)
+        document.exitFullscreen();
       } else if (document.mozCancelFullScreen) { // Firefox
-        document.mozCancelFullScreen()
-        setIsFullScreen(prevState => !prevState)
-      } else if (document.webkitExitFullscreen) { // Chrome, Safari, and Opera
-        document.webkitExitFullscreen()
-        setIsFullScreen(prevState => !prevState)
+        document.mozCancelFullScreen();
+      } else if (document.webkitExitFullscreen) { // Chrome, Safari, Opera
+        document.webkitExitFullscreen();
       } else if (document.msExitFullscreen) { // IE/Edge
-        document.msExitFullscreen()
-        setIsFullScreen(prevState => !prevState)
+        document.msExitFullscreen();
+      } else if (document.webkitExitFullscreen) { // iPhone Safari
+        document.webkitExitFullscreen();
       }
     }
-    setIsFullScreen(prevState => !prevState)
-  }
+    setIsFullScreen(prevState => !prevState);
+  };
 
   useEffect(() => {
     const handleFullscreenChange = () => {
