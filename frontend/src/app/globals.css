@@ -103,14 +103,14 @@ body {
   }
 }
 
-@media (min-width: 435px) and (max-width: 768px) {
+@media (min-width: 425px) and (max-width: 768px) {
   .game-thumbnail {
     height: 450Px !important;
     width: 100% !important;
   }
 }
 
-@media (min-width: 300px) and (max-width: 435px) {
+@media (min-width: 300px) and (max-width: 425px) {
   .game-thumbnail {
     height: 250Px !important;
     width: 100% !important;
