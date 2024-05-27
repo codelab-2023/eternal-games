@@ -2,8 +2,8 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
-import { FaFacebookF, FaFantasyFlightGames, FaLinkedinIn, FaPlay, FaRegComments, FaRegThumbsDown, FaRegThumbsUp, FaShareAlt, FaWhatsapp } from 'react-icons/fa'
-import { ImEmbed2, ImReddit } from 'react-icons/im'
+import { FaFacebookF, FaLinkedinIn, FaPlay, FaRegComments, FaRegThumbsDown, FaRegThumbsUp, FaShareAlt, FaWhatsapp } from 'react-icons/fa'
+import { ImReddit } from 'react-icons/im'
 import { MdClose, MdFullscreen, MdFullscreenExit } from 'react-icons/md'
 import gameService from '../../services/game.service'
 import parse from 'html-react-parser'
@@ -84,13 +84,13 @@ export default function Page() {
       if (document.exitFullscreen) {
         document.exitFullscreen()
         setIsFullScreen(prevState => !prevState)
-      } else if (document.mozCancelFullScreen) { // Firefox
+      } else if (document.mozCancelFullScreen) {
         document.mozCancelFullScreen()
         setIsFullScreen(prevState => !prevState)
-      } else if (document.webkitExitFullscreen) { // Chrome, Safari, and Opera
+      } else if (document.webkitExitFullscreen) {
         document.webkitExitFullscreen()
         setIsFullScreen(prevState => !prevState)
-      } else if (document.msExitFullscreen) { // IE/Edge
+      } else if (document.msExitFullscreen) {
         document.msExitFullscreen()
         setIsFullScreen(prevState => !prevState)
       }
@@ -122,20 +122,10 @@ export default function Page() {
   const handleCopy = () => {
     navigator.clipboard.writeText(window.location.href).then(() => {
       setIsCopied(true)
-      setTimeout(() => setIsCopied(false), 2000) // Reset after 2 seconds
+      setTimeout(() => setIsCopied(false), 2000)
     }).catch(err => {
       console.error('Failed to copy: ', err)
     })
-  }
-
-  const style = {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: 400,
-    boxShadow: 24,
-    p: 4
   }
 
   return (
@@ -207,7 +197,7 @@ export default function Page() {
                   }
                   <div className={`${isFullScreen ? '' : 'nm:w-3/4 xs:w-full nm:mx-auto xs:mx-4'}`}>
                     <div className="game-thumbnail-div flex relative">
-                      <div className={`${playGame ? 'hidden' : 'absolute w-full h-full mx-auto xs:hidden base:flex flex-row items-center justify-center bg-transBlack z-40'}`}>
+                      <div className={`${playGame ? 'hidden' : 'absolute w-full h-full mx-auto xs:hidden sm:flex flex-row items-center justify-center bg-transBlack z-40'}`}>
                         <button className="py-3 px-6 rounded-full flex flex-row items-center gap-2 bg-lime-500 text-base font-extrabold" onClick={() => handlePlay()}><FaPlay/>Play Now</button>
                       </div>
                       {
@@ -221,32 +211,30 @@ export default function Page() {
                             <div>
                               <div className="relative w-full">
                                 <img className="game-thumbnail" src={games?.thumbnail} alt="game"/>
-                                <div className="absolute -bottom-1 bg-gradient-to-b from-transparent via-transBlack to-transBlack2 to-90% w-full -left-1 h-full xs:block base:hidden z-20"/>
+                                <div className="absolute -bottom-1 bg-gradient-to-b from-transparent via-transBlack to-transBlack2 to-90% w-full h-full xs:block sm:hidden z-20"/>
                               </div>
-                              <div className="absolute bottom-24 w-full z-40 xs:block base:hidden">
+                              <div className="absolute bottom-24 w-full z-40 xs:block sm:hidden">
                                 <img className="w-2/4 rounded-xl mx-auto" src={games?.thumbnail} style={{ height: '120px' }} alt="game"/>
                               </div>
-                              <div className="h-20 xs:block base:hidden"/>
-                              <div className={`${isFullScreen ? 'hidden' : 'mb-4 mx-auto flex flex-row items-center justify-center base:hidden xs:flex'}`}>
+                              <div className="h-20 xs:block sm:hidden"/>
+                              <div className={`${isFullScreen ? 'hidden' : 'mb-4 mx-auto flex flex-row items-center justify-center sm:hidden xs:flex'}`}>
                                 <button className="py-3 px-6 rounded-full flex flex-row items-center gap-2 bg-lime-500 text-base font-extrabold" onClick={() => handlePlay()}><FaPlay/>Play Now</button>
                               </div>
                             </div>
                       }
                     </div>
-                    {isFullScreen ? null : <div className="flex flex-row items-center justify-between pl-3 w-full bg-slate-800">
-                      <div className="flex flex-row gap-2 text-xl font-black text-lime-500">
-                        <FaFantasyFlightGames size={26}/>
-                        <p>EternalGames</p>
-                      </div>
+                    {isFullScreen ? null : <div className="flex flex-row items-center justify-end pl-3 w-full bg-slate-800">
                       <div className="flex flex-row items-center justify-between gap-5 p-4 ">
                         <div><FaRegThumbsUp size={18}/></div>
                         <div><FaRegThumbsDown size={18}/></div>
                         <div><FaRegComments size={22}/></div>
                         <div onClick={() => setShareModelOpen(prevState => !prevState)}><FaShareAlt size={18}/></div>
-                        {
-                          playGame ? <div onClick={() => handlePlay()}><MdFullscreen size={30}/></div> :
-                              <div><MdFullscreen color="#616161" size={30}/></div>
-                        }
+                        <div className="xs:hidden sm:block">
+                          {
+                            playGame ? <div onClick={() => handlePlay()}><MdFullscreen size={30}/></div> :
+                                <div><MdFullscreen color="#616161" size={30}/></div>
+                          }
+                        </div>
                       </div>
                     </div>
                     }
@@ -281,36 +269,36 @@ export default function Page() {
                                   <button className="flex flex-row items-center gap-2 font-bold bg-slate-700 rounded-full py-2 px-4" onClick={() => setShareModelOpen(prevState => !prevState)}>
                                     <FaShareAlt size={15}/>Share
                                   </button>
-                                  <button className="flex flex-row items-center gap-2 font-bold bg-slate-700 rounded-full py-2 px-4"><ImEmbed2 size={20}/>Embed</button>
+                                  {/*<button className="flex flex-row items-center gap-2 font-bold bg-slate-700 rounded-full py-2 px-4"><ImEmbed2 size={20}/>Embed</button>*/}
                                 </div>
                                 <div className="text-sm border-b pb-4 border-gray-700">
-                                  <div className="flex gap-2">
-                                    <div className="w-28 mt-1 text-gray-500">Rating:</div>
-                                    <div><b className="text-lg">{games?.rating}</b></div>
-                                  </div>
-                                  <div className="flex gap-2 mt-1 ">
+                                  {/*<div className="flex gap-2">*/}
+                                  {/*  <div className="w-28 mt-1 text-gray-500">Rating:</div>*/}
+                                  {/*  <div><b className="text-lg">{games?.rating}</b></div>*/}
+                                  {/*</div>*/}
+                                  <div className="flex gap-2 mt-1">
                                     <div className="w-28 text-gray-500">Released:</div>
                                     <div>{moment(games?.createdOn).format('DD MMM, YYYY')}</div>
                                   </div>
-                                  <div className="flex gap-2 mt-1 ">
+                                  <div className="flex gap-2 mt-1">
                                     <div className="w-28 text-gray-500">Last Updated:</div>
                                     <div>{moment(games?.updatedOn).format('DD MMM, YYYY')}</div>
                                   </div>
-                                  <div className="flex gap-2 mt-1 ">
-                                    <div className="w-28 text-gray-500">Technology:</div>
-                                    <div>{games?.technology}</div>
-                                  </div>
-                                  <div className="flex gap-2 mt-1 ">
-                                    <div className="w-28 text-gray-500">Platforms:</div>
-                                    <div>{games?.platform}</div>
-                                  </div>
-                                  <div className="flex gap-2 mt-1">
-                                    <div className="w-28 text-gray-500">Classification:</div>
-                                    <div className="flex gap-2 text-lime-500">
-                                      <div className="font-bold hover:text-lime-600">{games?.categories?.categoryName}</div>
-                                      »
-                                    </div>
-                                  </div>
+                                  {/*<div className="flex gap-2 mt-1">*/}
+                                  {/*  <div className="w-28 text-gray-500">Technology:</div>*/}
+                                  {/*  <div>{games?.technology}</div>*/}
+                                  {/*</div>*/}
+                                  {/*<div className="flex gap-2 mt-1">*/}
+                                  {/*  <div className="w-28 text-gray-500">Platforms:</div>*/}
+                                  {/*  <div>{games?.platform}</div>*/}
+                                  {/*</div>*/}
+                                  {/*<div className="flex gap-2 mt-1">*/}
+                                  {/*  <div className="w-28 text-gray-500">Classification:</div>*/}
+                                  {/*  <div className="flex gap-2 text-lime-500">*/}
+                                  {/*    <div className="font-bold hover:text-lime-600">{games?.categories?.categoryName}</div>*/}
+                                  {/*    »*/}
+                                  {/*  </div>*/}
+                                  {/*</div>*/}
                                 </div>
                                 <div ref={descriptionRef} className="my-6 text-sm leading-6 tracking-wide text-gray-200">
                                   {parse(games?.description)}

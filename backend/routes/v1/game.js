@@ -7,7 +7,7 @@ const {
   dashboardCards,
   updateGame,
   deleteGames,
-  uploadGameZip
+  uploadGameZip,
 } = require('../../controllers/game')
 
 // User routes - /v1/games
