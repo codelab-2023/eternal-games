@@ -5,11 +5,16 @@ import PageService from '../../services/pages.service'
 import { useParams } from 'react-router'
 import Navbar from '../../components/navbar/page'
 import Footer from '../../components/footer/page'
+import ReactGA from "react-ga4";
 
 export default function Page() {
   const privacyPageId = 'privacy-policy'
   const params = useParams()
   const [ description, setDescription ] = useState('')
+
+  useEffect(() => {
+    ReactGA.send({ hitType: "pageview", page: "/privacy-policy", title: "Privacy Policy" });
+  }, [])
 
   useEffect(() => {
     getPage()

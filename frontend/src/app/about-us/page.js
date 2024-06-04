@@ -1,7 +1,12 @@
 import React from 'react'
 import { FaDraftingCompass, FaFileAlt, FaNewspaper, FaSitemap } from 'react-icons/fa'
+import ReactGA from "react-ga4";
 
 export default function About() {
+  
+  useEffect(() => {
+    ReactGA.send({ hitType: "pageview", page: "/about-us", title: "About Us" });
+  }, [])
 
   return (
       <div className="relative pt-16 mb-16">

@@ -30,6 +30,10 @@ export default function Page() {
   const [ shareModelOpen, setShareModelOpen ] = useState(false)
 
   useEffect(() => {
+    ReactGA.send({ hitType: "pageview", page: "/game", title: "Game" });
+  }, [])
+
+  useEffect(() => {
     const id = searchParams.get('id')
     fetchGame(id)
     getSideGames()
@@ -97,27 +101,6 @@ export default function Page() {
     }
     setIsFullScreen(prevState => !prevState);
   };
-
-  useEffect(() => {
-    const handleFullscreenChange = () => {
-      setIsFullScreen(!!document.fullscreenElement)
-      if (iframeRef.current) {
-        iframeRef.current.focus()
-      }
-    }
-
-    document.addEventListener('fullscreenchange', handleFullscreenChange)
-    document.addEventListener('webkitfullscreenchange', handleFullscreenChange)
-    document.addEventListener('mozfullscreenchange', handleFullscreenChange)
-    document.addEventListener('MSFullscreenChange', handleFullscreenChange)
-
-    return () => {
-      document.removeEventListener('fullscreenchange', handleFullscreenChange)
-      document.removeEventListener('webkitfullscreenchange', handleFullscreenChange)
-      document.removeEventListener('mozfullscreenchange', handleFullscreenChange)
-      document.removeEventListener('MSFullscreenChange', handleFullscreenChange)
-    }
-  }, [])
 
   const handleCopy = () => {
     navigator.clipboard.writeText(window.location.href).then(() => {

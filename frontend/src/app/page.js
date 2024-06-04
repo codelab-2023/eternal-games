@@ -6,6 +6,7 @@ import NavBar from '../components/navbar/page'
 import Footer from '../components/footer/page'
 import PacmanLoader from 'react-spinners/PacmanLoader'
 import gameService from '../services/game.service'
+import ReactGA from "react-ga4";
 
 export default function Home() {
 
@@ -14,6 +15,7 @@ export default function Home() {
 
   useEffect(() => {
     getGames()
+    ReactGA.initialize("G-TF62GHPFEJ");
   }, [])
 
   async function getGames() {
