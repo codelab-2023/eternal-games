@@ -75,7 +75,7 @@ const Desktop = ({ helper, name }) => {
                       id: item._id
                     }
                   }}>
-                    <img className="homepage-games rounded-xl" src={item.thumbnail} alt="game"/>
+                    <img className="homepage-games rounded-xl" src={item.thumbnail} alt={item?.gameName}/>
                   </Link>
                 </ImageListItem>
 

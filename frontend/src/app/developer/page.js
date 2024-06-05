@@ -1,11 +1,12 @@
-import React from 'react'
+'use client'
+import React, { useEffect } from 'react'
 import { FaDraftingCompass, FaFileAlt, FaNewspaper, FaSitemap } from 'react-icons/fa'
-import ReactGA from "react-ga4";
+import ReactGA from 'react-ga4'
 
 export default function Developer() {
 
   useEffect(() => {
-    ReactGA.send({ hitType: "pageview", page: "/developer", title: "Developer" });
+    ReactGA.send({ hitType: 'pageview', page: '/developer', title: 'Developer' })
   }, [])
 
   return (

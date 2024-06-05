@@ -13,6 +13,7 @@ import PacmanLoader from 'react-spinners/PacmanLoader'
 import Modal from '@mui/material/Modal'
 import { FaXTwitter } from 'react-icons/fa6'
 import { Box } from '@mui/material'
+import ReactGA from 'react-ga4'
 
 const moment = require('moment')
 
@@ -28,9 +29,10 @@ export default function Page() {
   const [ playGame, setPlayGame ] = useState(false)
   const [ isCopied, setIsCopied ] = useState(false)
   const [ shareModelOpen, setShareModelOpen ] = useState(false)
+  const [ mobileExitFullScreen, setMobileExitFullScreen ] = useState(false)
 
   useEffect(() => {
-    ReactGA.send({ hitType: "pageview", page: "/game", title: "Game" });
+    ReactGA.send({ hitType: 'pageview', page: '/game', title: 'Game' })
   }, [])
 
   useEffect(() => {
@@ -73,42 +75,98 @@ export default function Page() {
   }
 
   const goFullscreen = () => {
-    const content = document.documentElement;
+    const content = document.documentElement
     if (!isFullScreen) {
       if (!content.requestFullscreen) {
-        content.requestFullscreen();
+        content.requestFullscreen()
       } else if (content.mozRequestFullScreen) { // Firefox
-        content.mozRequestFullScreen();
+        content.mozRequestFullScreen()
       } else if (content.webkitRequestFullscreen) { // Chrome, Safari, Opera
-        content.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
+        content.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT)
       } else if (content.msRequestFullscreen) { // IE/Edge
-        content.msRequestFullscreen();
+        content.msRequestFullscreen()
       } else if (content.webkitEnterFullscreen) { // iPhone Safari
-        content.webkitEnterFullscreen();
+        content.webkitEnterFullscreen()
       }
     } else {
       if (document.exitFullscreen) {
-        document.exitFullscreen();
+        document.exitFullscreen()
       } else if (document.mozCancelFullScreen) { // Firefox
-        document.mozCancelFullScreen();
+        document.mozCancelFullScreen()
       } else if (document.webkitExitFullscreen) { // Chrome, Safari, Opera
-        document.webkitExitFullscreen();
+        document.webkitExitFullscreen()
       } else if (document.msExitFullscreen) { // IE/Edge
-        document.msExitFullscreen();
+        document.msExitFullscreen()
       } else if (document.webkitExitFullscreen) { // iPhone Safari
-        document.webkitExitFullscreen();
+        document.webkitExitFullscreen()
       }
     }
-    setIsFullScreen(prevState => !prevState);
-  };
+    setIsFullScreen(prevState => !prevState)
+  }
+
+  useEffect(() => {
+
+    const handleFullscreenChange = () => {
+      // if (iframeRef.current) {
+      //   iframeRef.current.focus()
+      // }
+      // }
+      //
+      // const handleFullScreenChange = () => {
+      setIsFullScreen(!!document.fullscreenElement)
+      if (iframeRef.current) {
+        iframeRef.current.focus()
+        if (!document.fullscreenElement && window.innerWidth <= 425) {
+          iframeRef.current.style.display = 'none'
+        } else {
+          iframeRef.current.style.display = 'block'
+        }
+      }
+    }
+
+    document.addEventListener('fullscreenchange', handleFullscreenChange)
+    document.addEventListener('webkitfullscreenchange', handleFullscreenChange)
+    document.addEventListener('mozfullscreenchange', handleFullscreenChange)
+    document.addEventListener('MSFullscreenChange', handleFullscreenChange)
+
+    return () => {
+      document.removeEventListener('fullscreenchange', handleFullscreenChange)
+      document.removeEventListener('webkitfullscreenchange', handleFullscreenChange)
+      document.removeEventListener('mozfullscreenchange', handleFullscreenChange)
+      document.removeEventListener('MSFullscreenChange', handleFullscreenChange)
+    }
+  }, [])
 
   const handleCopy = () => {
     navigator.clipboard.writeText(window.location.href).then(() => {
       setIsCopied(true)
-      setTimeout(() => setIsCopied(false), 2000) // Reset after 2 seconds
+      setTimeout(() => setIsCopied(false), 2000)
     }).catch(err => {
       console.error('Failed to copy: ', err)
     })
+  }
+
+  function exitFullScreen() {
+    if (window.innerWidth <= 425) {
+      setMobileExitFullScreen(true)
+      goFullscreen()
+    } else {
+      goFullscreen()
+    }
+  }
+
+  function fullScreenGame() {
+    if (mobileExitFullScreen) {
+      goFullscreen()
+      setMobileExitFullScreen(false)
+    } else if (!mobileExitFullScreen) {
+      handlePlay()
+    }
+  }
+
+  function handleClickOnGame() {
+    setPlayGame(false)
+    setMobileExitFullScreen(false)
   }
 
   return (
@@ -163,14 +221,14 @@ export default function Page() {
                           {
                             sideGames.slice(0, 13).map((game) => {
                               return (
-                                  <div key={game?._id} onClick={() => setPlayGame(false)}>
+                                  <div key={game?._id} onClick={() => handleClickOnGame()}>
                                     <Link href={{
                                       pathname: '/game',
                                       query: {
                                         id: game?._id
                                       }
                                     }}>
-                                      <img className="rounded-lg mb-4 h-28" src={game?.thumbnail} width={200} height={100} alt="game"/>
+                                      <img className="rounded-lg mb-4 h-28" src={game?.thumbnail} width={200} height={100} alt={game?.gameName}/>
                                     </Link>
                                   </div>
                               )
@@ -183,25 +241,29 @@ export default function Page() {
                       <div className={`${playGame ? 'hidden' : 'absolute w-full h-full mx-auto xs:hidden sm:flex flex-row items-center justify-center bg-transBlack z-40'}`}>
                         <button className="py-3 px-6 rounded-full flex flex-row items-center gap-2 bg-lime-500 text-base font-extrabold" onClick={() => handlePlay()}><FaPlay/>Play Now</button>
                       </div>
+                      <div className={`${isFullScreen ? 'w-screen h-screen' : 'w-full h-auto'} ${playGame && !mobileExitFullScreen ? 'visible' : 'hidden'}`}>
+                        <iframe
+                            className={`w-full ${playGame && !mobileExitFullScreen ? 'visible' : 'hidden'}`}
+                            ref={iframeRef} src={games?.url} height={`${isFullScreen ? '100%' : 600}`}/>
+                        {isFullScreen ? <button className="absolute bottom-2 right-2 p-1 bg-slate-800 rounded-lg" onClick={() => exitFullScreen()}>
+                          <MdFullscreenExit size={30}/>
+                        </button> : null
+                        }
+                      </div>
                       {
-                        playGame ? <div className={`${isFullScreen ? 'w-screen h-screen' : 'w-full h-auto'}`}>
-                              <iframe className="w-full" ref={iframeRef} src={games?.url} height={`${isFullScreen ? '100%' : 600}`} title="W3Schools Free Online Web Tutorials"/>
-                              {isFullScreen ? <button className="absolute bottom-2 right-2 p-1 bg-slate-800 rounded-lg" onClick={() => goFullscreen()}>
-                                <MdFullscreenExit size={30}/>
-                              </button> : null
-                              }
-                            </div> :
+                        playGame && !mobileExitFullScreen ? null :
                             <div>
                               <div className="relative w-full">
-                                <img className="game-thumbnail" src={games?.thumbnail} alt="game"/>
+                                <img className="game-thumbnail w-full" src={games?.thumbnail} alt={games?.gameName}/>
                                 <div className="absolute -bottom-1 bg-gradient-to-b from-transparent via-transBlack to-transBlack2 to-90% w-full h-full xs:block sm:hidden z-20"/>
                               </div>
                               <div className="absolute bottom-24 w-full z-40 xs:block sm:hidden">
-                                <img className="w-2/4 rounded-xl mx-auto" src={games?.thumbnail} style={{ height: '120px' }} alt="game"/>
+                                <img className="w-2/4 rounded-xl mx-auto" src={games?.thumbnail} style={{ height: '120px' }} alt={games?.gameName}/>
                               </div>
                               <div className="h-20 xs:block sm:hidden"/>
-                              <div className={`${isFullScreen ? 'hidden' : 'mb-4 mx-auto flex flex-row items-center justify-center sm:hidden xs:flex'}`}>
-                                <button className="py-3 px-6 rounded-full flex flex-row items-center gap-2 bg-lime-500 text-base font-extrabold" onClick={() => handlePlay()}><FaPlay/>Play Now</button>
+                              <div className={`${isFullScreen ? 'hidden' : 'mb-6 mx-auto flex flex-row items-center justify-center sm:hidden xs:flex'}`}>
+                                <button className="py-3 px-6 rounded-full flex flex-row items-center gap-2 bg-lime-500 text-base font-extrabold" onClick={() => fullScreenGame()}>
+                                  <FaPlay/>{playGame ? 'Continue Playing...' : 'Play Now'}</button>
                               </div>
                             </div>
                       }
@@ -227,14 +289,14 @@ export default function Page() {
                           {
                             sideGames.slice(0, 12).map((game) => {
                               return (
-                                  <div key={game?._id} onClick={() => setPlayGame(false)}>
+                                  <div key={game?._id} onClick={() => handleClickOnGame()}>
                                     <Link href={{
                                       pathname: '/game',
                                       query: {
                                         id: game?._id
                                       }
                                     }}>
-                                      <img className="rounded-lg h-28" src={game?.thumbnail} width={173} height={100} alt="game"/>
+                                      <img className="rounded-lg h-28" src={game?.thumbnail} width={173} height={100} alt={game?.gameName}/>
                                     </Link>
                                   </div>
                               )
@@ -318,7 +380,7 @@ export default function Page() {
                         {
                           sideGames.slice(0, 18).map((game) => {
                             return (
-                                <div key={game?._id} onClick={() => setPlayGame(false)}>
+                                <div key={game?._id} onClick={() => handleClickOnGame()}>
                                   <Link href={{
                                     pathname: '/game',
                                     query: {

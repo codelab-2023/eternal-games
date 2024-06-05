@@ -1,9 +1,11 @@
-import ReactGA from "react-ga4";
+'use client'
+import React, { useEffect } from 'react'
+import ReactGA from 'react-ga4'
 
 export default function Page() {
 
   useEffect(() => {
-    ReactGA.send({ hitType: "pageview", page: "/recent-played", title: "Recent Played" });
+    ReactGA.send({ hitType: 'pageview', page: '/recent-played', title: 'Recent Played' })
   }, [])
 
   return (
