@@ -13,7 +13,7 @@ import PacmanLoader from 'react-spinners/PacmanLoader'
 import Modal from '@mui/material/Modal'
 import { FaXTwitter } from 'react-icons/fa6'
 import { Box } from '@mui/material'
-import ReactGA from 'react-ga4'
+import { GoogleAnalytics } from '@next/third-parties/google'
 
 const moment = require('moment')
 
@@ -30,10 +30,6 @@ export default function Page() {
   const [ isCopied, setIsCopied ] = useState(false)
   const [ shareModelOpen, setShareModelOpen ] = useState(false)
   const [ mobileExitFullScreen, setMobileExitFullScreen ] = useState(false)
-
-  useEffect(() => {
-    ReactGA.send({ hitType: 'pageview', page: '/game', title: 'Game' })
-  }, [])
 
   useEffect(() => {
     const id = searchParams.get('id')
@@ -398,6 +394,7 @@ export default function Page() {
               </div>
           }
           {isFullScreen ? null : <Footer/>}
+          <GoogleAnalytics gaId="G-TF62GHPFEJ" />
         </div>
       </>
   )

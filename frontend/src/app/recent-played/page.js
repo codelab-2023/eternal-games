@@ -1,16 +1,13 @@
 'use client'
 import React, { useEffect } from 'react'
-import ReactGA from 'react-ga4'
+import { GoogleAnalytics } from '@next/third-parties/google'
 
 export default function Page() {
 
-  useEffect(() => {
-    ReactGA.send({ hitType: 'pageview', page: '/recent-played', title: 'Recent Played' })
-  }, [])
-
   return (
       <div className="my-10">
-        Recent Played
+        <p>Recent Played</p>
+        <GoogleAnalytics gaId="G-TF62GHPFEJ" />
       </div>
   )
 }

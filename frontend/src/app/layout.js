@@ -1,6 +1,7 @@
 'use client'
 import { Inter } from 'next/font/google'
 import './globals.css'
+import { GoogleAnalytics } from '@next/third-parties/google'
 // import NavBar from '../components/navbar/page';
 // import Footer from '../components/footer/page';
 import React, { Suspense, useState } from 'react'
@@ -40,6 +41,7 @@ export default function RootLayout({ children }) {
       {/*  <Footer />*/}
       {/*</Suspense>*/}
       </body>
+      <GoogleAnalytics gaId="G-TF62GHPFEJ" />
       </html>
   )
 }

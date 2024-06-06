@@ -6,7 +6,7 @@ import NavBar from '../components/navbar/page'
 import Footer from '../components/footer/page'
 import PacmanLoader from 'react-spinners/PacmanLoader'
 import gameService from '../services/game.service'
-import ReactGA from "react-ga4";
+import { GoogleAnalytics } from '@next/third-parties/google'
 
 export default function Home() {
 
@@ -15,7 +15,6 @@ export default function Home() {
 
   useEffect(() => {
     getGames()
-    ReactGA.initialize("G-TF62GHPFEJ");
   }, [])
 
   async function getGames() {
@@ -64,6 +63,7 @@ export default function Home() {
                 </div>
           }
           <Footer/>
+          <GoogleAnalytics gaId="G-TF62GHPFEJ" />
         </div>
       </>
   )

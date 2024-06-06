@@ -1,13 +1,9 @@
 'use client'
 import React, { useEffect } from 'react'
 import { FaDraftingCompass, FaFileAlt, FaNewspaper, FaSitemap } from 'react-icons/fa'
-import ReactGA from 'react-ga4'
+import { GoogleAnalytics } from '@next/third-parties/google'
 
 export default function Developer() {
-
-  useEffect(() => {
-    ReactGA.send({ hitType: 'pageview', page: '/developer', title: 'Developer' })
-  }, [])
 
   return (
       <div className="relative pt-16 mb-16">
@@ -86,6 +82,7 @@ export default function Developer() {
             </div>
           </div>
         </div>
+        <GoogleAnalytics gaId="G-TF62GHPFEJ" />
       </div>
   )
 }

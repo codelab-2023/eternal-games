@@ -5,16 +5,12 @@ import PageService from '../../services/pages.service'
 import { useParams } from 'react-router'
 import Navbar from '../../components/navbar/page'
 import Footer from '../../components/footer/page'
-import ReactGA from "react-ga4";
+import { GoogleAnalytics } from '@next/third-parties/google'
 
 export default function Page() {
   const privacyPageId = 'terms-and-condition'
   const params = useParams()
   const [ description, setDescription ] = useState('')
-
-  useEffect(()=>{
-    ReactGA.send({ hitType: "pageview", page: "/terms-and-condition", title: "Terms & Condition" });
-  },[])
 
   useEffect(() => {
     getPage()
@@ -41,6 +37,7 @@ export default function Page() {
           </Box>
         </Container>
         <Footer/>
+        <GoogleAnalytics gaId="G-TF62GHPFEJ" />
       </div>
   )
 }
