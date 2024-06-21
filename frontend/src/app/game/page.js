@@ -61,40 +61,28 @@ export default function Page() {
     }
   }
 
-  function handlePlay() {
-    if (!isFullScreen) {
-      setPlayGame(true)
-      document.documentElement.requestFullscreen().then(() => setIsFullScreen(true)).catch(err => console.log(err))
-    } else {
-      document.exitFullscreen().then(() => setIsFullScreen(false)).catch(err => console.log(err))
-    }
-  }
-
   const goFullscreen = () => {
     const content = document.documentElement
     if (!isFullScreen) {
-      if (!content.requestFullscreen) {
-        content.requestFullscreen()
-      } else if (content.mozRequestFullScreen) { // Firefox
-        content.mozRequestFullScreen()
-      } else if (content.webkitRequestFullscreen) { // Chrome, Safari, Opera
-        content.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT)
-      } else if (content.msRequestFullscreen) { // IE/Edge
-        content.msRequestFullscreen()
-      } else if (content.webkitEnterFullscreen) { // iPhone Safari
-        content.webkitEnterFullscreen()
+      setPlayGame(true)
+      if (content.requestFullscreen) {
+        content.requestFullscreen().then(() => setIsFullScreen(true)).catch(err => console.log(err))
+      } else if (content.mozRequestFullScreen) {
+        content.mozRequestFullScreen().then(() => setIsFullScreen(true)).catch(err => console.log(err))
+      } else if (content.webkitRequestFullscreen) {
+        content.webkitRequestFullscreen().then(() => setIsFullScreen(true)).catch(err => console.log(err))
+      } else if (content.msRequestFullscreen) {
+        content.msRequestFullscreen().then(() => setIsFullScreen(true)).catch(err => console.log(err))
       }
     } else {
       if (document.exitFullscreen) {
-        document.exitFullscreen()
+        document.exitFullscreen().then(() => setIsFullScreen(false)).catch(err => console.log(err))
       } else if (document.mozCancelFullScreen) { // Firefox
-        document.mozCancelFullScreen()
-      } else if (document.webkitExitFullscreen) { // Chrome, Safari, Opera
-        document.webkitExitFullscreen()
+        document.mozCancelFullScreen().then(() => setIsFullScreen(false)).catch(err => console.log(err))
+      } else if (document.webkitExitFullscreen) { // Chrome, Safari, and Opera
+        document.webkitExitFullscreen().then(() => setIsFullScreen(false)).catch(err => console.log(err))
       } else if (document.msExitFullscreen) { // IE/Edge
-        document.msExitFullscreen()
-      } else if (document.webkitExitFullscreen) { // iPhone Safari
-        document.webkitExitFullscreen()
+        document.msExitFullscreen().then(() => setIsFullScreen(false)).catch(err => console.log(err))
       }
     }
     setIsFullScreen(prevState => !prevState)
@@ -103,16 +91,10 @@ export default function Page() {
   useEffect(() => {
 
     const handleFullscreenChange = () => {
-      // if (iframeRef.current) {
-      //   iframeRef.current.focus()
-      // }
-      // }
-      //
-      // const handleFullScreenChange = () => {
       setIsFullScreen(!!document.fullscreenElement)
       if (iframeRef.current) {
         iframeRef.current.focus()
-        if (!document.fullscreenElement && window.innerWidth <= 425) {
+        if (!document.fullscreenElement && window.innerWidth <= 435) {
           iframeRef.current.style.display = 'none'
         } else {
           iframeRef.current.style.display = 'block'
@@ -143,7 +125,7 @@ export default function Page() {
   }
 
   function exitFullScreen() {
-    if (window.innerWidth <= 425) {
+    if (window.innerWidth <= 435) {
       setMobileExitFullScreen(true)
       goFullscreen()
     } else {
@@ -156,7 +138,7 @@ export default function Page() {
       goFullscreen()
       setMobileExitFullScreen(false)
     } else if (!mobileExitFullScreen) {
-      handlePlay()
+      goFullscreen()
     }
   }
 
@@ -235,13 +217,13 @@ export default function Page() {
                   <div className={`${isFullScreen ? '' : 'nm:w-3/4 xs:w-full nm:mx-auto xs:mx-4'}`}>
                     <div className="game-thumbnail-div flex relative">
                       <div className={`${playGame ? 'hidden' : 'absolute w-full h-full mx-auto xs:hidden sm:flex flex-row items-center justify-center bg-transBlack z-40'}`}>
-                        <button className="py-3 px-6 rounded-full flex flex-row items-center gap-2 bg-lime-500 text-base font-extrabold" onClick={() => handlePlay()}><FaPlay/>Play Now</button>
+                        <button className="py-3 px-6 rounded-full flex flex-row items-center gap-2 bg-lime-500 text-base font-extrabold" onClick={() => setPlayGame(true)}><FaPlay/>Play Now</button>
                       </div>
                       <div className={`${isFullScreen ? 'w-screen h-screen' : 'w-full h-auto'} ${playGame && !mobileExitFullScreen ? 'visible' : 'hidden'}`}>
                         <iframe
                             className={`w-full ${playGame && !mobileExitFullScreen ? 'visible' : 'hidden'}`}
                             ref={iframeRef} src={games?.url} height={`${isFullScreen ? '100%' : 600}`}/>
-                        {isFullScreen ? <button className="absolute bottom-2 right-2 p-1 bg-slate-800 rounded-lg" onClick={() => exitFullScreen()}>
+                        {isFullScreen ? <button className="fixed bottom-2 right-2 p-1 bg-slate-800 rounded-lg" onClick={() => exitFullScreen()}>
                           <MdFullscreenExit size={30}/>
                         </button> : null
                         }
@@ -272,7 +254,7 @@ export default function Page() {
                         <div onClick={() => setShareModelOpen(prevState => !prevState)}><FaShareAlt size={18}/></div>
                         <div className="xs:hidden sm:block">
                           {
-                            playGame ? <div onClick={() => handlePlay()}><MdFullscreen size={30}/></div> :
+                            playGame ? <div onClick={() => goFullscreen()}><MdFullscreen size={30}/></div> :
                                 <div><MdFullscreen color="#616161" size={30}/></div>
                           }
                         </div>
