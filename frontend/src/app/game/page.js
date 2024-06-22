@@ -137,8 +137,10 @@ export default function Page() {
     if (mobileExitFullScreen) {
       goFullscreen()
       setMobileExitFullScreen(false)
+      window.scrollBy(0, 4);
     } else if (!mobileExitFullScreen) {
       goFullscreen()
+      window.scrollBy(0, 4);
     }
   }
 
