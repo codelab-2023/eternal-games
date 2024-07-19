@@ -16,7 +16,7 @@ import User1 from 'assets/images/users/user-round.svg'
 import UserService from '../../../../services/user.service'
 
 // assets
-import { IconLogout, IconSettings, IconUser } from '@tabler/icons'
+import { IconLogout, IconPassword, IconSettings, IconUser } from '@tabler/icons'
 
 // ==============================|| PROFILE MENU ||============================== //
 
@@ -239,6 +239,16 @@ const ProfileSection = () => {
                                 <IconSettings stroke={1.5} size="1.3rem"/>
                               </ListItemIcon>
                               <ListItemText primary={<Typography variant="body2">Account Settings</Typography>}/>
+                            </ListItemButton>
+                            <ListItemButton
+                                sx={{ borderRadius: `${customization.borderRadius}px` }}
+                                selected={selectedIndex === 0}
+                                onClick={() => navigate('/change-password')}
+                            >
+                              <ListItemIcon>
+                                <IconPassword stroke={1.5} size="1.3rem"/>
+                              </ListItemIcon>
+                              <ListItemText primary={<Typography variant="body2">Change Password</Typography>}/>
                             </ListItemButton>
                             <ListItemButton
                                 sx={{ borderRadius: `${customization.borderRadius}px` }}

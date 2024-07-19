@@ -62,6 +62,7 @@ export default function Page() {
   }
 
   const goFullscreen = () => {
+    screen.orientation.lock('portrait')
     const content = document.documentElement
     if (!isFullScreen) {
       setPlayGame(true)
@@ -89,7 +90,6 @@ export default function Page() {
   }
 
   useEffect(() => {
-
     const handleFullscreenChange = () => {
       setIsFullScreen(!!document.fullscreenElement)
       if (iframeRef.current) {
@@ -137,10 +137,10 @@ export default function Page() {
     if (mobileExitFullScreen) {
       goFullscreen()
       setMobileExitFullScreen(false)
-      window.scrollBy(0, 4);
+      window.scrollBy(0, 4)
     } else if (!mobileExitFullScreen) {
       goFullscreen()
-      window.scrollBy(0, 4);
+      window.scrollBy(0, 4)
     }
   }
 
@@ -378,7 +378,7 @@ export default function Page() {
               </div>
           }
           {isFullScreen ? null : <Footer/>}
-          <GoogleAnalytics gaId="G-TF62GHPFEJ" />
+          <GoogleAnalytics gaId="G-TF62GHPFEJ"/>
         </div>
       </>
   )

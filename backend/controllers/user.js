@@ -299,6 +299,27 @@ const logIn2FA = async (req, res) => {
   }
 }
 
+const changePassword = async (req, res) => {
+  try {
+    const { currentPassword, newPassword } = req.body
+
+    const user = await UserStore.findById({ _id: '3f10932a-0851-4c08-b7df-247f8664c246' })
+
+    const compareCurrentPassword = await bcrypt.compare(currentPassword, user.password)
+
+    if (!compareCurrentPassword) return sendError(res, 'Invalid password', null, 400)
+
+    user.password = await bcrypt.hash(newPassword, constants.security.SALT)
+
+    await UserStore.findByIdAndUpdate('3f10932a-0851-4c08-b7df-247f8664c246', { password: user.password })
+    sendSuccess(res, {
+      message: 'Password has been updated'
+    })
+  } catch (error) {
+    console.log(error.message)
+  }
+}
+
 module.exports = {
   getUsers,
   addUser,
@@ -310,5 +331,6 @@ module.exports = {
   resetPassword,
   register2FA,
   verify2FAToken,
-  logIn2FA
+  logIn2FA,
+  changePassword
 }
