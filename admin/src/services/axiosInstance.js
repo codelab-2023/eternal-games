@@ -8,6 +8,12 @@ const axiosInstance = axios.create({
   }
 })
 
+const errorMessages = [
+  'jwt expired',
+  'Token has expired',
+  'No token found'
+]
+
 axiosInstance.interceptors.request.use((config) => {
   const decryptedString = encryptStorage.getItem('token')
   config.headers.Authorization = decryptedString
@@ -16,8 +22,9 @@ axiosInstance.interceptors.request.use((config) => {
 })
 
 axiosInstance.interceptors.response.use((response) => response, (error) => {
-  if ([ 'Token has expired', 'No token found' ].includes(error?.response?.data?.error)) {
+  if (errorMessages.includes(error?.response?.data?.error)) {
     encryptStorage.removeItem('token')
+    window.open("https://admin.eternalgames.io/login")
   }
 
   return error
