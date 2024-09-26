@@ -4,7 +4,7 @@ import './globals.css'
 import { GoogleAnalytics } from '@next/third-parties/google'
 // import NavBar from '../components/navbar/page';
 // import Footer from '../components/footer/page';
-import React, { Suspense, useState } from 'react'
+import React, { Suspense, useEffect, useState } from 'react'
 // import SideBar from '../components/sidebar/page';
 
 const inter = Inter({ subsets: [ 'latin' ] })
@@ -16,6 +16,10 @@ const inter = Inter({ subsets: [ 'latin' ] })
 
 export default function RootLayout({ children }) {
   const [ openSideBar, setOpenSideBar ] = useState(false)
+
+  useEffect(() => {
+    window.screen.orientation.lock('portrait')
+  }, [])
 
   function handleToggle() {
     setOpenSideBar((prevState) => !prevState)
@@ -41,7 +45,7 @@ export default function RootLayout({ children }) {
       {/*  <Footer />*/}
       {/*</Suspense>*/}
       </body>
-      <GoogleAnalytics gaId="G-TF62GHPFEJ" />
+      <GoogleAnalytics gaId="G-TF62GHPFEJ"/>
       </html>
   )
 }

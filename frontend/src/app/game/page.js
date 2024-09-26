@@ -62,7 +62,6 @@ export default function Page() {
   }
 
   const goFullscreen = () => {
-    screen.orientation.lock('portrait')
     const content = document.documentElement
     if (!isFullScreen) {
       setPlayGame(true)
@@ -137,6 +136,7 @@ export default function Page() {
     if (mobileExitFullScreen) {
       goFullscreen()
       setMobileExitFullScreen(false)
+      console.log('button clicked')
       window.scrollBy(0, 4)
     } else if (!mobileExitFullScreen) {
       goFullscreen()
