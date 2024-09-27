@@ -17,10 +17,6 @@ const inter = Inter({ subsets: [ 'latin' ] })
 export default function RootLayout({ children }) {
   const [ openSideBar, setOpenSideBar ] = useState(false)
 
-  useEffect(() => {
-    window.screen.orientation.lock('portrait')
-  }, [])
-
   function handleToggle() {
     setOpenSideBar((prevState) => !prevState)
   }
