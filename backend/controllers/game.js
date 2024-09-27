@@ -40,7 +40,7 @@ const getGame = async (req, res) => {
 
 const getGameList = async (req, res) => {
   try {
-    const games = await GameStore.find()
+    const games = await GameStore.find({ status: 'active' }).sort({ createdOn: -1 });
 
     return sendSuccess(res, { games })
   } catch (error) {
