@@ -17,6 +17,9 @@ const Website = Loadable(lazy(() => import('views/websites/website')))
 const Privacy = Loadable(lazy(() => import('views/privacy/Privacy')))
 const TermsAndCondition = Loadable(lazy(() => import('views/termsAndCondition/TermsCondition')))
 
+const Feature = Loadable(lazy(() => import('views/feature/List')))
+const Trending = Loadable(lazy(() => import('views/trending/List')))
+
 const MainRoutes = {
   path: '/',
   element: <MainLayout/>,
@@ -28,6 +31,14 @@ const MainRoutes = {
     {
       path: 'dashboard',
       element: <DashboardDefault/>
+    },
+    {
+      path: 'feature',
+      element: <Feature/>
+    },
+    {
+      path: 'trending',
+      element: <Trending/>
     },
     {
       path: 'games/:id',

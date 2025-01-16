@@ -24,13 +24,17 @@ const createGame = async (req, res) => {
 
 const getGame = async (req, res) => {
   try {
-    const gameId = req.params.id
+    const slug = req.params.slug
 
-    if (!gameId) {
-      return sendError(res, 'gameId not found', null, 404)
+    if (!slug || typeof slug !== 'string') {
+      return sendError(res, 'Invalid or missing game slug', null, 400);
     }
 
-    const game = await GameStore.findById(gameId).populate('categories')
+    const game = await GameStore.findOne({ slug: slug }).populate('categories')
+
+    if (!game) {
+      return sendError(res, 'Game not found', null, 404);
+    }
 
     return sendSuccess(res, { game })
   } catch (error) {
@@ -40,7 +44,7 @@ const getGame = async (req, res) => {
 
 const getGameList = async (req, res) => {
   try {
-    const games = await GameStore.find({ status: 'active' }).sort({ createdOn: -1 });
+    const games = await GameStore.find({ status: 'active' }).sort({ createdOn: -1 })
 
     return sendSuccess(res, { games })
   } catch (error) {
@@ -69,6 +73,7 @@ const updateGame = async (req, res) => {
     const gameId = req.params.id
     const {
       gameName,
+      slug,
       description,
       thumbnail,
       gamePreview,
@@ -94,6 +99,7 @@ const updateGame = async (req, res) => {
         { _id: gameId },
         {
           gameName,
+          slug,
           description,
           thumbnail,
           gamePreview,

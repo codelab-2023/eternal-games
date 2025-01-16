@@ -42,6 +42,7 @@ const Game = () => {
   const [ uploadLoading, setUploadLoading ] = useState(false)
   const [ game, setGame ] = useState({
     gameName: '',
+    slug: '',
     description: '',
     thumbnail: '',
     gamePreview: '',
@@ -145,7 +146,7 @@ const Game = () => {
   }
 
   return (
-      <MainCard title="Game Profile">
+      <MainCard title={`Game Profile/${game?.gameName}`}>
         {loading ? (
             <Typography variant="body2">Loading...</Typography>
         ) : (
@@ -270,7 +271,11 @@ const Game = () => {
                         placeholder="Game Name"
                         value={game.gameName}
                         onChange={(e) =>
-                            setGame({ ...game, gameName: e.target.value })
+                            setGame({
+                              ...game,
+                              gameName: e.target.value,
+                              slug: e.target.value.toLowerCase().trim().replace(/[\s\W-]+/g, '-').replace(/^-+|-+$/g, '')
+                            })
                         }
                     />
                     <TextField

@@ -1,6 +1,6 @@
 'use client'
 import React, { useEffect, useRef, useState } from 'react'
-import { useSearchParams } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { FaFacebookF, FaLinkedinIn, FaPlay, FaRegComments, FaRegThumbsDown, FaRegThumbsUp, FaShareAlt, FaWhatsapp } from 'react-icons/fa'
 import { ImReddit } from 'react-icons/im'
@@ -14,12 +14,36 @@ import Modal from '@mui/material/Modal'
 import { FaXTwitter } from 'react-icons/fa6'
 import { Box } from '@mui/material'
 import { GoogleAnalytics } from '@next/third-parties/google'
+// import ShareModal from '../../components/share-model/page'
+// import {
+//   EmailShareButton,
+//   FacebookShareButton,
+//   GabShareButton,
+//   HatenaShareButton,
+//   InstapaperShareButton,
+//   LineShareButton,
+//   LinkedinShareButton,
+//   LivejournalShareButton,
+//   MailruShareButton,
+//   OKShareButton,
+//   PinterestShareButton,
+//   PocketShareButton,
+//   RedditShareButton,
+//   TelegramShareButton,
+//   TumblrShareButton,
+//   TwitterShareButton,
+//   ViberShareButton,
+//   VKShareButton,
+//   WhatsappShareButton,
+//   WorkplaceShareButton,
+// } from "react-share";
 
 const moment = require('moment')
 
 export default function Page() {
   const descriptionRef = useRef()
   const iframeRef = useRef(null)
+  const route = useRouter()
 
   const searchParams = useSearchParams()
   const [ loading, setLoading ] = useState(true)
@@ -32,17 +56,23 @@ export default function Page() {
   const [ mobileExitFullScreen, setMobileExitFullScreen ] = useState(false)
 
   useEffect(() => {
-    const id = searchParams.get('id')
-    fetchGame(id)
+    const slug = searchParams.get('slug')
+
+    if (!slug) {
+      return route.push('/')
+    }
+    fetchGame(slug)
     getSideGames()
   }, [ searchParams ])
 
-  async function fetchGame(gameID) {
+  async function fetchGame(slugText) {
     try {
       setLoading(true)
-      const response = await gameService.getGame(`${gameID}`)
+
+      const response = await gameService.getGame(`${slugText}`)
 
       setGames(response.game)
+      document.title = `EternalGames - ${response?.game?.gameName}`
       descriptionRef.current.innerHTML = response.data.description
       setLoading(false)
     } catch (error) {
@@ -166,11 +196,12 @@ export default function Page() {
                       <div className="float-right" onClick={() => setShareModelOpen(false)}><MdClose color="#979797" size={26}/></div>
                       <div className="mt-4 text-xl font-bold text-center">Share the game</div>
                       <div className="my-4 flex flex-row justify-center gap-3">
-                        <Link href="https://www.facebook.com/" target="_blank" className="p-3 rounded-full bg-[#2b5ee3]"><FaFacebookF size={24}/></Link>
-                        <Link href="https://twitter.com/?lang=en" target="_blank" className="p-3 rounded-full bg-black"><FaXTwitter size={24}/></Link>
-                        <Link href="https://www.whatsapp.com/" target="_blank" className="p-3 rounded-full bg-[#53af52]"><FaWhatsapp size={24}/></Link>
-                        <Link href="https://in.linkedin.com/" target="_blank" className="p-3 rounded-full bg-[#2c5eaf]"><FaLinkedinIn size={24}/></Link>
-                        <Link href="https://www.reddit.com/" target="_blank" className="p-3 rounded-full bg-[#d85e3c]"><ImReddit size={24}/></Link>
+                        {/*<FacebookShareButton url={window.location.href} />*/}
+                        <Link href={window.location.href} target="_blank" className="p-3 rounded-full bg-[#2b5ee3]"><FaFacebookF size={24}/></Link>
+                        <Link href={window.location.href} target="_blank" className="p-3 rounded-full bg-black"><FaXTwitter size={24}/></Link>
+                        <Link href={window.location.href} target="_blank" className="p-3 rounded-full bg-[#53af52]"><FaWhatsapp size={24}/></Link>
+                        <Link href={window.location.href} target="_blank" className="p-3 rounded-full bg-[#2c5eaf]"><FaLinkedinIn size={24}/></Link>
+                        <Link href={window.location.href} target="_blank" className="p-3 rounded-full bg-[#d85e3c]"><ImReddit size={24}/></Link>
                       </div>
                       <div className="flex flex-row items-center gap-3 bg-slate-950 py-3 px-4 mb-10 rounded-xl text-gray-500">
                         <div>{window.location.href}</div>
@@ -205,7 +236,7 @@ export default function Page() {
                                     <Link href={{
                                       pathname: '/game',
                                       query: {
-                                        id: game?._id
+                                        slug: game?.slug
                                       }
                                     }}>
                                       <img className="rounded-lg mb-4 h-28" src={game?.thumbnail} width={200} height={100} alt={game?.gameName}/>
@@ -273,7 +304,7 @@ export default function Page() {
                                     <Link href={{
                                       pathname: '/game',
                                       query: {
-                                        id: game?._id
+                                        slug: game?.slug
                                       }
                                     }}>
                                       <img className="rounded-lg h-28" src={game?.thumbnail} width={173} height={100} alt={game?.gameName}/>
@@ -330,7 +361,7 @@ export default function Page() {
                                 </div>
                                 <div className="mb-8 text-sm">{games?.shortDescription}</div>
                               </div>
-                              <div className="bg-slate-800 h-96 w-1/3 rounded-xl nm:block xs:hidden"/>
+                              <div className="bg-slate-800 h-96 w-1/3 rounded-xl nm:block xs:hidden">Ad</div>
                             </div>
                             <div className="flex flex-wrap justify-center gap-6 mx-6 mb-8">
                               {
@@ -350,7 +381,28 @@ export default function Page() {
                   </div>
                   {
                     isFullScreen ? null : <div className="w-1/4 xs:hidden xl:block">
-                      <div className="h-1/2 w-full bg-slate-800 rounded-xl"/>
+                      <div className="h-1/2 w-full bg-slate-800 rounded-xl mb-5">Ad</div>
+                      {
+                        isFullScreen ? null :
+                            <div className="xs:hidden 2xl:block">
+                              {
+                                sideGames.slice(0, 4).map((game) => {
+                                  return (
+                                      <div key={game?._id} className="w-full h-auto" onClick={() => handleClickOnGame()}>
+                                        <Link href={{
+                                          pathname: '/game',
+                                          query: {
+                                            slug: game?.slug
+                                          }
+                                        }}>
+                                          <img className="rounded-lg mb-4 h-48" src={game?.thumbnail} width={'100%'} alt={game?.gameName}/>
+                                        </Link>
+                                      </div>
+                                  )
+                                })
+                              }
+                            </div>
+                      }
                     </div>
                   }
                 </div>
@@ -364,7 +416,7 @@ export default function Page() {
                                   <Link href={{
                                     pathname: '/game',
                                     query: {
-                                      id: game?._id
+                                      slug: game?.slug
                                     }
                                   }}>
                                     <img className="rounded-lg h-28" src={game?.thumbnail} width={173} height={100} alt="game"/>

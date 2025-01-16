@@ -1,4 +1,5 @@
 'use client'
+import Head from 'next/head'
 import { Inter } from 'next/font/google'
 import './globals.css'
 import { GoogleAnalytics } from '@next/third-parties/google'
@@ -23,6 +24,11 @@ export default function RootLayout({ children }) {
 
   return (
       <html lang="en">
+      <Head>
+        <title>Eternalgames</title>
+        <meta property="og:title" content="Eternalgames" key="title" />
+      </Head>
+
       <body className={`w-screen text-white min-h-screen overflow-x-hidden ${inter.className}`}>
       {/*<Suspense>*/}
       {/*  <NavBar toggleSideBar={handleToggle} />*/}

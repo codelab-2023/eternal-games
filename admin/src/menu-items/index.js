@@ -1,4 +1,4 @@
-import { IconClipboardTypography, IconDashboard, IconDeviceGamepad2, IconShieldLock, IconTags, IconWorld } from '@tabler/icons'
+import { IconClipboardTypography, IconDashboard, IconDeviceGamepad2, IconGoGame, IconShieldLock, IconTags, IconTrendingUp, IconWorld } from '@tabler/icons'
 
 const QuickView = {
   id: 'quickView',
@@ -7,11 +7,27 @@ const QuickView = {
   type: 'group',
   children: [
     {
-      id: 'default',
+      id: 'dashboard',
       title: 'Dashboard',
       type: 'item',
       url: '/dashboard',
       icon: IconDashboard,
+      breadcrumbs: false
+    },
+    {
+      id: 'trending',
+      title: 'Trending',
+      type: 'item',
+      url: '/trending',
+      icon: IconTrendingUp,
+      breadcrumbs: false
+    },
+    {
+      id: 'feature',
+      title: 'Feature',
+      type: 'item',
+      url: '/feature',
+      icon: IconGoGame,
       breadcrumbs: false
     }
   ]

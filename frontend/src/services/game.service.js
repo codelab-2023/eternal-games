@@ -11,9 +11,9 @@ export default class gameService {
     }
   }
 
-  static async getGame(id) {
+  static async getGame(slug) {
     try {
-      const response = await axiosInstance.get(`/v1/game/${id}`)
+      const response = await axiosInstance.get(`/v1/game/${slug}`)
 
       return response.data
     } catch (error) {

@@ -14,6 +14,8 @@ export default function Home() {
   const [ loading, setLoading ] = useState(false)
 
   useEffect(() => {
+    document.title = 'EternalGames'
+
     getGames()
   }, [])
 

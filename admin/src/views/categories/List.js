@@ -59,12 +59,6 @@ const headCells = [
     numeric: true,
     label: 'Status',
     align: 'left'
-  },
-  {
-    id: 'createdOn',
-    numeric: false,
-    label: 'Created on',
-    align: 'left'
   }
 ]
 
@@ -356,7 +350,6 @@ const Categories = () => {
                       </TableCell>
                       <TableCell align="left"> {row.name} </TableCell>
                       <TableCell align="left">{row.status}</TableCell>
-                      <TableCell align="left">{row.createdOn}</TableCell>
                       <TableCell align="center" sx={{ pr: 3 }} onClick={() => navigate(`/categories/${row.id}`)}>
                         <IconButton color="primary">
                           <VisibilityTwoToneIcon sx={{ fontSize: '1.3rem' }}/>
@@ -387,7 +380,6 @@ const Categories = () => {
                           {row.status === 'deleted' && <Chip label="Deleted" size="small" color="error"/>}
                           {row.status === 'pending' && <Chip label="Pending" size="small" color="warning"/>}
                         </TableCell>
-                        <TableCell align="left">{row.createdOn}</TableCell>
                         <TableCell align="center" sx={{ pr: 3 }} onClick={() => navigate(`/categories/${row._id}`)}>
                           <IconButton color="primary">
                             <VisibilityTwoToneIcon sx={{ fontSize: '1.3rem' }}/>

@@ -6,6 +6,7 @@ const { defaultFields, defaultSchemaOptions } = require('./model-utils')
 const gameSchema = new Schema({
   _id: { type: Schema.Types.String, required: true, default: uuidv4 },
   gameName: { type: Schema.Types.String, required: true },
+  slug: { type: Schema.Types.String, required: true},
   description: { type: Schema.Types.String, required: true },
   thumbnail: { type: Schema.Types.String, required: true },
   gamePreview: { type: Schema.Types.String, required: true },

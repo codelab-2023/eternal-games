@@ -47,9 +47,9 @@ const headCells = [
     align: 'left'
   },
   {
-    id: 'url',
+    id: 'shorDescription',
     numeric: false,
-    label: 'Game url',
+    label: 'Short Description',
     align: 'center'
   },
   {
@@ -202,6 +202,7 @@ const Games = () => {
       setGames([ ...games, res.data ])
       setCreateGame({
         gameName: '',
+        slug: '',
         description: '',
         thumbnail: '',
         gamePreview: '',
@@ -324,7 +325,11 @@ const Games = () => {
                           label="Game Name"
                           placeholder="Game Name"
                           value={createGame.gameName || ''}
-                          onChange={(e) => setCreateGame({ ...createGame, gameName: e.target.value })}
+                          onChange={(e) =>
+                              setCreateGame({
+                                ...createGame,
+                                gameName: e.target.value,
+                                slug: e.target.value.toLowerCase().trim().replace(/[\s\W-]+/g, '-').replace(/^-+|-+$/g, '') })}
                       />
                       <TextField
                           required
@@ -515,7 +520,7 @@ const Games = () => {
                         </Typography>
                         <Typography variant="caption"> {row.shortDescription} </Typography>
                       </TableCell>
-                      <TableCell>{row.url}</TableCell>
+                      <TableCell>{row.shortDescription}</TableCell>
                       <TableCell align="right">{row.developer}</TableCell>
                       <TableCell align="center">{row.platform}</TableCell>
                       <TableCell align="center">{row.likes}</TableCell>
@@ -534,7 +539,7 @@ const Games = () => {
                 return (
                     <TableRow hover tabIndex={-1} key={index}>
                       <TableCell component="th" id={labelId} scope="row" sx={{ cursor: 'pointer' }}>
-                        <Grid item xs={12} sx={{ display: 'flex', gap: '14px' }}>
+                        <Grid item xs={12} sx={{ display: 'flex', alignItems:'center', gap: '20px' }}>
                           <Grid item xs={3}>
                             <img
                                 src={row.thumbnail}
@@ -551,11 +556,10 @@ const Games = () => {
                             >
                               {row.gameName}
                             </Typography>
-                            <Typography variant="caption"> {row.shortDescription} </Typography>
                           </Grid>
                         </Grid>
                       </TableCell>
-                      <TableCell align="center">{row.url}</TableCell>
+                      <TableCell align="center">{row.shortDescription}</TableCell>
                       <TableCell align="center">{row.developer}</TableCell>
                       <TableCell align="center">{row.platform}</TableCell>
                       <TableCell align="center">{row.likes}</TableCell>
