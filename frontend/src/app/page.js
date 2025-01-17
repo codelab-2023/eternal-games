@@ -1,7 +1,7 @@
 'use client'
 import React, { useEffect, useState } from 'react'
 import CarouselMain from '../containers/carousel-main/page'
-import Desktop from '../components/desktop-component/page'
+import Desktop from '../components/desktop-medium-card/page'
 import NavBar from '../components/navbar/page'
 import Footer from '../components/footer/page'
 import PacmanLoader from 'react-spinners/PacmanLoader'
@@ -58,9 +58,9 @@ export default function Home() {
         <div className="w-screen text-white min-h-screen overflow-x-hidden">
           <NavBar/>
                 <div className="h-auto px-3 sm:px-5">
-                  <CarouselMain helper={game}/>
-                  <SpecialCard isHorizontal={true} games={trendingGames} name={'Trending Games'}/>
-                  <SpecialCard isHorizontal={true} games={featureGames} name={'Feature Games'}/>
+                  <CarouselMain helper={game} loading={loading}/>
+                  <SpecialCard isHorizontal={true} games={trendingGames} name={'Trending Games'} loading={loading}/>
+                  <SpecialCard isHorizontal={true} games={featureGames} name={'Feature Games'} loading={loading}/>
                   <Desktop name="New Games" helper={game}/>
                 </div>
           <Footer/>

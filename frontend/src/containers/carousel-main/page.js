@@ -7,7 +7,7 @@ import { Autoplay } from 'swiper/modules'
 import 'swiper/css'
 import { Skeleton } from '@mui/material'
 
-const CarouselMain = ({ helper }) => {
+const CarouselMain = ({ helper, loading }) => {
 
   return (
       <>
@@ -57,25 +57,40 @@ const CarouselMain = ({ helper }) => {
                     }}
                 >
                   {
-                    helper.slice(0, 5).map((item) => (
-                        <ImageListItem key={item._id} cols={item.cols || 1} rows={item.rows || 1}>
-                          <SwiperSlide>
-                            <Link href={{
-                              pathname: '/game',
-                              query: {
-                                slug: item?.slug
-                              }
-                            }}>
-                              <img
-                                  className="rounded-lg h-full"
-                                  width={500}
-                                  src={item.thumbnail}
-                                  alt={item.gameName}
-                              />
-                            </Link>
-                          </SwiperSlide>
-                        </ImageListItem>
-                    ))}
+                    loading ? (
+                            [ 1, 2, 3, 4, 5 ].map((_, index) => (
+                                <ImageListItem key={index} cols={1} rows={1}>
+                                  <SwiperSlide>
+                                    <Skeleton
+                                        variant="rectangular"
+                                        width={500}
+                                        height={'100%'}
+                                        sx={{ borderRadius: '8px', bgcolor: 'grey.700' }}
+                                    />
+                                  </SwiperSlide>
+                                </ImageListItem>
+                            ))) :
+                        (
+                            helper.slice(0, 5).map((item) => (
+                                <ImageListItem key={item._id} cols={item.cols || 1} rows={item.rows || 1}>
+                                  <SwiperSlide>
+                                    <Link href={{
+                                      pathname: '/game',
+                                      query: {
+                                        slug: item?.slug
+                                      }
+                                    }}>
+                                      <img
+                                          className="rounded-lg h-full"
+                                          width={500}
+                                          src={item.thumbnail}
+                                          alt={item.gameName}
+                                      />
+                                    </Link>
+                                  </SwiperSlide>
+                                </ImageListItem>
+                            )))
+                  }
                 </Swiper>
               </ImageList> :
               <ImageList sx={{ margin: '40px 20px 60px', width: 'auto', display: 'flex' }}
@@ -120,18 +135,18 @@ const CarouselMain = ({ helper }) => {
                     }}
                 >
                   {
-                    [1,2,3,4,5].map((_, index) => (
-                      <ImageListItem key={index} cols={1} rows={1}>
-                        <SwiperSlide>
-                          <Skeleton
-                              variant="rectangular"
-                              width={500}
-                              height={'100%'}
-                              sx={{ borderRadius: '8px', bgcolor: 'grey.700' }}
-                          />
-                        </SwiperSlide>
-                      </ImageListItem>
-                  ))}
+                    [ 1, 2, 3, 4, 5 ].map((_, index) => (
+                        <ImageListItem key={index} cols={1} rows={1}>
+                          <SwiperSlide>
+                            <Skeleton
+                                variant="rectangular"
+                                width={500}
+                                height={'100%'}
+                                sx={{ borderRadius: '8px', bgcolor: 'grey.700' }}
+                            />
+                          </SwiperSlide>
+                        </ImageListItem>
+                    ))}
                 </Swiper>
               </ImageList>
         }

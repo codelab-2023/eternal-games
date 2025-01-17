@@ -4,7 +4,7 @@ import Navbar from '../../components/navbar/page'
 import Footer from '../../components/footer/page'
 import React, { useEffect, useState } from 'react'
 import gameService from '../../services/game.service'
-import SearchedGameCard from '../../components/desktop-component/page'
+import SearchedGameCard from '../../components/desktop-medium-card/page'
 import GameCards from '../../components/game-cards/page'
 
 export default function SearchPage() {
@@ -32,7 +32,7 @@ export default function SearchPage() {
               game.gameName.toLowerCase().includes(term) ||
               game.shortDescription.toLowerCase().includes(term)
       )
-      console.log('🚀🚀🚀 handleSearch => filtered :: ', filtered)
+
       if (filtered.length === 0) {
         setIsResultNotExist(true)
       } else {
