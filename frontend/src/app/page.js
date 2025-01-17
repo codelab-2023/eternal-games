@@ -7,16 +7,21 @@ import Footer from '../components/footer/page'
 import PacmanLoader from 'react-spinners/PacmanLoader'
 import gameService from '../services/game.service'
 import { GoogleAnalytics } from '@next/third-parties/google'
+import SpecialCard from '../components/SpecialGameCard/page'
 
 export default function Home() {
 
   const [ game, setGame ] = useState([])
   const [ loading, setLoading ] = useState(false)
+  const [ trendingGames, setTrendingGames ] = useState([])
+  const [ featureGames, setFeatureGames ] = useState([])
 
   useEffect(() => {
     document.title = 'EternalGames'
 
     getGames()
+    fetchTrendingGames()
+    fetchFeatureGames()
   }, [])
 
   async function getGames() {
@@ -30,40 +35,34 @@ export default function Home() {
     }
   }
 
+  async function fetchTrendingGames(){
+    try{
+      const response = await gameService.getTrendingGames();
+      setTrendingGames(response.trendings)
+    } catch(error) {
+      console.log(error.message)
+    }
+  }
+
+  async function fetchFeatureGames(){
+    try{
+      const response = await gameService.getFeatureGames();
+      setFeatureGames(response.features)
+    } catch(error) {
+      console.log(error.message)
+    }
+  }
+
   return (
       <>
         <div className="w-screen text-white min-h-screen overflow-x-hidden">
           <NavBar/>
-          {
-            loading ?
-                <div className="absolute w-full top-[43%]">
-                  <PacmanLoader
-                      color="rgb(190 242 100)"
-                      size={20}
-                      speedMultiplier={2}
-                      cssOverride={{
-                        flex: 1,
-                        marginLeft: 'auto',
-                        marginRight: 'auto'
-                      }}
-                  />
-                </div> :
-                <div className="h-auto">
+                <div className="h-auto px-3 sm:px-5">
                   <CarouselMain helper={game}/>
-                  {/*<Desktop name='Featured Games' helper={game} />*/}
+                  <SpecialCard isHorizontal={true} games={trendingGames} name={'Trending Games'}/>
+                  <SpecialCard isHorizontal={true} games={featureGames} name={'Feature Games'}/>
                   <Desktop name="New Games" helper={game}/>
-                  {/*<Desktop name='Adventure Games' helper={game} />*/}
-                  {/*<Desktop name='CrazyGames Originals' helper={game} />*/}
-                  {/*<Desktop name='Casual Games' helper={game} />*/}
-                  {/* <Multiplayer /> */}
-                  {/*<Desktop name='Puzzle Games' helper={game} />*/}
-                  {/*<Desktop name='Action Games' helper={game} />*/}
-                  {/*<Categories />*/}
-                  {/*<Desktop name='Recommended this week' helper={game} />*/}
-                  {/*<Desktop name='Car Games' helper={game} />*/}
-                  {/*<Desktop name='2 Player Games' helper={game} />*/}
                 </div>
-          }
           <Footer/>
           <GoogleAnalytics gaId="G-TF62GHPFEJ" />
         </div>

@@ -188,7 +188,7 @@ const Trendings = () => {
                         {row.position}
                       </TableCell>
 
-                      <TableCell align="center">{row.gameId}</TableCell>
+                      <TableCell align="center">{row.gameId.gameName}</TableCell>
                       <TableCell align="center">
                         <FormControl fullWidth className="game-position-select">
                           <InputLabel id="demo-simple-select-label">Games</InputLabel>
@@ -196,10 +196,10 @@ const Trendings = () => {
                               required
                               variant="outlined"
                               type="text"
-                              label="Categories"
+                              label="Games"
                               labelId="demo-simple-select-label"
                               value={
-                                trendings.find((trending) => trending._id === row._id)?.gameId
+                                trendings.find((trending) => trending._id === row._id)?.gameId._id
                               }
                               onChange={(e) => {
                                 updateGamePosition({ trendingId: row._id, gameId: e.target.value })

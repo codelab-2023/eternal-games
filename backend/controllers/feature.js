@@ -3,7 +3,11 @@ const { sendSuccess, sendError } = require('./utils')
 
 const getAllFeatures = async (req, res) => {
   try{
-    const features = await FeatureStore.find().sort({position: 1});
+    const features = await FeatureStore.find().sort({position: 1}).populate({
+      path: 'gameId',
+      select: 'title slug thumbnail gameName',
+      model: 'game'
+    });
     return sendSuccess(res, { features })
   } catch(error) {
     return sendError(res, 'Error while fetching featured games', error)

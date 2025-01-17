@@ -7,7 +7,7 @@ import { Box, Skeleton } from '@mui/material'
 const Desktop = ({ helper, name }) => {
   return (
       <div className="mx-4">
-        <div className="font-bold text-lg font-sans text-lime-300 mt-4">{name}</div>
+        <p className="font-bold text-lg font-sans text-lime-300 mt-4">{name}</p>
         {
           helper.length ?
               <div className="flex flex-row items-center flex-wrap justify-center shrink gap-4 mt-4 mb-10">
@@ -29,7 +29,7 @@ const Desktop = ({ helper, name }) => {
               </div> : <Box
                   className="flex flex-row items-center flex-wrap justify-center shrink gap-4 mt-4 mb-10"
               >
-                {Array.from({ length: 10 }).map((_, index) => (
+                {Array.from({ length: 6 }).map((_, index) => (
                     <Box key={index} className='homepage-games'>
                       <Skeleton
                           variant="rectangular"

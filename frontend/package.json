@@ -23,6 +23,7 @@
     "react-ga4": "^2.1.0",
     "react-icons": "^5.0.1",
     "react-router-dom": "^6.21.3",
+    "react-share-social": "^0.1.60",
     "react-spinners": "^0.13.8",
     "swiper": "^11.0.5",
     "tailwind": "^4.0.0"

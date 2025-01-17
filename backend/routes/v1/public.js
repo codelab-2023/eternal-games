@@ -30,6 +30,6 @@ router.get('/page/:id', getPageDetails)
 router.get('/trending-list', getAllTrendings)
 
 // feature routes - /v1
-router.get('/feature', getAllFeatures)
+router.get('/feature-list', getAllFeatures)
 
 module.exports = router

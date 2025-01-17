@@ -4,7 +4,7 @@ export default class featureService {
 
   static async getFeatureList() {
     try{
-      const response = await axiosInstance.get('/v1/feature')
+      const response = await axiosInstance.get('/v1/feature-list')
       return response.data
     }catch (error) {
       console.log(error.message)

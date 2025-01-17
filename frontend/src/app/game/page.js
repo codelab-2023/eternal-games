@@ -2,41 +2,15 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
-import { FaFacebookF, FaLinkedinIn, FaPlay, FaRegComments, FaRegThumbsDown, FaRegThumbsUp, FaShareAlt, FaWhatsapp } from 'react-icons/fa'
-import { ImReddit } from 'react-icons/im'
-import { MdClose, MdFullscreen, MdFullscreenExit } from 'react-icons/md'
+import { FaPlay, FaRegComments, FaRegThumbsDown, FaRegThumbsUp, FaShareAlt } from 'react-icons/fa'
+import { MdFullscreen, MdFullscreenExit } from 'react-icons/md'
 import gameService from '../../services/game.service'
 import parse from 'html-react-parser'
 import NavBar from '../../components/navbar/page'
 import Footer from '../../components/footer/page'
 import PacmanLoader from 'react-spinners/PacmanLoader'
-import Modal from '@mui/material/Modal'
-import { FaXTwitter } from 'react-icons/fa6'
-import { Box } from '@mui/material'
 import { GoogleAnalytics } from '@next/third-parties/google'
-// import ShareModal from '../../components/share-model/page'
-// import {
-//   EmailShareButton,
-//   FacebookShareButton,
-//   GabShareButton,
-//   HatenaShareButton,
-//   InstapaperShareButton,
-//   LineShareButton,
-//   LinkedinShareButton,
-//   LivejournalShareButton,
-//   MailruShareButton,
-//   OKShareButton,
-//   PinterestShareButton,
-//   PocketShareButton,
-//   RedditShareButton,
-//   TelegramShareButton,
-//   TumblrShareButton,
-//   TwitterShareButton,
-//   ViberShareButton,
-//   VKShareButton,
-//   WhatsappShareButton,
-//   WorkplaceShareButton,
-// } from "react-share";
+import ShareModal from '../../components/share-model/page'
 
 const moment = require('moment')
 
@@ -51,9 +25,8 @@ export default function Page() {
   const [ sideGames, setSideGames ] = useState([])
   const [ isFullScreen, setIsFullScreen ] = useState(false)
   const [ playGame, setPlayGame ] = useState(false)
-  const [ isCopied, setIsCopied ] = useState(false)
-  const [ shareModelOpen, setShareModelOpen ] = useState(false)
   const [ mobileExitFullScreen, setMobileExitFullScreen ] = useState(false)
+  const [ isShareModalOpen, setIsShareModalOpen ] = useState(false)
 
   useEffect(() => {
     const slug = searchParams.get('slug')
@@ -144,15 +117,6 @@ export default function Page() {
     }
   }, [])
 
-  const handleCopy = () => {
-    navigator.clipboard.writeText(window.location.href).then(() => {
-      setIsCopied(true)
-      setTimeout(() => setIsCopied(false), 2000)
-    }).catch(err => {
-      console.error('Failed to copy: ', err)
-    })
-  }
-
   function exitFullScreen() {
     if (window.innerWidth <= 435) {
       setMobileExitFullScreen(true)
@@ -179,39 +143,15 @@ export default function Page() {
     setMobileExitFullScreen(false)
   }
 
+  function handleCloseShareModal() {
+    setIsShareModalOpen(false)
+  }
+
   return (
       <>
         <div className="w-screen text-white min-h-screen overflow-x-hidden">
+          <ShareModal open={isShareModalOpen} handleClose={handleCloseShareModal} shareUrl={window.location.href}/>
           {isFullScreen ? null : <NavBar/>}
-          {
-            shareModelOpen ?
-                <Modal
-                    open={open}
-                    onClose={() => setShareModelOpen(false)}
-                    aria-labelledby="modal-modal-title"
-                    aria-describedby="modal-modal-description"
-                >
-                  <Box className="absolute w-full h-full flex justify-center z-50">
-                    <div className="bg-slate-800 h-fit p-3 self-center rounded-xl">
-                      <div className="float-right" onClick={() => setShareModelOpen(false)}><MdClose color="#979797" size={26}/></div>
-                      <div className="mt-4 text-xl font-bold text-center">Share the game</div>
-                      <div className="my-4 flex flex-row justify-center gap-3">
-                        {/*<FacebookShareButton url={window.location.href} />*/}
-                        <Link href={window.location.href} target="_blank" className="p-3 rounded-full bg-[#2b5ee3]"><FaFacebookF size={24}/></Link>
-                        <Link href={window.location.href} target="_blank" className="p-3 rounded-full bg-black"><FaXTwitter size={24}/></Link>
-                        <Link href={window.location.href} target="_blank" className="p-3 rounded-full bg-[#53af52]"><FaWhatsapp size={24}/></Link>
-                        <Link href={window.location.href} target="_blank" className="p-3 rounded-full bg-[#2c5eaf]"><FaLinkedinIn size={24}/></Link>
-                        <Link href={window.location.href} target="_blank" className="p-3 rounded-full bg-[#d85e3c]"><ImReddit size={24}/></Link>
-                      </div>
-                      <div className="flex flex-row items-center gap-3 bg-slate-950 py-3 px-4 mb-10 rounded-xl text-gray-500">
-                        <div>{window.location.href}</div>
-                        <button className="py-1 px-3 bg-lime-500 text-white text-base font-bold rounded-full" onClick={() => handleCopy()}>Copy</button>
-                      </div>
-                    </div>
-                  </Box>
-                </Modal>
-                : null
-          }
           {loading ? <div className="absolute w-full top-[46%]">
                 <PacmanLoader
                     color="rgb(190 242 100)"
@@ -281,11 +221,11 @@ export default function Page() {
                     </div>
                     {isFullScreen ? null : <div className="flex flex-row items-center justify-end pl-3 w-full bg-slate-800">
                       <div className="flex flex-row items-center justify-end gap-5 p-4 ">
-                        <div><FaRegThumbsUp size={18}/></div>
-                        <div><FaRegThumbsDown size={18}/></div>
-                        <div><FaRegComments size={22}/></div>
-                        <div onClick={() => setShareModelOpen(prevState => !prevState)}><FaShareAlt size={18}/></div>
-                        <div className="xs:hidden sm:block">
+                        <div className="cursor-pointer"><FaRegThumbsUp size={18}/></div>
+                        <div className="cursor-pointer"><FaRegThumbsDown size={18}/></div>
+                        <div className="cursor-pointer"><FaRegComments size={22}/></div>
+                        <div className="cursor-pointer" onClick={() => setIsShareModalOpen(prevState => !prevState)}><FaShareAlt size={18}/></div>
+                        <div className="cursor-pointer" className="xs:hidden sm:block">
                           {
                             playGame ? <div onClick={() => goFullscreen()}><MdFullscreen size={30}/></div> :
                                 <div><MdFullscreen color="#616161" size={30}/></div>
@@ -322,7 +262,7 @@ export default function Page() {
                               <div className="w-full p-4">
                                 <div className="font-extrabold text-2xl">{games?.gameName}</div>
                                 <div className="flex gap-4 my-4">
-                                  <button className="flex flex-row items-center gap-2 font-bold bg-slate-700 rounded-full py-2 px-4" onClick={() => setShareModelOpen(prevState => !prevState)}>
+                                  <button className="flex flex-row items-center gap-2 font-bold bg-slate-700 rounded-full py-2 px-4" onClick={() => setIsShareModalOpen(prevState => !prevState)}>
                                     <FaShareAlt size={15}/>Share
                                   </button>
                                   {/*<button className="flex flex-row items-center gap-2 font-bold bg-slate-700 rounded-full py-2 px-4"><ImEmbed2 size={20}/>Embed</button>*/}

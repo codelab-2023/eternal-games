@@ -9,7 +9,6 @@ import { Skeleton } from '@mui/material'
 
 const CarouselMain = ({ helper }) => {
 
-
   return (
       <>
         {
@@ -120,7 +119,8 @@ const CarouselMain = ({ helper }) => {
                       }
                     }}
                 >
-                  {Array.from({ length: 5 }).map((_, index) => (
+                  {
+                    [1,2,3,4,5].map((_, index) => (
                       <ImageListItem key={index} cols={1} rows={1}>
                         <SwiperSlide>
                           <Skeleton

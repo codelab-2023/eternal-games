@@ -4,30 +4,11 @@ import { makeStyles, useTheme } from '@mui/styles'
 import { visuallyHidden } from '@mui/utils'
 import MainCard from 'ui-component/cards/MainCard'
 import { getComparator, rowsInitial, stableSort } from '../../utils/table-filter'
-import {
-  CardContent,
-  FormControl,
-  Grid,
-  InputAdornment,
-  InputLabel,
-  MenuItem,
-  Select,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TablePagination,
-  TableRow,
-  TableSortLabel,
-  TextField,
-  Typography
-} from '@mui/material'
-
-import { Search as SearchIcon } from '@mui/icons-material'
+import { FormControl, InputLabel, MenuItem, Select, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, TableSortLabel, Typography } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 import featureService from '../../services/feature.service'
 import gameService from '../../services/game.service'
+import './list.css'
 
 const headCells = [
   {
@@ -208,7 +189,7 @@ const Features = () => {
                         {row.position}
                       </TableCell>
 
-                      <TableCell align="center">{row.gameId}</TableCell>
+                      <TableCell align="center">{row.gameId.gameName}</TableCell>
                       <TableCell align="center">
                         <FormControl fullWidth className="game-position-select">
                           <InputLabel id="demo-simple-select-label">Games</InputLabel>
@@ -218,7 +199,7 @@ const Features = () => {
                               type="text"
                               label="Categories"
                               labelId="demo-simple-select-label"
-                              value={features.find((trending) => trending._id === row._id)?.gameId}
+                              value={features.find((trending) => trending._id === row._id)?.gameId._id}
                               onChange={(e) => {
                                 updateGamePosition({ featureId: row._id, gameId: e.target.value })
                               }}

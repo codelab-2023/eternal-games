@@ -30,6 +30,24 @@ export default class gameService {
     }
   }
 
+  static async getTrendingGames(){
+    try{
+      const response = await axiosInstance.get('/v1/trending-list')
+      return response.data
+    } catch(error) {
+      console.log(error.message)
+    }
+  }
+
+  static async getFeatureGames(){
+    try{
+      const response = await axiosInstance.get('/v1/feature-list')
+      return response.data
+    } catch(error) {
+      console.log(error.message)
+    }
+  }
+
   static async createGames(game) {
     {
       try {

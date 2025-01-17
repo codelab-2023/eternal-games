@@ -6,25 +6,12 @@ import { IoSearch } from 'react-icons/io5'
 import './page.css'
 import gameService from '../../services/game.service'
 import { Button } from '@mui/material'
+import { useRouter } from 'next/navigation'
 
 export default function Navbar({ toggleSideBar }) {
+  const route = useRouter()
 
   const [ searchedGame, setSearchedGame ] = useState('')
-  const [ filteredGames, setFilteredGames ] = useState([])
-
-  async function handleSearch() {
-    const response = await gameService.getGameList()
-
-    const term = searchedGame.toLowerCase();
-    const filtered = response.games.filter(
-        (game) =>
-            game.gameName.toLowerCase().includes(term) ||
-            game.shortDescription.toLowerCase().includes(term)
-    );
-    setFilteredGames(filtered);
-  }
-
-  console.log('🚀🚀🚀 Navbar => filteredGames :: ', filteredGames)
 
   return (
       <>
@@ -43,11 +30,21 @@ export default function Navbar({ toggleSideBar }) {
           <div className="relative flex items-center header-search xs:hidden nm:flex w-5/12 flex mx-auto">
             <input
                 id="searchInput"
-                className="w-full rounded-xl focus-visible:outline-none pl-4 pr-10 py-2 bg-slate-800 border-2 border-slate-800"
+                className="w-full rounded-xl focus-visible:outline-none pl-4 pr-10 py-2 !bg-slate-800 border-2 border-slate-800"
                 type="search"
                 placeholder="Search"
                 value={searchedGame}
                 onChange={(e) => setSearchedGame(e.target.value)}
+                onKeyDown={(e) => {
+                  if(e.key === 'Enter'){
+                    e.preventDefault();
+                    const value = e.target.value?.trim();
+                    if (value) {
+                      setSearchedGame(value);
+                      route.push(`/search?query=${value}`)
+                    }
+                  }
+                }}
             />
             {
               searchedGame ?
@@ -59,7 +56,7 @@ export default function Navbar({ toggleSideBar }) {
                     ✕
                   </button> : null
             }
-            <button className="relative right-8 h-auto text-lime-300" onClick={handleSearch}>
+            <button className="relative right-8 h-auto text-lime-300" onClick={() => route.push(`/search?query=${searchedGame}`)}>
               <IoSearch size={23}/>
             </button>
           </div>

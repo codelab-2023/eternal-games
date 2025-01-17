@@ -1,9 +1,15 @@
-const { TrendingStore } = require('../models')
+const { TrendingStore, GameStore } = require('../models')
 const { sendSuccess, sendError } = require('./utils')
 
 const getAllTrendings = async (req, res) => {
   try{
-    const trendings = await TrendingStore.find().sort({position: 1});
+    const trendings = await TrendingStore.find().sort({position: 1}).populate({
+      path: 'gameId',
+      select: 'title slug thumbnail gameName',
+      model: 'game'
+    });;
+
+
     return sendSuccess(res, { trendings })
   } catch(error) {
     return sendError(res, 'Error while fetching trending', error)
