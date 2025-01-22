@@ -524,7 +524,7 @@ const Games = () => {
                       <TableCell align="right">{row.developer}</TableCell>
                       <TableCell align="center">{row.platform}</TableCell>
                       <TableCell align="center">{row.likes}</TableCell>
-                      <TableCell align="center" sx={{ pr: 3 }} onClick={() => navigate(`/games/${row.id}`)}>
+                      <TableCell align="center" sx={{ pr: 3 }} onClick={() => navigate(`/games/${row.slug}`)}>
                         <IconButton color="primary">
                           <VisibilityTwoToneIcon sx={{ fontSize: '1.3rem' }}/>
                         </IconButton>
@@ -563,7 +563,7 @@ const Games = () => {
                       <TableCell align="center">{row.developer}</TableCell>
                       <TableCell align="center">{row.platform}</TableCell>
                       <TableCell align="center">{row.likes}</TableCell>
-                      <TableCell align="center" sx={{ pr: 3 }} onClick={() => navigate(`/games/${row._id}`)}>
+                      <TableCell align="center" sx={{ pr: 3 }} onClick={() => navigate(`/games/${row.slug}`)}>
                         <IconButton color="primary">
                           <VisibilityTwoToneIcon sx={{ fontSize: '1.3rem' }}/>
                         </IconButton>
