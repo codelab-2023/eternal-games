@@ -57,7 +57,7 @@ export default function SpecialGameCard({ loading, isHorizontal = true, games, n
             {
               loading ?
                   (
-                      [ 1, 2, 3, 4, 5 ].map((_, index) => (
+                      [ 1, 2, 3, 4, 5 ].map((index) => (
                           <ImageListItem key={index} cols={1} rows={1}>
                             <SwiperSlide>
                               <Skeleton

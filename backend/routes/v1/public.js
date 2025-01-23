@@ -1,7 +1,7 @@
 const router = require('express').Router()
 
 const { login, register, verifyUser } = require('../../controllers/user')
-const { getGame, getGameList } = require('../../controllers/game')
+const { getGame, getGameList} = require('../../controllers/game')
 const { deletePreviousGameVersion } = require('../../controllers/test')
 const { getWebsiteListPublic } = require('../../controllers/website')
 const { getPageDetails } = require('../../controllers/page')

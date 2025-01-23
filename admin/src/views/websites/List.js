@@ -134,9 +134,9 @@ const Websites = () => {
 
   const [ order, setOrder ] = React.useState('asc')
   const [ orderBy, setOrderBy ] = React.useState('calories')
-  const [ page, setPage ] = React.useState(0)
-  const [ rowsPerPage, setRowsPerPage ] = React.useState(10)
-  const [ search, setSearch ] = React.useState('')
+  // const [ page, setPage ] = React.useState(0)
+  // const [ rowsPerPage, setRowsPerPage ] = React.useState(10)
+  // const [ search, setSearch ] = React.useState('')
   const [ rows, setRows ] = React.useState(rowsInitial)
   const [ openModel, setOpenModel ] = React.useState(false)
 
@@ -177,33 +177,33 @@ const Websites = () => {
     }
   }
 
-  const handleSearch = (event) => {
-    const newString = event.target.value
-    setSearch(newString)
-
-    if (newString) {
-      const newRows = rows.filter((row) => {
-        let matches = true
-
-        const properties = [ 'logo', 'name', 'game type', 'link' ]
-        let containsQuery = false
-
-        properties.forEach((property) => {
-          if (row[property].toString().toLowerCase().includes(newString.toString().toLowerCase())) {
-            containsQuery = true
-          }
-        })
-
-        if (!containsQuery) {
-          matches = false
-        }
-        return matches
-      })
-      setRows(newRows)
-    } else {
-      setRows(rowsInitial)
-    }
-  }
+  // const handleSearch = (event) => {
+  //   const newString = event.target.value
+  //   setSearch(newString)
+  //
+  //   if (newString) {
+  //     const newRows = rows.filter((row) => {
+  //       let matches = true
+  //
+  //       const properties = [ 'logo', 'name', 'game type', 'link' ]
+  //       let containsQuery = false
+  //
+  //       properties.forEach((property) => {
+  //         if (row[property].toString().toLowerCase().includes(newString.toString().toLowerCase())) {
+  //           containsQuery = true
+  //         }
+  //       })
+  //
+  //       if (!containsQuery) {
+  //         matches = false
+  //       }
+  //       return matches
+  //     })
+  //     setRows(newRows)
+  //   } else {
+  //     setRows(rowsInitial)
+  //   }
+  // }
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc'
@@ -211,35 +211,35 @@ const Websites = () => {
     setOrderBy(property)
   }
 
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage)
-  }
+  // const handleChangePage = (event, newPage) => {
+  //   setPage(newPage)
+  // }
+  //
+  // const handleChangeRowsPerPage = (event) => {
+  //   setRowsPerPage(parseInt(event.target.value, 10))
+  //   setPage(0)
+  // }
 
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10))
-    setPage(0)
-  }
-
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0
+  // const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0
 
   return (
       <MainCard title="Products" content={false}>
         <CardContent>
           <Grid container justifyContent="space-between" alignItems="center" spacing={2}>
             <Grid item xs={12} sm={6}>
-              <TextField
-                  InputProps={{
-                    startAdornment: (
-                        <InputAdornment position="start">
-                          <SearchIcon fontSize="small"/>
-                        </InputAdornment>
-                    )
-                  }}
-                  onChange={handleSearch}
-                  placeholder="Search products..."
-                  value={search}
-                  size="small"
-              />
+            {/*  <TextField*/}
+            {/*      InputProps={{*/}
+            {/*        startAdornment: (*/}
+            {/*            <InputAdornment position="start">*/}
+            {/*              <SearchIcon fontSize="small"/>*/}
+            {/*            </InputAdornment>*/}
+            {/*        )*/}
+            {/*      }}*/}
+            {/*      onChange={handleSearch}*/}
+            {/*      placeholder="Search products..."*/}
+            {/*      value={search}*/}
+            {/*      size="small"*/}
+            {/*  />*/}
             </Grid>
 
             <Grid item xs={12} sm={2} sx={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'flex-end', marginRight: '10px' }}>
@@ -353,7 +353,7 @@ const Websites = () => {
           <Table className={classes.table} aria-labelledby="GameTable">
             <EnhancedTableHead classes={classes} order={order} orderBy={orderBy} onRequestSort={handleRequestSort} rowCount={rows.length}/>
             <TableBody>
-              {stableSort(rows, getComparator(order, orderBy)).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => {
+              {stableSort(rows, getComparator(order, orderBy)).map((row, index) => {
                 const labelId = `enhanced-table-checkbox-${index}`
 
                 return (
@@ -377,7 +377,7 @@ const Websites = () => {
                 )
               })}
 
-              {websites.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => {
+              {websites.map((row, index) => {
                 const labelId = `enhanced-table-checkbox-${index}`
 
                 return (
@@ -402,28 +402,28 @@ const Websites = () => {
                 )
               })}
 
-              {emptyRows > 0 && (
-                  <TableRow
-                      style={{
-                        height: 53 * emptyRows
-                      }}
-                  >
-                    <TableCell colSpan={6}/>
-                  </TableRow>
-              )}
+              {/*{emptyRows > 0 && (*/}
+              {/*    <TableRow*/}
+              {/*        style={{*/}
+              {/*          height: 53 * emptyRows*/}
+              {/*        }}*/}
+              {/*    >*/}
+              {/*      <TableCell colSpan={6}/>*/}
+              {/*    </TableRow>*/}
+              {/*)}*/}
             </TableBody>
           </Table>
         </TableContainer>
 
-        <TablePagination
-            rowsPerPageOptions={[ 5, 10, 25 ]}
-            component="div"
-            count={rows.length}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onPageChange={handleChangePage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-        />
+        {/*<TablePagination*/}
+        {/*    rowsPerPageOptions={[ 5, 10, 25 ]}*/}
+        {/*    component="div"*/}
+        {/*    count={rows.length}*/}
+        {/*    rowsPerPage={rowsPerPage}*/}
+        {/*    page={page}*/}
+        {/*    onPageChange={handleChangePage}*/}
+        {/*    onRowsPerPageChange={handleChangeRowsPerPage}*/}
+        {/*/>*/}
       </MainCard>
   )
 }

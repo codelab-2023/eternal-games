@@ -60,9 +60,9 @@ export default function Navbar({ toggleSideBar }) {
               <IoSearch size={23}/>
             </button>
           </div>
-          <div className="flex items-center gap-6">
-            <FaRegHeart size={25}/>
-          </div>
+          {/*<div className="flex items-center gap-6">*/}
+          {/*  <FaRegHeart size={25}/>*/}
+          {/*</div>*/}
         </div>
       </>
   )

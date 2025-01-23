@@ -13,7 +13,7 @@ const Desktop = ({ helper, name }) => {
               <div className="flex flex-row items-center flex-wrap justify-center shrink gap-4 mt-4 mb-10">
                 {
                   helper.map((item) => (
-                      <ImageListItem key={item.thumbnail} cols={item.cols || 2} rows={item.rows || 1}>
+                      <ImageListItem key={item._id} cols={item.cols || 2} rows={item.rows || 1}>
                         <Link href={{
                           pathname: '/game',
                           query: {
@@ -30,7 +30,7 @@ const Desktop = ({ helper, name }) => {
                   className="flex flex-row items-center flex-wrap justify-center shrink gap-4 mt-4 mb-10"
               >
                 {Array.from({ length: 6 }).map((_, index) => (
-                    <Box key={index} className='homepage-games'>
+                    <Box key={index} className="homepage-games">
                       <Skeleton
                           variant="rectangular"
                           width="100%"

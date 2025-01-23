@@ -10,6 +10,7 @@ import { IconDeviceDesktop, IconDeviceMobile, IconPlus } from '@tabler/icons'
 import {
   Button,
   CardContent,
+  Chip,
   DialogContent,
   DialogTitle,
   Fab,
@@ -43,31 +44,19 @@ const headCells = [
   {
     id: 'name',
     numeric: false,
-    label: 'Game Names',
+    label: 'Name',
     align: 'left'
   },
   {
-    id: 'shorDescription',
+    id: 'description',
     numeric: false,
-    label: 'Short Description',
+    label: 'Description',
     align: 'center'
   },
   {
-    id: 'developer',
+    id: 'status',
     numeric: true,
-    label: 'Developer',
-    align: 'center'
-  },
-  {
-    id: 'platform',
-    numeric: true,
-    label: 'Platform',
-    align: 'center'
-  },
-  {
-    id: 'like',
-    numeric: false,
-    label: 'Likes',
+    label: 'Status',
     align: 'center'
   },
   {
@@ -170,16 +159,24 @@ const Games = () => {
   const [ search, setSearch ] = React.useState('')
   const [ rows, setRows ] = React.useState(rowsInitial)
   const [ openModel, setOpenModel ] = React.useState(false)
+  const [ noSearchResults, setNoSearchResults ] = useState(false)
 
   useEffect(() => {
     fetchGames()
     fetchCategories()
-  }, [])
+    setNoSearchResults(false)
+  }, [rows, rowsPerPage])
 
+  console.log('🚀🚀🚀 Games => page :: ', page)
+  console.log('🚀🚀🚀 Games => rowsPerPage :: ', rowsPerPage)
   async function fetchGames() {
     try {
       const response = await gameService.getGameList()
-      setGames(response.games)
+      const gamesData = response?.games || [];
+      const sortedData = gamesData.sort(
+          (a, b) => new Date(b.createdOn) - new Date(a.createdOn)
+      );
+      setGames(sortedData)
     } catch (error) {
       console.log(error.message)
     }
@@ -227,29 +224,12 @@ const Games = () => {
 
   const handleSearch = (event) => {
     const newString = event.target.value
-    setSearch(newString)
-
-    if (newString) {
-      const newRows = rows.filter((row) => {
-        let matches = true
-
-        const properties = [ 'name', 'email', 'location', 'orders' ]
-        let containsQuery = false
-
-        properties.forEach((property) => {
-          if (row[property].toString().toLowerCase().includes(newString.toString().toLowerCase())) {
-            containsQuery = true
-          }
-        })
-
-        if (!containsQuery) {
-          matches = false
-        }
-        return matches
-      })
-      setRows(newRows)
+    const searchedGames = games.filter((game) => game.gameName.toLowerCase().includes(newString.toString().toLowerCase()))
+    if (searchedGames.length) {
+      setGames(searchedGames)
+      setNoSearchResults(false)
     } else {
-      setRows(rowsInitial)
+      setNoSearchResults(true)
     }
   }
 
@@ -268,7 +248,7 @@ const Games = () => {
     setPage(0)
   }
 
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - games.length) : 0
 
   return (
       <MainCard title="Games" content={false}>
@@ -283,7 +263,12 @@ const Games = () => {
                         </InputAdornment>
                     )
                   }}
-                  onChange={handleSearch}
+                  onChange={(e) => setSearch(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                      handleSearch(e)
+                    }
+                  }}
                   placeholder="Search games..."
                   value={search}
                   size="small"
@@ -329,7 +314,7 @@ const Games = () => {
                               setCreateGame({
                                 ...createGame,
                                 gameName: e.target.value,
-                                slug: e.target.value.toLowerCase().trim().replace(/[\s\W-]+/g, '-').replace(/^-+|-+$/g, '') })}
+                              })}
                       />
                       <TextField
                           required
@@ -509,6 +494,7 @@ const Games = () => {
           <Table className={classes.table} aria-labelledby="GameTable">
             <EnhancedTableHead classes={classes} order={order} orderBy={orderBy} onRequestSort={handleRequestSort} rowCount={rows.length}/>
             <TableBody>
+
               {stableSort(rows, getComparator(order, orderBy)).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => {
                 const labelId = `enhanced-table-checkbox-${index}`
 
@@ -520,10 +506,8 @@ const Games = () => {
                         </Typography>
                         <Typography variant="caption"> {row.shortDescription} </Typography>
                       </TableCell>
-                      <TableCell>{row.shortDescription}</TableCell>
-                      <TableCell align="right">{row.developer}</TableCell>
-                      <TableCell align="center">{row.platform}</TableCell>
-                      <TableCell align="center">{row.likes}</TableCell>
+                      <TableCell>{row.description}</TableCell>
+                      <TableCell align="right">{row.status}</TableCell>
                       <TableCell align="center" sx={{ pr: 3 }} onClick={() => navigate(`/games/${row.slug}`)}>
                         <IconButton color="primary">
                           <VisibilityTwoToneIcon sx={{ fontSize: '1.3rem' }}/>
@@ -531,53 +515,58 @@ const Games = () => {
                       </TableCell>
                     </TableRow>
                 )
-              })}
-
-              {games.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => {
-                const labelId = `enhanced-table-checkbox-${index}`
-
-                return (
-                    <TableRow hover tabIndex={-1} key={index}>
-                      <TableCell component="th" id={labelId} scope="row" sx={{ cursor: 'pointer' }}>
-                        <Grid item xs={12} sx={{ display: 'flex', alignItems:'center', gap: '20px' }}>
-                          <Grid item xs={3}>
-                            <img
-                                src={row.thumbnail}
-                                width="70px"
-                                height="70px"
-                                style={{ borderRadius: '50px', objectFit: 'cover' }}
-                                alt="game"
-                            />
-                          </Grid>
-                          <Grid item xs={9}>
-                            <Typography
-                                variant="subtitle1"
-                                sx={{ color: theme.palette.mode === 'dark' ? theme.palette.grey[600] : 'grey.900' }}
-                            >
-                              {row.gameName}
-                            </Typography>
-                          </Grid>
-                        </Grid>
+              })
+              }
+              {
+                noSearchResults ? <TableRow aria-colspan={4}>
+                      <TableCell colSpan={4} sx={{textAlign: 'center'}}>
+                        No search results found
                       </TableCell>
-                      <TableCell align="center">{row.shortDescription}</TableCell>
-                      <TableCell align="center">{row.developer}</TableCell>
-                      <TableCell align="center">{row.platform}</TableCell>
-                      <TableCell align="center">{row.likes}</TableCell>
-                      <TableCell align="center" sx={{ pr: 3 }} onClick={() => navigate(`/games/${row.slug}`)}>
-                        <IconButton color="primary">
-                          <VisibilityTwoToneIcon sx={{ fontSize: '1.3rem' }}/>
-                        </IconButton>
-                      </TableCell>
-                    </TableRow>
-                )
-              })}
+                    </TableRow> :
+                    (games.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => {
+                      const labelId = `enhanced-table-checkbox-${index}`
+                      return (
+                          <TableRow hover tabIndex={-1} key={row?._id}>
+                            <TableCell component="th" id={labelId} scope="row" sx={{ cursor: 'pointer' }}>
+                              <Grid item xs={12} sx={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
+                                <Grid item xs={3}>
+                                  <img
+                                      src={row.thumbnail}
+                                      width="70px"
+                                      height="70px"
+                                      style={{ borderRadius: '50px', objectFit: 'cover' }}
+                                      alt="game"
+                                  />
+                                </Grid>
+                                <Grid item xs={9}>
+                                  <Typography
+                                      variant="subtitle1"
+                                      sx={{ color: theme.palette.mode === 'dark' ? theme.palette.grey[600] : 'grey.900' }}
+                                  >
+                                    {row.gameName}
+                                  </Typography>
+                                </Grid>
+                              </Grid>
+                            </TableCell>
+                            <TableCell align="center">{row.shortDescription}</TableCell>
+                            <TableCell align="left">
+                              {row.status === 'active' && <Chip label="Active" size="small" color="success"/>}
+                              {row.status === 'inactive' && <Chip label="Inactive" size="small" color="primary"/>}
+                              {row.status === 'deleted' && <Chip label="Deleted" size="small" color="error"/>}
+                              {row.status === 'pending' && <Chip label="Pending" size="small" color="warning"/>}
+                            </TableCell>
+                            <TableCell align="center" sx={{ pr: 3 }} onClick={() => navigate(`/games/${row.slug}`)}>
+                              <IconButton color="primary">
+                                <VisibilityTwoToneIcon sx={{ fontSize: '1.3rem' }}/>
+                              </IconButton>
+                            </TableCell>
+                          </TableRow>
+                      )
+                    }))
+              }
 
               {emptyRows > 0 && (
-                  <TableRow
-                      style={{
-                        height: 53 * emptyRows
-                      }}
-                  >
+                  <TableRow style={{ height: 53 * emptyRows }}>
                     <TableCell colSpan={6}/>
                   </TableRow>
               )}
@@ -588,7 +577,7 @@ const Games = () => {
         <TablePagination
             rowsPerPageOptions={[ 5, 10, 25 ]}
             component="div"
-            count={rows.length}
+            count={games.length}
             rowsPerPage={rowsPerPage}
             page={page}
             onPageChange={handleChangePage}

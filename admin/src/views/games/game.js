@@ -42,7 +42,6 @@ const Game = () => {
   const [ uploadLoading, setUploadLoading ] = useState(false)
   const [ game, setGame ] = useState({
     gameName: '',
-    slug: '',
     description: '',
     thumbnail: '',
     gamePreview: '',
@@ -274,7 +273,6 @@ const Game = () => {
                             setGame({
                               ...game,
                               gameName: e.target.value,
-                              slug: e.target.value.toLowerCase().trim().replace(/[\s\W-]+/g, '-').replace(/^-+|-+$/g, '')
                             })
                         }
                     />

@@ -18,9 +18,9 @@ const headCells = [
     align: 'center'
   },
   {
-    id: 'gameId',
+    id: 'game',
     numeric: false,
-    label: 'Game Id',
+    label: 'Game',
     align: 'center'
   },
   {
@@ -99,9 +99,9 @@ const Features = () => {
   const [ games, setGames ] = useState([])
   const [ order, setOrder ] = useState('asc')
   const [ orderBy, setOrderBy ] = useState('calories')
-  const [ page, setPage ] = useState(0)
-  const [ rowsPerPage, setRowsPerPage ] = useState(10)
-  const [ search, setSearch ] = useState('')
+  // const [ page, setPage ] = useState(0)
+  // const [ rowsPerPage, setRowsPerPage ] = useState(10)
+  // const [ search, setSearch ] = useState('')
   const [ rows, setRows ] = useState(rowsInitial)
 
   useEffect(() => {
@@ -144,16 +144,16 @@ const Features = () => {
     setOrderBy(property)
   }
 
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage)
-  }
+  // const handleChangePage = (event, newPage) => {
+  //   setPage(newPage)
+  // }
+  //
+  // const handleChangeRowsPerPage = (event) => {
+  //   setRowsPerPage(parseInt(event.target.value, 10))
+  //   setPage(0)
+  // }
 
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10))
-    setPage(0)
-  }
-
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0
+  // const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0
 
   return (
       <MainCard title="Featured Games" content={false}>
@@ -163,7 +163,7 @@ const Features = () => {
           <Table className={classes.table} aria-labelledby="GameTable">
             <EnhancedTableHead classes={classes} order={order} orderBy={orderBy} onRequestSort={handleRequestSort} rowCount={rows.length}/>
             <TableBody>
-              {stableSort(rows, getComparator(order, orderBy)).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => {
+              {stableSort(rows, getComparator(order, orderBy)).map((row, index) => {
                 const labelId = `enhanced-table-checkbox-${index}`
 
                 return (
@@ -173,13 +173,13 @@ const Features = () => {
                           {row.position}
                         </Typography>
                       </TableCell>
-                      <TableCell>{row.gameId}</TableCell>
+                      <TableCell>{row.game}</TableCell>
                       <TableCell align="right">{row.updateGame}</TableCell>
                     </TableRow>
                 )
               })}
 
-              {features.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => {
+              {features.map((row, index) => {
                 const labelId = `enhanced-table-checkbox-${index}`
 
                 return (
@@ -227,28 +227,28 @@ const Features = () => {
                 )
               })}
 
-              {emptyRows > 0 && (
-                  <TableRow
-                      style={{
-                        height: 53 * emptyRows
-                      }}
-                  >
-                    <TableCell colSpan={6}/>
-                  </TableRow>
-              )}
+              {/*{emptyRows > 0 && (*/}
+              {/*    <TableRow*/}
+              {/*        style={{*/}
+              {/*          height: 53 * emptyRows*/}
+              {/*        }}*/}
+              {/*    >*/}
+              {/*      <TableCell colSpan={6}/>*/}
+              {/*    </TableRow>*/}
+              {/*)}*/}
             </TableBody>
           </Table>
         </TableContainer>
 
-        <TablePagination
-            rowsPerPageOptions={[ 5, 10, 25 ]}
-            component="div"
-            count={rows.length}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onPageChange={handleChangePage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-        />
+        {/*<TablePagination*/}
+        {/*    rowsPerPageOptions={[ 5, 10, 25 ]}*/}
+        {/*    component="div"*/}
+        {/*    count={rows.length}*/}
+        {/*    rowsPerPage={rowsPerPage}*/}
+        {/*    page={page}*/}
+        {/*    onPageChange={handleChangePage}*/}
+        {/*    onRowsPerPageChange={handleChangeRowsPerPage}*/}
+        {/*/>*/}
       </MainCard>
   )
 }

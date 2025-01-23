@@ -10,6 +10,23 @@ const createGame = async (req, res) => {
   try {
     const gameInfo = req.body
 
+    req.body.slug = req.body.gameName.toLowerCase().trim().replace(/[\s\W-]+/g, '-').replace(/^-+|-+$/g, '')
+
+    const games = await GameStore.find().sort({ createdOn: -1 })
+
+    let checkSlug = games.some((game) => game.slug === req.body.slug)
+
+    if (checkSlug) {
+      let slugBase = req.body.slug;
+      let counter = 1;
+
+      while (checkSlug) {
+        req.body.slug = `${slugBase}-${counter}`;
+        checkSlug = games.some((game) => game.slug === req.body.slug);
+        counter++;
+      }
+    }
+
     if (!gameInfo) {
       return sendError(res, 'game data not found', null, 404)
     }
@@ -73,7 +90,6 @@ const updateGame = async (req, res) => {
     const gameId = req.params.id
     const {
       gameName,
-      slug,
       description,
       thumbnail,
       gamePreview,
@@ -91,15 +107,33 @@ const updateGame = async (req, res) => {
       disLikes
     } = req.body
 
-    if (!gameId) {
-      return sendError(res, 'invalid gameId', null, 404)
+    let newSlug = gameName
+    .toLowerCase()
+    .trim()
+    .replace(/[\s\W-]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+
+    // Fetch all games excluding the current game being updated
+    const games = await GameStore.find({ _id: { $ne: gameId } });
+
+    // Check for duplicate slugs
+    let isDuplicateSlug = games.some((game) => game.slug === newSlug);
+    if (isDuplicateSlug) {
+      let slugBase = newSlug;
+      let counter = 1;
+
+      while (isDuplicateSlug) {
+        newSlug = `${slugBase}-${counter}`;
+        isDuplicateSlug = games.some((game) => game.slug === newSlug);
+        counter++;
+      }
     }
 
     const updateGame = await GameStore.updateOne(
         { _id: gameId },
         {
           gameName,
-          slug,
+          slug : newSlug,
           description,
           thumbnail,
           gamePreview,

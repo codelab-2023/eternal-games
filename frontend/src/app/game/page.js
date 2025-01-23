@@ -11,6 +11,7 @@ import Footer from '../../components/footer/page'
 import PacmanLoader from 'react-spinners/PacmanLoader'
 import { GoogleAnalytics } from '@next/third-parties/google'
 import ShareModal from '../../components/share-model/page'
+import { LIVE_URL } from '../../helper/constant'
 
 const moment = require('moment')
 
@@ -44,9 +45,9 @@ export default function Page() {
 
       const response = await gameService.getGame(`${slugText}`)
 
-      setGames(response.game)
       document.title = `EternalGames - ${response?.game?.gameName}`
       descriptionRef.current.innerHTML = response.data.description
+      setGames(response.game)
       setLoading(false)
     } catch (error) {
       console.log(error.message)
@@ -150,7 +151,7 @@ export default function Page() {
   return (
       <>
         <div className="w-screen text-white min-h-screen overflow-x-hidden">
-          <ShareModal open={isShareModalOpen} handleClose={handleCloseShareModal} shareUrl={window.location.href}/>
+          <ShareModal open={isShareModalOpen} handleClose={handleCloseShareModal} shareUrl={`${LIVE_URL}/game/${games?.slug}`}/>
           {isFullScreen ? null : <NavBar/>}
           {loading ? <div className="absolute w-full top-[46%]">
                 <PacmanLoader
@@ -225,7 +226,7 @@ export default function Page() {
                         <div className="cursor-pointer"><FaRegThumbsDown size={18}/></div>
                         <div className="cursor-pointer"><FaRegComments size={22}/></div>
                         <div className="cursor-pointer" onClick={() => setIsShareModalOpen(prevState => !prevState)}><FaShareAlt size={18}/></div>
-                        <div className="cursor-pointer" className="xs:hidden sm:block">
+                        <div className="cursor-pointer xs:hidden sm:block">
                           {
                             playGame ? <div onClick={() => goFullscreen()}><MdFullscreen size={30}/></div> :
                                 <div><MdFullscreen color="#616161" size={30}/></div>
@@ -307,7 +308,7 @@ export default function Page() {
                               {
                                 games?.categories?.map((tag, index) => {
                                   return (
-                                      <div key={index} className="flex items-center gap-2 px-4 py-2 bg-slate-600 rounded-full text-sm">
+                                      <div key={tag._id} className="flex items-center gap-2 px-4 py-2 bg-slate-600 rounded-full text-sm">
                                         <img className="rounded-full my-px h-full" src={tag?.categoryIcon} width={20} height={20} alt="game"/>
                                         <div>{tag?.categoryName}</div>
                                       </div>
@@ -315,7 +316,6 @@ export default function Page() {
                                 })
                               }
                             </div>
-                            {/* <img className="m-auto mb-8" src="https://images.crazygames.com/store-logos/steam-button.png?auto=format%2Ccompress&q=45&cs=strip&ch=DPR" width={200} height={100} alt="download" /> */}
                           </div>
                     }
                   </div>

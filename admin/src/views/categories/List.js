@@ -51,7 +51,7 @@ const headCells = [
   {
     id: 'name',
     numeric: false,
-    label: 'Category Name',
+    label: 'Name',
     align: 'left'
   },
   {
@@ -172,9 +172,11 @@ const Categories = () => {
   const [ search, setSearch ] = React.useState('')
   const [ rows, setRows ] = React.useState(rowsInitial)
   const [ openModel, setOpenModel ] = React.useState(false)
+  const [ noSearchResults, setNoSearchResults ] = useState(false)
 
   useEffect(() => {
     fetchCategories()
+    setNoSearchResults(false)
   }, [])
 
   async function fetchCategories() {
@@ -207,29 +209,12 @@ const Categories = () => {
 
   const handleSearch = (event) => {
     const newString = event.target.value
-    setSearch(newString)
-
-    if (newString) {
-      const newRows = rows.filter((row) => {
-        let matches = true
-
-        const properties = [ 'name', 'email', 'location', 'orders' ]
-        let containsQuery = false
-
-        properties.forEach((property) => {
-          if (row[property].toString().toLowerCase().includes(newString.toString().toLowerCase())) {
-            containsQuery = true
-          }
-        })
-
-        if (!containsQuery) {
-          matches = false
-        }
-        return matches
-      })
-      setRows(newRows)
+    const searchedGames = categories.filter((category) => category.categoryName.toLowerCase().includes(newString.toString().toLowerCase()))
+    if (searchedGames.length) {
+      setCategories(searchedGames)
+      setNoSearchResults(false)
     } else {
-      setRows(rowsInitial)
+      setNoSearchResults(true)
     }
   }
 
@@ -248,7 +233,7 @@ const Categories = () => {
     setPage(0)
   }
 
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - categories.length) : 0
 
   return (
       <MainCard title="Categories" content={false}>
@@ -263,7 +248,12 @@ const Categories = () => {
                         </InputAdornment>
                     )
                   }}
-                  onChange={handleSearch}
+                  onChange={(e) => setSearch(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                      handleSearch(e)
+                    }
+                  }}
                   placeholder="Search category"
                   value={search}
                   size="small"
@@ -360,34 +350,40 @@ const Categories = () => {
               })}
 
               {
-                categories.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => {
-                  const labelId = `enhanced-table-checkbox-${index}`
+                noSearchResults ? <TableRow aria-colspan={4}>
+                      <TableCell colSpan={4} sx={{ textAlign: 'center' }}>
+                        No search results found
+                      </TableCell>
+                    </TableRow> :
+                    (categories.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => {
+                      const labelId = `enhanced-table-checkbox-${index}`
 
-                  return (
-                      <TableRow hover tabIndex={-1} key={index}>
-                        <TableCell align="left" component="th" id={labelId} scope="row" sx={{ cursor: 'pointer' }}>
-                          <Grid item xs={12} sx={{ display: 'flex', gap: '14px' }}>
-                            <img src={row.categoryIcon} width="30px" height="30px" style={{ borderRadius: '50px', objectFit: 'cover' }} alt="category"/>
+                      return (
+                          <TableRow hover tabIndex={-1} key={index}>
+                            <TableCell align="left" component="th" id={labelId} scope="row" sx={{ cursor: 'pointer' }}>
+                              <Grid item xs={12} sx={{ display: 'flex', gap: '14px' }}>
+                                <img src={row.categoryIcon} width="30px" height="30px" style={{ borderRadius: '50px', objectFit: 'cover' }} alt="category"/>
 
-                          </Grid>
-                        </TableCell>
-                        <TableCell variant="subtitle1" sx={{ marginX: 'auto', color: theme.palette.mode === 'dark' ? theme.palette.grey[600] : 'grey.900' }}>
-                          {row.categoryName}
-                        </TableCell>
-                        <TableCell align="left">
-                          {row.status === 'active' && <Chip label="Active" size="small" color="success"/>}
-                          {row.status === 'inactive' && <Chip label="Inactive" size="small" color="primary"/>}
-                          {row.status === 'deleted' && <Chip label="Deleted" size="small" color="error"/>}
-                          {row.status === 'pending' && <Chip label="Pending" size="small" color="warning"/>}
-                        </TableCell>
-                        <TableCell align="center" sx={{ pr: 3 }} onClick={() => navigate(`/categories/${row._id}`)}>
-                          <IconButton color="primary">
-                            <VisibilityTwoToneIcon sx={{ fontSize: '1.3rem' }}/>
-                          </IconButton>
-                        </TableCell>
-                      </TableRow>
-                  )
-                })}
+                              </Grid>
+                            </TableCell>
+                            <TableCell variant="subtitle1" sx={{ marginX: 'auto', color: theme.palette.mode === 'dark' ? theme.palette.grey[600] : 'grey.900' }}>
+                              {row.categoryName}
+                            </TableCell>
+                            <TableCell align="left">
+                              {row.status === 'active' && <Chip label="Active" size="small" color="success"/>}
+                              {row.status === 'inactive' && <Chip label="Inactive" size="small" color="primary"/>}
+                              {row.status === 'deleted' && <Chip label="Deleted" size="small" color="error"/>}
+                              {row.status === 'pending' && <Chip label="Pending" size="small" color="warning"/>}
+                            </TableCell>
+                            <TableCell align="center" sx={{ pr: 3 }} onClick={() => navigate(`/categories/${row._id}`)}>
+                              <IconButton color="primary">
+                                <VisibilityTwoToneIcon sx={{ fontSize: '1.3rem' }}/>
+                              </IconButton>
+                            </TableCell>
+                          </TableRow>
+                      )
+                    }))
+              }
 
               {emptyRows > 0 && (
                   <TableRow style={{ height: 53 * emptyRows }}>
@@ -402,7 +398,7 @@ const Categories = () => {
         <TablePagination
             rowsPerPageOptions={[ 5, 10, 25 ]}
             component="div"
-            count={rows.length}
+            count={categories.length}
             rowsPerPage={rowsPerPage}
             page={page}
             onPageChange={handleChangePage}
