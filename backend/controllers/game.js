@@ -17,13 +17,13 @@ const createGame = async (req, res) => {
     let checkSlug = games.some((game) => game.slug === req.body.slug)
 
     if (checkSlug) {
-      let slugBase = req.body.slug;
-      let counter = 1;
+      let slugBase = req.body.slug
+      let counter = 1
 
       while (checkSlug) {
-        req.body.slug = `${slugBase}-${counter}`;
-        checkSlug = games.some((game) => game.slug === req.body.slug);
-        counter++;
+        req.body.slug = `${slugBase}-${counter}`
+        checkSlug = games.some((game) => game.slug === req.body.slug)
+        counter++
       }
     }
 
@@ -44,13 +44,13 @@ const getGame = async (req, res) => {
     const slug = req.params.slug
 
     if (!slug || typeof slug !== 'string') {
-      return sendError(res, 'Invalid or missing game slug', null, 400);
+      return sendError(res, 'Invalid or missing game slug', null, 400)
     }
 
     const game = await GameStore.findOne({ slug: slug }).populate('categories')
 
     if (!game) {
-      return sendError(res, 'Game not found', null, 404);
+      return sendError(res, 'Game not found', null, 404)
     }
 
     return sendSuccess(res, { game })
@@ -92,7 +92,6 @@ const updateGame = async (req, res) => {
       gameName,
       description,
       thumbnail,
-      gamePreview,
       rating,
       developer,
       technology,
@@ -107,25 +106,21 @@ const updateGame = async (req, res) => {
       disLikes
     } = req.body
 
-    let newSlug = gameName
-    .toLowerCase()
-    .trim()
-    .replace(/[\s\W-]+/g, "-")
-    .replace(/^-+|-+$/g, "");
+    let newSlug = gameName.toLowerCase().trim().replace(/[\s\W-]+/g, '-').replace(/^-+|-+$/g, '')
 
     // Fetch all games excluding the current game being updated
-    const games = await GameStore.find({ _id: { $ne: gameId } });
+    const games = await GameStore.find({ _id: { $ne: gameId } })
 
     // Check for duplicate slugs
-    let isDuplicateSlug = games.some((game) => game.slug === newSlug);
+    let isDuplicateSlug = games.some((game) => game.slug === newSlug)
     if (isDuplicateSlug) {
-      let slugBase = newSlug;
-      let counter = 1;
+      let slugBase = newSlug
+      let counter = 1
 
       while (isDuplicateSlug) {
-        newSlug = `${slugBase}-${counter}`;
-        isDuplicateSlug = games.some((game) => game.slug === newSlug);
-        counter++;
+        newSlug = `${slugBase}-${counter}`
+        isDuplicateSlug = games.some((game) => game.slug === newSlug)
+        counter++
       }
     }
 
@@ -133,10 +128,9 @@ const updateGame = async (req, res) => {
         { _id: gameId },
         {
           gameName,
-          slug : newSlug,
+          slug: newSlug,
           description,
           thumbnail,
-          gamePreview,
           rating,
           developer,
           technology,
@@ -189,7 +183,7 @@ const uploadGameZip = async (req, res) => {
 
     const zipPath = `zip/${zip.name}`
 
-    if (!zip.mimetype === 'application/zip' || zip.size > maxFileUploadSize) return sendError(res, 'Error : Invalid file format or size.', null, 400)
+    if (zip.mimetype !== 'application/zip' || zip.size > maxFileUploadSize) return sendError(res, 'Error : Invalid file format or size.', null, 400)
 
     await zip.mv(zipPath)
     const targetDir = `games/${id}`
@@ -209,7 +203,6 @@ const uploadGameZip = async (req, res) => {
 
     const rootDir = `games/${id}`
     const filename = 'index.html'
-
     //finds index.html from zip
     function findFile(rootDir, filename) {
       const files = fs.readdirSync(rootDir)

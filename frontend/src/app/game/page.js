@@ -12,8 +12,7 @@ import PacmanLoader from 'react-spinners/PacmanLoader'
 import { GoogleAnalytics } from '@next/third-parties/google'
 import ShareModal from '../../components/share-model/page'
 import { LIVE_URL } from '../../helper/constant'
-
-const moment = require('moment')
+import moment from 'moment'
 
 export default function Page() {
   const descriptionRef = useRef()
@@ -43,10 +42,12 @@ export default function Page() {
     try {
       setLoading(true)
 
-      const response = await gameService.getGame(`${slugText}`)
+      const response = await gameService.getGame(slugText)
 
       document.title = `EternalGames - ${response?.game?.gameName}`
-      descriptionRef.current.innerHTML = response.data.description
+      if (descriptionRef.current) {
+        descriptionRef.current.innerHTML = response.data.description
+      }
       setGames(response.game)
       setLoading(false)
     } catch (error) {

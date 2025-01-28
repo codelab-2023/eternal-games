@@ -44,7 +44,6 @@ const Game = () => {
     gameName: '',
     description: '',
     thumbnail: '',
-    gamePreview: '',
     rating: '',
     developer: '',
     technology: '',
@@ -64,6 +63,7 @@ const Game = () => {
   const [ enableDelete, setEnableDelete ] = useState(true)
   const [ mobileSupport, setMobileSupport ] = useState()
   const [ desktopSupport, setDesktopSupport ] = useState()
+  const [ gameZip, setGameZip ] = useState(null)
   const id = params.id
 
   useEffect(() => {
@@ -76,7 +76,7 @@ const Game = () => {
       setLoading(true)
 
       const response = await gameService.getGame(gameId)
-      setGame(response.game)
+      setGame(response?.game)
       setMobileSupport(response.game.isSupportMobile)
       setDesktopSupport(response.game.isSupportDesktop)
     } catch (error) {
@@ -98,7 +98,8 @@ const Game = () => {
   async function updateGame(gameId, game) {
     try {
       setLoading(true)
-
+      const uploadedGameUrl = await handleFileUpload(gameZip)
+      setGame({...game, url: uploadedGameUrl?.gameUrl})
       const categories = game.categories.map((category) => category._id)
 
       await gameService.updateGame(gameId, {
@@ -130,17 +131,25 @@ const Game = () => {
     setEnableDelete(e.target.value !== `game/${game.gameName}`)
   }
 
-  async function handleFileUpload(e) {
+  async function handleFileUpload(file) {
     setUploadLoading(true)
-    const file = e.target.files[0]
     if (file && file.type === 'application/zip') {
       const formData = new FormData()
       formData.append('gameZip', file)
-      formData.append('id', id)
+      formData.append('id', game?._id)
 
-      const response = await gameService.uploadGameZip(formData)
-      setGame({ ...game, url: response.gameUrl })
-      setUploadLoading(false)
+      try {
+        const response = await gameService.uploadGameZip(formData)
+        if (response && response.gameUrl) {
+          setGame({ ...game, url: response.gameUrl })
+        } else {
+          console.error('Game URL not found in response:', response)
+        }
+      } catch (error) {
+        console.error('Error uploading file:', error)
+      } finally {
+        setUploadLoading(false)
+      }
     }
   }
 
@@ -186,7 +195,7 @@ const Game = () => {
                 </Fab>
                 <Dialog open={showModel} onClose={() => setShowModel(false)}>
                   <DialogTitle sx={{ fontSize: '18px', fontWeight: '600' }}>
-                    Delete Game/{game.gameName}
+                    Delete Game/{game?.gameName}
                   </DialogTitle>
                   <Divider light/>
                   <DialogContentText sx={{ marginY: '20px' }}>
@@ -213,7 +222,7 @@ const Game = () => {
                             color: 'rgb(54, 37, 82)'
                           }}
                       >
-                        Game/{game.gameName}
+                        Game/{game?.gameName}
                       </DialogContentText>
                     </Grid>
                   </DialogContentText>
@@ -223,7 +232,7 @@ const Game = () => {
                     <DialogContentText
                         sx={{ fontWeight: '500', marginBottom: '12px' }}
                     >
-                      To confirm, type &quot;game/{game.gameName}&quot; in the box
+                      To confirm, type &quot;game/{game?.gameName}&quot; in the box
                       below
                     </DialogContentText>
                     <TextField
@@ -254,11 +263,10 @@ const Game = () => {
                   component="form"
                   sx={{ '& .MuiTextField-root': { my: 2, width: '100%' } }}
               >
-                <Grid
-
-                    container
-                    xs={12}
-                    sx={{ display: 'flex', flexDirection: 'column' }}
+                <Grid item
+                      container
+                      xs={12}
+                      sx={{ display: 'flex', flexDirection: 'column' }}
                 >
                   <FormGroup>
                     <TextField
@@ -268,11 +276,11 @@ const Game = () => {
                         type="text"
                         label="Game Name"
                         placeholder="Game Name"
-                        value={game.gameName}
+                        value={game?.gameName}
                         onChange={(e) =>
                             setGame({
                               ...game,
-                              gameName: e.target.value,
+                              gameName: e.target.value
                             })
                         }
                     />
@@ -285,7 +293,7 @@ const Game = () => {
                         placeholder="Short Description"
                         multiline
                         rows={2}
-                        value={game.shortDescription}
+                        value={game?.shortDescription}
                         onChange={(e) =>
                             setGame({ ...game, shortDescription: e.target.value })
                         }
@@ -309,8 +317,8 @@ const Game = () => {
                           }}
                           disabled={!isUpdateMode}
                           editor={ClassicEditor}
-                          data={game.description}
-                          value={game.description || ''}
+                          data={game?.description}
+                          value={game?.description || ''}
                           onChange={(event, editor) => {
                             const data = editor.getData()
                             setGame({ ...game, description: data })
@@ -319,7 +327,7 @@ const Game = () => {
                     </Grid>
 
                     <Grid container item xs={12} spacing={2}>
-                      <Grid item xs={3}>
+                      <Grid item xs={5}>
                         <TextField
                             required
                             disabled={!isUpdateMode}
@@ -327,27 +335,27 @@ const Game = () => {
                             type="url"
                             label="Thumbnail URL"
                             placeholder="Thumbnail URL"
-                            value={game.thumbnail}
+                            value={game?.thumbnail}
                             onChange={(e) =>
                                 setGame({ ...game, thumbnail: e.target.value })
                             }
                         />
                       </Grid>
-                      <Grid item xs={3}>
-                        <TextField
-                            required
-                            disabled={!isUpdateMode}
-                            variant="outlined"
-                            type="url"
-                            label="Game Preview URL"
-                            placeholder="Game Preview URL"
-                            value={game.gamePreview}
-                            onChange={(e) =>
-                                setGame({ ...game, gamePreview: e.target.value })
-                            }
-                        />
-                      </Grid>
-                      <Grid item xs={4}>
+                      {/*<Grid item xs={3}>*/}
+                      {/*  <TextField*/}
+                      {/*      required*/}
+                      {/*      disabled={!isUpdateMode}*/}
+                      {/*      variant="outlined"*/}
+                      {/*      type="url"*/}
+                      {/*      label="Game Preview URL"*/}
+                      {/*      placeholder="Game Preview URL"*/}
+                      {/*      value={game?.gamePreview}*/}
+                      {/*      onChange={(e) =>*/}
+                      {/*          setGame({ ...game, gamePreview: e.target.value })*/}
+                      {/*      }*/}
+                      {/*  />*/}
+                      {/*</Grid>*/}
+                      <Grid item xs={5}>
                         <TextField
                             required
                             disabled={!isUpdateMode}
@@ -355,12 +363,11 @@ const Game = () => {
                             type="url"
                             label="Game URL"
                             placeholder="Game URL"
-                            value={game.url}
+                            value={game?.url}
                             onChange={(e) =>
                                 setGame({ ...game, url: e.target.value })
                             }
                         />
-
                       </Grid>
                       <Grid item xs={2} sx={{ alignSelf: 'center' }}>
                         <input
@@ -369,7 +376,7 @@ const Game = () => {
                             id="contained-button-file"
                             multiple={false}
                             type="file"
-                            onChange={handleFileUpload}
+                            onChange={(e) => setGameZip(e.target.files[0])}
                         />
                         <label htmlFor="contained-button-file">
                           <LoadingButton
@@ -387,7 +394,6 @@ const Game = () => {
                           </LoadingButton>
                         </label>
                       </Grid>
-
                     </Grid>
                     <Grid
                         item
@@ -405,7 +411,7 @@ const Game = () => {
                               labelId="demo-multiple-chip-label"
                               id="demo-multiple-chip"
                               name="categories"
-                              value={game.categories}
+                              value={game?.categories || []}
                               onChange={(event) => {
                                 setGame({ ...game, categories: event.target.value })
                               }}
@@ -420,12 +426,12 @@ const Game = () => {
                                     {selected.map((selectedCategory, index) => (
                                         <Chip
                                             key={index}
-                                            label={selectedCategory.categoryName}
+                                            label={selectedCategory?.categoryName}
                                             onDelete={() => {
                                               const filteredCategories =
-                                                  game.categories.filter(
+                                                  game?.categories.filter(
                                                       (category) =>
-                                                          category._id !== selectedCategory._id
+                                                          category._id !== selectedCategory?._id
                                                   )
                                               setGame({
                                                 ...game,
@@ -446,7 +452,7 @@ const Game = () => {
                               )}
                           >
                             {categories?.map((category) => {
-                              const isSelected = game.categories.find(
+                              const isSelected = game?.categories.find(
                                   (gameCategory) => gameCategory._id === category._id
                               )
                               return (
@@ -458,12 +464,12 @@ const Game = () => {
                                       selected={!!isSelected}
                                   >
                                     <img
-                                        src={category.categoryIcon}
+                                        src={category?.categoryIcon}
                                         width={20}
                                         height={20}
                                         alt="icon"
                                     />
-                                    {category.categoryName}
+                                    {category?.categoryName}
                                   </MenuItem>
                               )
                             })}
@@ -483,14 +489,14 @@ const Game = () => {
                               label="Status"
                               labelId="demo-simple-select-label"
                               name="status"
-                              value={game.status || STATUS.value}
+                              value={game?.status || STATUS?.value}
                               onChange={(e) =>
                                   setGame({ ...game, status: e.target.value })
                               }
                           >
                             {STATUS.map((status) => (
-                                <MenuItem key={status.value} value={status.value}>
-                                  {status.label}
+                                <MenuItem key={status?.value} value={status?.value}>
+                                  {status?.label}
                                 </MenuItem>
                             ))}
                           </Select>
@@ -506,7 +512,7 @@ const Game = () => {
                             type="text"
                             label="Technology"
                             placeholder="Technology"
-                            value={game.technology}
+                            value={game?.technology}
                             onChange={(e) =>
                                 setGame({ ...game, technology: e.target.value })
                             }
@@ -520,7 +526,7 @@ const Game = () => {
                             type="text"
                             label="Platform"
                             placeholder="Platform"
-                            value={game.platform}
+                            value={game?.platform}
                             onChange={(e) =>
                                 setGame({ ...game, platform: e.target.value })
                             }
@@ -534,7 +540,7 @@ const Game = () => {
                             type="text"
                             label="Developer"
                             placeholder="Developer"
-                            value={game.developer}
+                            value={game?.developer}
                             onChange={(e) =>
                                 setGame({ ...game, developer: e.target.value })
                             }
@@ -551,7 +557,7 @@ const Game = () => {
                             type="text"
                             label="Rating"
                             placeholder="Rating"
-                            value={game.rating}
+                            value={game?.rating}
                             onChange={(e) =>
                                 setGame({ ...game, rating: e.target.value })
                             }
@@ -567,7 +573,7 @@ const Game = () => {
                             InputLabelProps={{
                               shrink: true
                             }}
-                            value={game.likes}
+                            value={game?.likes}
                             onChange={(e) =>
                                 setGame({ ...game, likes: e.target.valueAsNumber })
                             }
@@ -583,7 +589,7 @@ const Game = () => {
                             InputLabelProps={{
                               shrink: true
                             }}
-                            value={game.disLikes}
+                            value={game?.disLikes}
                             onChange={(e) =>
                                 setGame({ ...game, disLikes: e.target.valueAsNumber })
                             }
@@ -639,7 +645,7 @@ const Game = () => {
                             <Button
                                 variant="contained"
                                 color="success"
-                                onClick={() => updateGame(game._id, game)}
+                                onClick={() => updateGame(game?._id, game)}
                             >
                               <IconUpload stroke={1.5} size="1.3rem"/>
                               Update Game

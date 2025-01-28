@@ -35,7 +35,7 @@ import {
   Typography
 } from '@mui/material'
 
-import { Search as SearchIcon, VisibilityTwoTone as VisibilityTwoToneIcon } from '@mui/icons-material'
+import { Launch, Search as SearchIcon, VisibilityTwoTone as VisibilityTwoToneIcon } from '@mui/icons-material'
 import { useNavigate } from 'react-router-dom'
 import { STATUS } from '../../utils/enum'
 import categoryService from '../../services/category.service'
@@ -57,6 +57,12 @@ const headCells = [
     id: 'status',
     numeric: true,
     label: 'Status',
+    align: 'center'
+  },
+  {
+    id: 'visit',
+    numeric: false,
+    label: 'Visit',
     align: 'center'
   },
   {
@@ -165,17 +171,15 @@ const Games = () => {
     fetchGames()
     fetchCategories()
     setNoSearchResults(false)
-  }, [rows, rowsPerPage])
+  }, [ rows, rowsPerPage ])
 
-  console.log('🚀🚀🚀 Games => page :: ', page)
-  console.log('🚀🚀🚀 Games => rowsPerPage :: ', rowsPerPage)
   async function fetchGames() {
     try {
       const response = await gameService.getGameList()
-      const gamesData = response?.games || [];
+      const gamesData = response?.games || []
       const sortedData = gamesData.sort(
           (a, b) => new Date(b.createdOn) - new Date(a.createdOn)
-      );
+      )
       setGames(sortedData)
     } catch (error) {
       console.log(error.message)
@@ -313,7 +317,7 @@ const Games = () => {
                           onChange={(e) =>
                               setCreateGame({
                                 ...createGame,
-                                gameName: e.target.value,
+                                gameName: e.target.value
                               })}
                       />
                       <TextField
@@ -336,23 +340,11 @@ const Games = () => {
                           value={createGame.description || ''}
                           onChange={(e) => setCreateGame({ ...createGame, description: e.target.value })}
                       />
-
-                      <Grid item xs={12} sx={{ display: 'flex', gap: '20px' }}>
-                        <Grid item xs={4}>
-                          <TextField
-                              required
-                              variant="outlined"
-                              type="url"
-                              label="Game URL"
-                              placeholder="Game URL"
-                              value={createGame.url || ''}
-                              onChange={(e) => setCreateGame({ ...createGame, url: e.target.value })}
-                          />
-                        </Grid>
-                        <Grid item xs={4}>
+                        <Grid item>
                           <TextField
                               sx={{ width: 'full' }}
                               required
+                              fullWidth
                               variant="outlined"
                               type="url"
                               label="Thumbnail URL"
@@ -360,20 +352,7 @@ const Games = () => {
                               value={createGame.thumbnail || ''}
                               onChange={(e) => setCreateGame({ ...createGame, thumbnail: e.target.value })}
                           />
-                        </Grid>
-                        <Grid item xs={4}>
-                          <TextField
-                              required
-                              variant="outlined"
-                              type="url"
-                              label="Game Preview URL"
-                              placeholder="Game Preview URL"
-                              value={createGame.gamePreview || ''}
-                              onChange={(e) => setCreateGame({ ...createGame, gamePreview: e.target.value })}
-                          />
-                        </Grid>
                       </Grid>
-
                       <Grid item xs={12} sx={{ display: 'flex', gap: '20px' }}>
                         <Grid item xs={6}>
                           <FormControl fullWidth>
@@ -478,6 +457,7 @@ const Games = () => {
                           </Grid>
                         </Grid>
                       </Grid>
+                      <Typography color={'red'} className='text-red-500'><b>Note:</b> You can upload game url or game zip after complete game creation.</Typography>
                       <Button variant="contained" color="success" sx={{ color: 'rgb(35, 8, 82)' }} type="submit">
                         Add Game
                       </Button>
@@ -508,7 +488,14 @@ const Games = () => {
                       </TableCell>
                       <TableCell>{row.description}</TableCell>
                       <TableCell align="right">{row.status}</TableCell>
-                      <TableCell align="center" sx={{ pr: 3 }} onClick={() => navigate(`/games/${row.slug}`)}>
+                      <TableCell align="center" sx={{ pr: 3 }}>
+                        <Button onClick={() => window.open(row?.url, '_blank', 'noopener,noreferrer')}>
+                          <IconButton color="primary">
+                            <Launch sx={{ fontSize: '1.3rem' }}/>
+                          </IconButton>
+                        </Button>
+                      </TableCell>
+                      <TableCell align="center" sx={{ pr: 3 }} onClick={() => navigate(row?.url)}>
                         <IconButton color="primary">
                           <VisibilityTwoToneIcon sx={{ fontSize: '1.3rem' }}/>
                         </IconButton>
@@ -519,7 +506,7 @@ const Games = () => {
               }
               {
                 noSearchResults ? <TableRow aria-colspan={4}>
-                      <TableCell colSpan={4} sx={{textAlign: 'center'}}>
+                      <TableCell colSpan={4} sx={{ textAlign: 'center' }}>
                         No search results found
                       </TableCell>
                     </TableRow> :
@@ -554,6 +541,13 @@ const Games = () => {
                               {row.status === 'inactive' && <Chip label="Inactive" size="small" color="primary"/>}
                               {row.status === 'deleted' && <Chip label="Deleted" size="small" color="error"/>}
                               {row.status === 'pending' && <Chip label="Pending" size="small" color="warning"/>}
+                            </TableCell>
+                            <TableCell align="center" sx={{ pr: 3 }}>
+                              <Button onClick={() => window.open(row?.url, '_blank', 'noopener,noreferrer')}>
+                                <IconButton color="primary">
+                                  <Launch sx={{ fontSize: '1.3rem' }}/>
+                                </IconButton>
+                              </Button>
                             </TableCell>
                             <TableCell align="center" sx={{ pr: 3 }} onClick={() => navigate(`/games/${row.slug}`)}>
                               <IconButton color="primary">

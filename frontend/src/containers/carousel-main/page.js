@@ -55,38 +55,44 @@ const CarouselMain = ({ helper, loading }) => {
         >
           {
             loading ? (
-                    [ 1, 2, 3, 4, 5 ].map((index) => (
-                        <ImageListItem key={index} cols={1} rows={1}>
-                          <SwiperSlide>
-                            <Skeleton
-                                variant="rectangular"
-                                width={500}
-                                height={'100%'}
-                                sx={{ borderRadius: '8px', bgcolor: 'grey.700' }}
-                            />
-                          </SwiperSlide>
-                        </ImageListItem>
-                    ))) :
-                (
-                    helper.slice(0, 5).map((item) => (
-                        <ImageListItem key={item._id || `helper-${index}`} cols={item.cols || 1} rows={item.rows || 1}>
-                          <SwiperSlide>
-                            <Link href={{
-                              pathname: '/game',
-                              query: {
-                                slug: item?.slug
-                              }
-                            }}>
-                              <img
-                                  className="rounded-lg h-full"
+                    [ 1, 2, 3, 4, 5 ].map((index) => {
+                      // console.log('🚀🚀🚀 carousel-main-1 => index :: ', index)
+                      return (
+                          <ImageListItem key={`main-${index}`} cols={1} rows={1}>
+                            <SwiperSlide>
+                              <Skeleton
+                                  variant="rectangular"
                                   width={500}
-                                  src={item.thumbnail}
-                                  alt={item.gameName}
+                                  height={'100%'}
+                                  sx={{ borderRadius: '8px', bgcolor: 'grey.700' }}
                               />
-                            </Link>
-                          </SwiperSlide>
-                        </ImageListItem>
-                    )))
+                            </SwiperSlide>
+                          </ImageListItem>
+                      )
+                    })) :
+                (
+                    helper.slice(0, 5).map((item, index) => {
+                      // console.log('🚀🚀🚀 i => carousel-main-2 :: ', `main-${item._id}`, index)
+                      return (
+                          <ImageListItem key={`main-${item._id}`} cols={item.cols || 1} rows={item.rows || 1}>
+                            <SwiperSlide>
+                              <Link href={{
+                                pathname: '/game',
+                                query: {
+                                  slug: item?.slug
+                                }
+                              }}>
+                                <img
+                                    className="rounded-lg h-full"
+                                    width={500}
+                                    src={item.thumbnail}
+                                    alt={item.gameName}
+                                />
+                              </Link>
+                            </SwiperSlide>
+                          </ImageListItem>
+                      )
+                    }))
           }
         </Swiper>
       </ImageList>

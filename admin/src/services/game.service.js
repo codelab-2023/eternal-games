@@ -32,6 +32,7 @@ export default class gameService {
       return response.data
     } catch (error) {
       console.log(error.message)
+      throw new Error('Failed to upload game zip');
     }
   }
 

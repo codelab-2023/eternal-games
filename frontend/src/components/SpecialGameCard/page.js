@@ -57,38 +57,44 @@ export default function SpecialGameCard({ loading, isHorizontal = true, games, n
             {
               loading ?
                   (
-                      [ 1, 2, 3, 4, 5 ].map((index) => (
-                          <ImageListItem key={index} cols={1} rows={1}>
-                            <SwiperSlide>
-                              <Skeleton
-                                  variant="rectangular"
-                                  width={500}
-                                  height={'100%'}
-                                  sx={{ borderRadius: '8px', bgcolor: 'grey.700' }}
-                              />
-                            </SwiperSlide>
-                          </ImageListItem>
-                      ))) :
-                  (
-                      games.map((item) => (
-                          <ImageListItem key={item._id} cols={item.cols || 1} rows={item.rows || 1}>
-                            <SwiperSlide>
-                              <Link href={{
-                                pathname: '/game',
-                                query: {
-                                  slug: item?.gameId?.slug
-                                }
-                              }}>
-                                <img
-                                    className="rounded-lg h-full"
+                      [ 1, 2, 3, 4, 5 ].map((index) => {
+                        // console.log('��������� special-card-1 => index :: ', `special-${index}`)
+                        return (
+                            <ImageListItem key={`special-${index}`} cols={1} rows={1}>
+                              <SwiperSlide>
+                                <Skeleton
+                                    variant="rectangular"
                                     width={500}
-                                    src={item?.gameId?.thumbnail}
-                                    alt={item?.gameId?.gameName}
+                                    height={'100%'}
+                                    sx={{ borderRadius: '8px', bgcolor: 'grey.700' }}
                                 />
-                              </Link>
-                            </SwiperSlide>
-                          </ImageListItem>
-                      )))
+                              </SwiperSlide>
+                            </ImageListItem>
+                        )
+                      })) :
+                  (
+                      games.map((item, index) => {
+                        // console.log('��������� special-card-1 => index :: ', `special-${item._id}`, index)
+                        return (
+                            <ImageListItem key={`special-${item._id}`} cols={item.cols || 1} rows={item.rows || 1}>
+                              <SwiperSlide>
+                                <Link href={{
+                                  pathname: '/game',
+                                  query: {
+                                    slug: item?.gameId?.slug
+                                  }
+                                }}>
+                                  <img
+                                      className="rounded-lg h-full"
+                                      width={500}
+                                      src={item?.gameId?.thumbnail}
+                                      alt={item?.gameId?.gameName}
+                                  />
+                                </Link>
+                              </SwiperSlide>
+                            </ImageListItem>
+                        )
+                      }))
             }
           </Swiper>
         </ImageList>
