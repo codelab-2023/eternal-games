@@ -211,7 +211,7 @@ const Features = () => {
                                     value={game._id}
                                 >
                                   <img
-                                      src={game.gamePreview}
+                                      src={game?.thumbnail}
                                       style={{ borderRadius: '100%' }}
                                       width={35}
                                       height={35}

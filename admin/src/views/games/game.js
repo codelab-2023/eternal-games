@@ -99,6 +99,7 @@ const Game = () => {
     try {
       setLoading(true)
       const uploadedGameUrl = await handleFileUpload(gameZip)
+      if(!uploadedGameUrl?.gameUrl) return alert('The game zip file has been not perfectly uploaded')
       setGame({...game, url: uploadedGameUrl?.gameUrl})
       const categories = game.categories.map((category) => category._id)
 
@@ -109,7 +110,7 @@ const Game = () => {
         isSupportDesktop: desktopSupport
       })
 
-      await fetchGames(gameId)
+      await fetchGames(id)
     } catch (error) {
       console.log(error.message)
     } finally {
