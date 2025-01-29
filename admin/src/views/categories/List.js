@@ -200,6 +200,7 @@ const Categories = () => {
         isDeleted: false,
         isActive: false
       })
+      await fetchCategories()
     } catch (error) {
       console.log(error.message)
     } finally {
