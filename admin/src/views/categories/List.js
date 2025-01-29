@@ -193,14 +193,16 @@ const Categories = () => {
       event.preventDefault()
       const res = await categoryService.createCategory(createCategory)
 
-      setCategories([ ...Categories, res.category ])
-      setCreateCategory({
-        categoryName: '',
-        categoryIcon: '',
-        isDeleted: false,
-        isActive: false
-      })
-      await fetchCategories()
+      if (res) {
+        await fetchCategories()
+        setCategories([ ...Categories, res.category ])
+        setCreateCategory({
+          categoryName: '',
+          categoryIcon: '',
+          isDeleted: false,
+          isActive: false
+        })
+      }
     } catch (error) {
       console.log(error.message)
     } finally {
