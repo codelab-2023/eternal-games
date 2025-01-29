@@ -98,9 +98,11 @@ const Game = () => {
   async function updateGame(gameId, game) {
     try {
       setLoading(true)
-      const uploadedGameUrl = await handleFileUpload(gameZip)
-      if(!uploadedGameUrl?.gameUrl) return alert('The game zip file has been not perfectly uploaded')
-      setGame({...game, url: uploadedGameUrl?.gameUrl})
+      if (gameZip) {
+        const uploadedGameUrl = await handleFileUpload(gameZip)
+        if (!uploadedGameUrl) return alert('The game zip file has been not perfectly uploaded')
+        setGame({ ...game, url: uploadedGameUrl?.gameUrl })
+      }
       const categories = game.categories.map((category) => category._id)
 
       await gameService.updateGame(gameId, {
@@ -109,7 +111,6 @@ const Game = () => {
         isSupportMobile: mobileSupport,
         isSupportDesktop: desktopSupport
       })
-
       await fetchGames(id)
     } catch (error) {
       console.log(error.message)
@@ -149,6 +150,7 @@ const Game = () => {
       } catch (error) {
         console.error('Error uploading file:', error)
       } finally {
+        setGameZip(null)
         setUploadLoading(false)
       }
     }
