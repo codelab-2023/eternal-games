@@ -6,7 +6,7 @@ import { visuallyHidden } from '@mui/utils'
 import MainCard from 'ui-component/cards/MainCard'
 import gameService from '../../services/game.service'
 import { getComparator, rowsInitial, stableSort } from '../../utils/table-filter'
-import { IconDeviceDesktop, IconDeviceMobile, IconPlus } from '@tabler/icons'
+import { IconDeviceDesktop, IconDeviceMobile, IconPlus, IconX } from '@tabler/icons'
 import {
   Button,
   CardContent,
@@ -20,7 +20,7 @@ import {
   InputAdornment,
   InputLabel,
   MenuItem,
-  Modal,
+  Modal, OutlinedInput,
   Select,
   Stack,
   Table,
@@ -377,22 +377,76 @@ const Games = () => {
                         </Grid>
                         <Grid item xs={6}>
                           <FormControl fullWidth>
-                            <InputLabel id="demo-simple-select-label">Categories</InputLabel>
+                            <InputLabel id="demo-multiple-chip-label">
+                              Categories
+                            </InputLabel>
                             <Select
-                                required
-                                variant="outlined"
-                                type="text"
-                                label="Categories"
-                                labelId="demo-simple-select-label"
-                                value={createGame.categories || categories.value}
-                                onChange={(e) => setCreateGame({ ...createGame, categories: e.target.value })}
+                                multiple
+                                labelId="demo-multiple-chip-label"
+                                id="demo-multiple-chip"
+                                name="categories"
+                                value={createGame?.categories || []}
+                                onChange={(event) => {
+                                  setCreateGame({ ...createGame, categories: event.target.value })
+                                }}
+                                input={
+                                  <OutlinedInput
+                                      id="select-multiple-chip"
+                                      label="Chip"
+                                  />
+                                }
+                                renderValue={(selected) => (
+                                    <Stack gap={1} direction="row" flexWrap="wrap">
+                                      {selected.map((selectedCategory, index) => (
+                                          <Chip
+                                              key={index}
+                                              label={selectedCategory?.categoryName}
+                                              onDelete={() => {
+                                                const filteredCategories =
+                                                    createGame?.categories.filter(
+                                                        (category) =>
+                                                            category._id !== selectedCategory?._id
+                                                    )
+                                                setCreateGame({
+                                                  ...createGame,
+                                                  categories: filteredCategories
+                                                })
+                                              }}
+                                              deleteIcon={
+                                                <IconX
+                                                    size={18}
+                                                    onMouseDown={(event) =>
+                                                        event.stopPropagation()
+                                                    }
+                                                />
+                                              }
+                                          />
+                                      ))}
+                                    </Stack>
+                                )}
                             >
-                              {categories.map((category) => (
-                                  <MenuItem sx={{ display: 'flex', gap: '8px' }} key={category._id} value={category.categoryName} selected={category.categoryName === games.categories}>
-                                    <img src={category.categoryIcon} width={20} height={20} alt="icon"/>
-                                    {category.categoryName}
-                                  </MenuItem>
-                              ))}
+                              {categories?.map((category) => {
+                                const isSelected = createGame?.categories.find(
+                                    (gameCategory) => gameCategory._id === category._id
+                                )
+                                return (
+                                    <MenuItem
+                                        key={category._id}
+                                        sx={{ display: 'flex', gap: '8px' }}
+                                        value={category}
+                                        divider={true}
+                                        selected={!!isSelected}
+                                    >
+                                      <img
+                                          src={category?.categoryIcon}
+                                          width={20}
+                                          height={20}
+                                          alt="icon"
+                                      />
+                                      {category?.categoryName}
+                                    </MenuItem>
+                                )
+                              })}
                             </Select>
                           </FormControl>
                         </Grid>
