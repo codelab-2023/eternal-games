@@ -30,12 +30,15 @@ export default function Page() {
 
   useEffect(() => {
     const slug = searchParams.get('slug')
+    setIsFullScreen(false)
+    setPlayGame(false)
+    setMobileExitFullScreen(false)
 
     if (!slug) {
       return route.push('/')
     }
     fetchGame(slug)
-    getSideGames()
+    getSideGames(slug)
   }, [ searchParams ])
 
   async function fetchGame(slugText) {
@@ -57,10 +60,11 @@ export default function Page() {
     }
   }
 
-  async function getSideGames() {
+  async function getSideGames(currentSlug) {
     try {
       const response = await gameService.getGameList()
-      setSideGames(response.games)
+      const filteredGames = await response?.games.filter(data => data?.slug !== currentSlug)
+      setSideGames(filteredGames)
     } catch (error) {
       console.log(error.message)
     }
