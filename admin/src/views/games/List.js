@@ -20,7 +20,8 @@ import {
   InputAdornment,
   InputLabel,
   MenuItem,
-  Modal, OutlinedInput,
+  Modal,
+  OutlinedInput,
   Select,
   Stack,
   Table,
@@ -39,6 +40,8 @@ import { Launch, Search as SearchIcon, VisibilityTwoTone as VisibilityTwoToneIco
 import { useNavigate } from 'react-router-dom'
 import { STATUS } from '../../utils/enum'
 import categoryService from '../../services/category.service'
+import { CKEditor } from '@ckeditor/ckeditor5-react'
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 
 const headCells = [
   {
@@ -329,29 +332,43 @@ const Games = () => {
                           value={createGame.shortDescription}
                           onChange={(e) => setCreateGame({ ...createGame, shortDescription: e.target.value })}
                       />
-                      <TextField
-                          required
-                          variant="outlined"
-                          type="text"
-                          label="Description"
-                          placeholder="Description"
-                          multiline
-                          rows={2}
-                          value={createGame.description || ''}
-                          onChange={(e) => setCreateGame({ ...createGame, description: e.target.value })}
-                      />
-                        <Grid item>
-                          <TextField
-                              sx={{ width: 'full' }}
-                              required
-                              fullWidth
-                              variant="outlined"
-                              type="url"
-                              label="Thumbnail URL"
-                              placeholder="Thumbnail URL"
-                              value={createGame.thumbnail || ''}
-                              onChange={(e) => setCreateGame({ ...createGame, thumbnail: e.target.value })}
-                          />
+                      <Grid item xs={12} className="App" marginY={2}>
+                        <CKEditor
+                            onReady={(editor) => {
+                              editor.editing.view.change((writer) => {
+                                writer.setStyle(
+                                    'min-height',
+                                    '200px',
+                                    editor.editing.view.document.getRoot()
+                                )
+                                writer.setStyle(
+                                    'max-height',
+                                    '300px',
+                                    editor.editing.view.document.getRoot()
+                                )
+                              })
+                            }}
+                            editor={ClassicEditor}
+                            data={createGame?.description}
+                            value={createGame?.description || ''}
+                            onChange={(event, editor) => {
+                              const data = editor.getData()
+                              setCreateGame({ ...createGame, description: data })
+                            }}
+                        />
+                      </Grid>
+                      <Grid item>
+                        <TextField
+                            sx={{ width: 'full' }}
+                            required
+                            fullWidth
+                            variant="outlined"
+                            type="url"
+                            label="Thumbnail URL"
+                            placeholder="Thumbnail URL"
+                            value={createGame.thumbnail || ''}
+                            onChange={(e) => setCreateGame({ ...createGame, thumbnail: e.target.value })}
+                        />
                       </Grid>
                       <Grid item xs={12} sx={{ display: 'flex', gap: '20px' }}>
                         <Grid item xs={6}>
@@ -511,7 +528,7 @@ const Games = () => {
                           </Grid>
                         </Grid>
                       </Grid>
-                      <Typography color={'red'} className='text-red-500'><b>Note:</b> You can upload game url or game zip after complete game creation.</Typography>
+                      <Typography color={'red'} className="text-red-500"><b>Note:</b> You can upload game url or game zip after complete game creation.</Typography>
                       <Button variant="contained" color="success" sx={{ color: 'rgb(35, 8, 82)' }} type="submit">
                         Add Game
                       </Button>

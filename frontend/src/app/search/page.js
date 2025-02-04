@@ -6,6 +6,7 @@ import React, { useEffect, useState } from 'react'
 import gameService from '../../services/game.service'
 import SearchedGameCard from '../../components/desktop-medium-card/page'
 import GameCards from '../../components/game-cards/page'
+import { GoogleAnalytics } from '@next/third-parties/google'
 
 export default function SearchPage() {
   const searchParams = useSearchParams()
@@ -73,6 +74,7 @@ export default function SearchPage() {
           }
         </div>
         <Footer/>
+        <GoogleAnalytics gaId="G-TF62GHPFEJ"/>
       </div>
   )
 }
