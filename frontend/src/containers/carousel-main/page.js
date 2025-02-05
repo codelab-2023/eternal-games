@@ -76,12 +76,7 @@ const CarouselMain = ({ helper, loading }) => {
                       return (
                           <ImageListItem key={`main-${item._id}`} cols={item.cols || 1} rows={item.rows || 1}>
                             <SwiperSlide>
-                              <Link href={{
-                                pathname: '/game',
-                                query: {
-                                  slug: item?.slug
-                                }
-                              }}>
+                              <Link href={{ pathname: `/game/${item?.slug}` }}>
                                 <img
                                     className="rounded-lg h-full"
                                     width={500}

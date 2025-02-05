@@ -1,25 +1,25 @@
 'use client'
 import React, { useEffect, useRef, useState } from 'react'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { FaPlay, FaRegComments, FaRegThumbsDown, FaRegThumbsUp, FaShareAlt } from 'react-icons/fa'
 import { MdFullscreen, MdFullscreenExit } from 'react-icons/md'
-import gameService from '../../services/game.service'
+import gameService from '../../../services/game.service'
 import parse from 'html-react-parser'
-import NavBar from '../../components/navbar/page'
-import Footer from '../../components/footer/page'
+import NavBar from '../../../components/navbar/page'
+import Footer from '../../../components/footer/page'
 import PacmanLoader from 'react-spinners/PacmanLoader'
 import { GoogleAnalytics } from '@next/third-parties/google'
-import ShareModal from '../../components/share-model/page'
-import { LIVE_URL } from '../../helper/constant'
+import ShareModal from '../../../components/share-model/page'
+import { LIVE_URL } from '../../../helper/constant'
 import moment from 'moment'
 
-export default function Page() {
+export default function Page({ params }) {
   const descriptionRef = useRef()
   const iframeRef = useRef(null)
   const route = useRouter()
+  const { slug } = React.use(params);
 
-  const searchParams = useSearchParams()
   const [ loading, setLoading ] = useState(true)
   const [ games, setGames ] = useState()
   const [ sideGames, setSideGames ] = useState([])
@@ -29,7 +29,7 @@ export default function Page() {
   const [ isShareModalOpen, setIsShareModalOpen ] = useState(false)
 
   useEffect(() => {
-    const slug = searchParams.get('slug')
+    const slug = params.slug
     setIsFullScreen(false)
     setPlayGame(false)
     setMobileExitFullScreen(false)
@@ -39,7 +39,7 @@ export default function Page() {
     }
     fetchGame(slug)
     getSideGames(slug)
-  }, [ searchParams ])
+  }, [ slug ])
 
   async function fetchGame(slugText) {
     try {
@@ -179,12 +179,7 @@ export default function Page() {
                             sideGames.slice(0, 13).map((game) => {
                               return (
                                   <div key={game?._id} onClick={() => handleClickOnGame()}>
-                                    <Link href={{
-                                      pathname: '/game',
-                                      query: {
-                                        slug: game?.slug
-                                      }
-                                    }}>
+                                    <Link href={{ pathname: `/game/${game?.slug}` }}>
                                       <img className="rounded-lg mb-4 h-28" src={game?.thumbnail} width={200} height={100} alt={game?.gameName}/>
                                     </Link>
                                   </div>
@@ -247,12 +242,7 @@ export default function Page() {
                             sideGames.slice(0, 12).map((game) => {
                               return (
                                   <div key={game?._id} onClick={() => handleClickOnGame()}>
-                                    <Link href={{
-                                      pathname: '/game',
-                                      query: {
-                                        slug: game?.slug
-                                      }
-                                    }}>
+                                    <Link href={{ pathname: `/game/${game?.slug}` }}>
                                       <img className="rounded-lg h-28" src={game?.thumbnail} width={173} height={100} alt={game?.gameName}/>
                                     </Link>
                                   </div>
@@ -334,12 +324,7 @@ export default function Page() {
                                 sideGames.slice(0, 4).map((game) => {
                                   return (
                                       <div key={game?._id} className="w-full h-auto" onClick={() => handleClickOnGame()}>
-                                        <Link href={{
-                                          pathname: '/game',
-                                          query: {
-                                            slug: game?.slug
-                                          }
-                                        }}>
+                                        <Link href={{ pathname: `/game/${game?.slug}` }}>
                                           <img className="rounded-lg mb-4 h-48" src={game?.thumbnail} width={'100%'} alt={game?.gameName}/>
                                         </Link>
                                       </div>
@@ -358,12 +343,7 @@ export default function Page() {
                           sideGames.slice(0, 18).map((game) => {
                             return (
                                 <div key={game?._id} onClick={() => handleClickOnGame()}>
-                                  <Link href={{
-                                    pathname: '/game',
-                                    query: {
-                                      slug: game?.slug
-                                    }
-                                  }}>
+                                  <Link href={{ pathname: `/game/${game?.slug}` }}>
                                     <img className="rounded-lg h-28" src={game?.thumbnail} width={173} height={100} alt="game"/>
                                   </Link>
                                 </div>

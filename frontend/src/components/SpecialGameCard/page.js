@@ -78,13 +78,9 @@ export default function SpecialGameCard({ loading, isHorizontal = true, games, n
                         return (
                             <ImageListItem key={`special-${item._id}`} cols={item.cols || 1} rows={item.rows || 1}>
                               <SwiperSlide>
-                                <Link href={{
-                                  pathname: '/game',
-                                  query: {
-                                    slug: item?.gameId?.slug
-                                  }
-                                }}>
-                                  <img
+                                <Link href={{ pathname: `/game/${item?.gameId?.slug}` }}>
+
+                                <img
                                       className="rounded-lg h-full"
                                       width={500}
                                       src={item?.gameId?.thumbnail}

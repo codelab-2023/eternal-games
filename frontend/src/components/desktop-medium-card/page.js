@@ -14,13 +14,8 @@ const Desktop = ({ helper, name }) => {
                 {
                   helper.map((item) => (
                       <ImageListItem key={item._id} cols={item.cols || 2} rows={item.rows || 1}>
-                        <Link href={{
-                          pathname: '/game',
-                          query: {
-                            slug: item.slug
-                          }
-                        }}>
-                          <img className="homepage-games rounded-xl" src={item.thumbnail} alt={item?.gameName}/>
+                        <Link href={{ pathname: `/game/${item?.slug}` }}>
+                        <img className="homepage-games rounded-xl" src={item.thumbnail} alt={item?.gameName}/>
                         </Link>
                       </ImageListItem>
 
