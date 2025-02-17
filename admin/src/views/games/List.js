@@ -6,10 +6,11 @@ import { visuallyHidden } from '@mui/utils'
 import MainCard from 'ui-component/cards/MainCard'
 import gameService from '../../services/game.service'
 import { getComparator, rowsInitial, stableSort } from '../../utils/table-filter'
-import { IconDeviceDesktop, IconDeviceMobile, IconPlus } from '@tabler/icons'
+import { IconDeviceDesktop, IconDeviceMobile, IconPlus, IconX } from '@tabler/icons'
 import {
   Button,
   CardContent,
+  Chip,
   DialogContent,
   DialogTitle,
   Fab,
@@ -20,6 +21,7 @@ import {
   InputLabel,
   MenuItem,
   Modal,
+  OutlinedInput,
   Select,
   Stack,
   Table,
@@ -34,40 +36,36 @@ import {
   Typography
 } from '@mui/material'
 
-import { Search as SearchIcon, VisibilityTwoTone as VisibilityTwoToneIcon } from '@mui/icons-material'
+import { Launch, Search as SearchIcon, VisibilityTwoTone as VisibilityTwoToneIcon } from '@mui/icons-material'
 import { useNavigate } from 'react-router-dom'
 import { STATUS } from '../../utils/enum'
 import categoryService from '../../services/category.service'
+import { CKEditor } from '@ckeditor/ckeditor5-react'
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 
 const headCells = [
   {
     id: 'name',
     numeric: false,
-    label: 'Game Names',
+    label: 'Name',
     align: 'left'
   },
   {
-    id: 'url',
+    id: 'description',
     numeric: false,
-    label: 'Game url',
+    label: 'Description',
     align: 'center'
   },
   {
-    id: 'developer',
+    id: 'status',
     numeric: true,
-    label: 'Developer',
+    label: 'Status',
     align: 'center'
   },
   {
-    id: 'platform',
-    numeric: true,
-    label: 'Platform',
-    align: 'center'
-  },
-  {
-    id: 'like',
+    id: 'visit',
     numeric: false,
-    label: 'Likes',
+    label: 'Visit',
     align: 'center'
   },
   {
@@ -170,16 +168,22 @@ const Games = () => {
   const [ search, setSearch ] = React.useState('')
   const [ rows, setRows ] = React.useState(rowsInitial)
   const [ openModel, setOpenModel ] = React.useState(false)
+  const [ noSearchResults, setNoSearchResults ] = useState(false)
 
   useEffect(() => {
     fetchGames()
     fetchCategories()
-  }, [])
+    setNoSearchResults(false)
+  }, [ rows, rowsPerPage ])
 
   async function fetchGames() {
     try {
       const response = await gameService.getGameList()
-      setGames(response.games)
+      const gamesData = response?.games || []
+      const sortedData = gamesData.sort(
+          (a, b) => new Date(b.createdOn) - new Date(a.createdOn)
+      )
+      setGames(sortedData)
     } catch (error) {
       console.log(error.message)
     }
@@ -202,6 +206,7 @@ const Games = () => {
       setGames([ ...games, res.data ])
       setCreateGame({
         gameName: '',
+        slug: '',
         description: '',
         thumbnail: '',
         gamePreview: '',
@@ -226,29 +231,12 @@ const Games = () => {
 
   const handleSearch = (event) => {
     const newString = event.target.value
-    setSearch(newString)
-
-    if (newString) {
-      const newRows = rows.filter((row) => {
-        let matches = true
-
-        const properties = [ 'name', 'email', 'location', 'orders' ]
-        let containsQuery = false
-
-        properties.forEach((property) => {
-          if (row[property].toString().toLowerCase().includes(newString.toString().toLowerCase())) {
-            containsQuery = true
-          }
-        })
-
-        if (!containsQuery) {
-          matches = false
-        }
-        return matches
-      })
-      setRows(newRows)
+    const searchedGames = games.filter((game) => game.gameName.toLowerCase().includes(newString.toString().toLowerCase()))
+    if (searchedGames.length) {
+      setGames(searchedGames)
+      setNoSearchResults(false)
     } else {
-      setRows(rowsInitial)
+      setNoSearchResults(true)
     }
   }
 
@@ -267,7 +255,7 @@ const Games = () => {
     setPage(0)
   }
 
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - games.length) : 0
 
   return (
       <MainCard title="Games" content={false}>
@@ -282,7 +270,12 @@ const Games = () => {
                         </InputAdornment>
                     )
                   }}
-                  onChange={handleSearch}
+                  onChange={(e) => setSearch(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                      handleSearch(e)
+                    }
+                  }}
                   placeholder="Search games..."
                   value={search}
                   size="small"
@@ -324,7 +317,11 @@ const Games = () => {
                           label="Game Name"
                           placeholder="Game Name"
                           value={createGame.gameName || ''}
-                          onChange={(e) => setCreateGame({ ...createGame, gameName: e.target.value })}
+                          onChange={(e) =>
+                              setCreateGame({
+                                ...createGame,
+                                gameName: e.target.value
+                              })}
                       />
                       <TextField
                           required
@@ -335,55 +332,44 @@ const Games = () => {
                           value={createGame.shortDescription}
                           onChange={(e) => setCreateGame({ ...createGame, shortDescription: e.target.value })}
                       />
-                      <TextField
-                          required
-                          variant="outlined"
-                          type="text"
-                          label="Description"
-                          placeholder="Description"
-                          multiline
-                          rows={2}
-                          value={createGame.description || ''}
-                          onChange={(e) => setCreateGame({ ...createGame, description: e.target.value })}
-                      />
-
-                      <Grid item xs={12} sx={{ display: 'flex', gap: '20px' }}>
-                        <Grid item xs={4}>
-                          <TextField
-                              required
-                              variant="outlined"
-                              type="url"
-                              label="Game URL"
-                              placeholder="Game URL"
-                              value={createGame.url || ''}
-                              onChange={(e) => setCreateGame({ ...createGame, url: e.target.value })}
-                          />
-                        </Grid>
-                        <Grid item xs={4}>
-                          <TextField
-                              sx={{ width: 'full' }}
-                              required
-                              variant="outlined"
-                              type="url"
-                              label="Thumbnail URL"
-                              placeholder="Thumbnail URL"
-                              value={createGame.thumbnail || ''}
-                              onChange={(e) => setCreateGame({ ...createGame, thumbnail: e.target.value })}
-                          />
-                        </Grid>
-                        <Grid item xs={4}>
-                          <TextField
-                              required
-                              variant="outlined"
-                              type="url"
-                              label="Game Preview URL"
-                              placeholder="Game Preview URL"
-                              value={createGame.gamePreview || ''}
-                              onChange={(e) => setCreateGame({ ...createGame, gamePreview: e.target.value })}
-                          />
-                        </Grid>
+                      <Grid item xs={12} className="App" marginY={2}>
+                        <CKEditor
+                            onReady={(editor) => {
+                              editor.editing.view.change((writer) => {
+                                writer.setStyle(
+                                    'min-height',
+                                    '200px',
+                                    editor.editing.view.document.getRoot()
+                                )
+                                writer.setStyle(
+                                    'max-height',
+                                    '300px',
+                                    editor.editing.view.document.getRoot()
+                                )
+                              })
+                            }}
+                            editor={ClassicEditor}
+                            data={createGame?.description}
+                            value={createGame?.description || ''}
+                            onChange={(event, editor) => {
+                              const data = editor.getData()
+                              setCreateGame({ ...createGame, description: data })
+                            }}
+                        />
                       </Grid>
-
+                      <Grid item>
+                        <TextField
+                            sx={{ width: 'full' }}
+                            required
+                            fullWidth
+                            variant="outlined"
+                            type="url"
+                            label="Thumbnail URL"
+                            placeholder="Thumbnail URL"
+                            value={createGame.thumbnail || ''}
+                            onChange={(e) => setCreateGame({ ...createGame, thumbnail: e.target.value })}
+                        />
+                      </Grid>
                       <Grid item xs={12} sx={{ display: 'flex', gap: '20px' }}>
                         <Grid item xs={6}>
                           <FormControl fullWidth>
@@ -408,22 +394,76 @@ const Games = () => {
                         </Grid>
                         <Grid item xs={6}>
                           <FormControl fullWidth>
-                            <InputLabel id="demo-simple-select-label">Categories</InputLabel>
+                            <InputLabel id="demo-multiple-chip-label">
+                              Categories
+                            </InputLabel>
                             <Select
-                                required
-                                variant="outlined"
-                                type="text"
-                                label="Categories"
-                                labelId="demo-simple-select-label"
-                                value={createGame.categories || categories.value}
-                                onChange={(e) => setCreateGame({ ...createGame, categories: e.target.value })}
+                                multiple
+                                labelId="demo-multiple-chip-label"
+                                id="demo-multiple-chip"
+                                name="categories"
+                                value={createGame?.categories || []}
+                                onChange={(event) => {
+                                  setCreateGame({ ...createGame, categories: event.target.value })
+                                }}
+                                input={
+                                  <OutlinedInput
+                                      id="select-multiple-chip"
+                                      label="Chip"
+                                  />
+                                }
+                                renderValue={(selected) => (
+                                    <Stack gap={1} direction="row" flexWrap="wrap">
+                                      {selected.map((selectedCategory, index) => (
+                                          <Chip
+                                              key={index}
+                                              label={selectedCategory?.categoryName}
+                                              onDelete={() => {
+                                                const filteredCategories =
+                                                    createGame?.categories.filter(
+                                                        (category) =>
+                                                            category._id !== selectedCategory?._id
+                                                    )
+                                                setCreateGame({
+                                                  ...createGame,
+                                                  categories: filteredCategories
+                                                })
+                                              }}
+                                              deleteIcon={
+                                                <IconX
+                                                    size={18}
+                                                    onMouseDown={(event) =>
+                                                        event.stopPropagation()
+                                                    }
+                                                />
+                                              }
+                                          />
+                                      ))}
+                                    </Stack>
+                                )}
                             >
-                              {categories.map((category) => (
-                                  <MenuItem sx={{ display: 'flex', gap: '8px' }} key={category._id} value={category.categoryName} selected={category.categoryName === games.categories}>
-                                    <img src={category.categoryIcon} width={20} height={20} alt="icon"/>
-                                    {category.categoryName}
-                                  </MenuItem>
-                              ))}
+                              {categories?.map((category) => {
+                                const isSelected = createGame?.categories.find(
+                                    (gameCategory) => gameCategory._id === category._id
+                                )
+                                return (
+                                    <MenuItem
+                                        key={category._id}
+                                        sx={{ display: 'flex', gap: '8px' }}
+                                        value={category}
+                                        divider={true}
+                                        selected={!!isSelected}
+                                    >
+                                      <img
+                                          src={category?.categoryIcon}
+                                          width={20}
+                                          height={20}
+                                          alt="icon"
+                                      />
+                                      {category?.categoryName}
+                                    </MenuItem>
+                                )
+                              })}
                             </Select>
                           </FormControl>
                         </Grid>
@@ -488,6 +528,7 @@ const Games = () => {
                           </Grid>
                         </Grid>
                       </Grid>
+                      <Typography color={'red'} className="text-red-500"><b>Note:</b> You can upload game url or game zip after complete game creation.</Typography>
                       <Button variant="contained" color="success" sx={{ color: 'rgb(35, 8, 82)' }} type="submit">
                         Add Game
                       </Button>
@@ -504,6 +545,7 @@ const Games = () => {
           <Table className={classes.table} aria-labelledby="GameTable">
             <EnhancedTableHead classes={classes} order={order} orderBy={orderBy} onRequestSort={handleRequestSort} rowCount={rows.length}/>
             <TableBody>
+
               {stableSort(rows, getComparator(order, orderBy)).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => {
                 const labelId = `enhanced-table-checkbox-${index}`
 
@@ -515,65 +557,81 @@ const Games = () => {
                         </Typography>
                         <Typography variant="caption"> {row.shortDescription} </Typography>
                       </TableCell>
-                      <TableCell>{row.url}</TableCell>
-                      <TableCell align="right">{row.developer}</TableCell>
-                      <TableCell align="center">{row.platform}</TableCell>
-                      <TableCell align="center">{row.likes}</TableCell>
-                      <TableCell align="center" sx={{ pr: 3 }} onClick={() => navigate(`/games/${row.id}`)}>
+                      <TableCell>{row.description}</TableCell>
+                      <TableCell align="right">{row.status}</TableCell>
+                      <TableCell align="center" sx={{ pr: 3 }}>
+                        <Button onClick={() => window.open(row?.url, '_blank', 'noopener,noreferrer')}>
+                          <IconButton color="primary">
+                            <Launch sx={{ fontSize: '1.3rem' }}/>
+                          </IconButton>
+                        </Button>
+                      </TableCell>
+                      <TableCell align="center" sx={{ pr: 3 }} onClick={() => navigate(row?.url)}>
                         <IconButton color="primary">
                           <VisibilityTwoToneIcon sx={{ fontSize: '1.3rem' }}/>
                         </IconButton>
                       </TableCell>
                     </TableRow>
                 )
-              })}
-
-              {games.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => {
-                const labelId = `enhanced-table-checkbox-${index}`
-
-                return (
-                    <TableRow hover tabIndex={-1} key={index}>
-                      <TableCell component="th" id={labelId} scope="row" sx={{ cursor: 'pointer' }}>
-                        <Grid item xs={12} sx={{ display: 'flex', gap: '14px' }}>
-                          <Grid item xs={3}>
-                            <img
-                                src={row.thumbnail}
-                                width="70px"
-                                height="70px"
-                                style={{ borderRadius: '50px', objectFit: 'cover' }}
-                                alt="game"
-                            />
-                          </Grid>
-                          <Grid item xs={9}>
-                            <Typography
-                                variant="subtitle1"
-                                sx={{ color: theme.palette.mode === 'dark' ? theme.palette.grey[600] : 'grey.900' }}
-                            >
-                              {row.gameName}
-                            </Typography>
-                            <Typography variant="caption"> {row.shortDescription} </Typography>
-                          </Grid>
-                        </Grid>
+              })
+              }
+              {
+                noSearchResults ? <TableRow aria-colspan={4}>
+                      <TableCell colSpan={4} sx={{ textAlign: 'center' }}>
+                        No search results found
                       </TableCell>
-                      <TableCell align="center">{row.url}</TableCell>
-                      <TableCell align="center">{row.developer}</TableCell>
-                      <TableCell align="center">{row.platform}</TableCell>
-                      <TableCell align="center">{row.likes}</TableCell>
-                      <TableCell align="center" sx={{ pr: 3 }} onClick={() => navigate(`/games/${row._id}`)}>
-                        <IconButton color="primary">
-                          <VisibilityTwoToneIcon sx={{ fontSize: '1.3rem' }}/>
-                        </IconButton>
-                      </TableCell>
-                    </TableRow>
-                )
-              })}
+                    </TableRow> :
+                    (games.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => {
+                      const labelId = `enhanced-table-checkbox-${index}`
+                      return (
+                          <TableRow hover tabIndex={-1} key={row?._id}>
+                            <TableCell component="th" id={labelId} scope="row" sx={{ cursor: 'pointer' }}>
+                              <Grid item xs={12} sx={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
+                                <Grid item xs={3}>
+                                  <img
+                                      src={row.thumbnail}
+                                      width="70px"
+                                      height="70px"
+                                      style={{ borderRadius: '50px', objectFit: 'cover' }}
+                                      alt="game"
+                                  />
+                                </Grid>
+                                <Grid item xs={9}>
+                                  <Typography
+                                      variant="subtitle1"
+                                      sx={{ color: theme.palette.mode === 'dark' ? theme.palette.grey[600] : 'grey.900' }}
+                                  >
+                                    {row.gameName}
+                                  </Typography>
+                                </Grid>
+                              </Grid>
+                            </TableCell>
+                            <TableCell align="center">{row.shortDescription}</TableCell>
+                            <TableCell align="left">
+                              {row.status === 'active' && <Chip label="Active" size="small" color="success"/>}
+                              {row.status === 'inactive' && <Chip label="Inactive" size="small" color="primary"/>}
+                              {row.status === 'deleted' && <Chip label="Deleted" size="small" color="error"/>}
+                              {row.status === 'pending' && <Chip label="Pending" size="small" color="warning"/>}
+                            </TableCell>
+                            <TableCell align="center" sx={{ pr: 3 }}>
+                              <Button onClick={() => window.open(row?.url, '_blank', 'noopener,noreferrer')}>
+                                <IconButton color="primary">
+                                  <Launch sx={{ fontSize: '1.3rem' }}/>
+                                </IconButton>
+                              </Button>
+                            </TableCell>
+                            <TableCell align="center" sx={{ pr: 3 }} onClick={() => navigate(`/games/${row.slug}`)}>
+                              <IconButton color="primary">
+                                <VisibilityTwoToneIcon sx={{ fontSize: '1.3rem' }}/>
+                              </IconButton>
+                            </TableCell>
+                          </TableRow>
+                      )
+                    }))
+              }
 
               {emptyRows > 0 && (
-                  <TableRow
-                      style={{
-                        height: 53 * emptyRows
-                      }}
-                  >
+                  <TableRow style={{ height: 53 * emptyRows }}>
                     <TableCell colSpan={6}/>
                   </TableRow>
               )}
@@ -584,7 +642,7 @@ const Games = () => {
         <TablePagination
             rowsPerPageOptions={[ 5, 10, 25 ]}
             component="div"
-            count={rows.length}
+            count={games.length}
             rowsPerPage={rowsPerPage}
             page={page}
             onPageChange={handleChangePage}

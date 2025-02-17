@@ -11,9 +11,9 @@ export default class gameService {
     }
   }
 
-  static async getGame(id) {
+  static async getGame(slug) {
     try {
-      const response = await axiosInstance.get(`/v1/game/${id}`)
+      const response = await axiosInstance.get(`/v1/game/${slug}`)
 
       return response.data
     } catch (error) {
@@ -26,6 +26,24 @@ export default class gameService {
       const response = await axiosInstance.get('/v1/games/dashboard-cards')
       return response.data
     } catch (error) {
+      console.log(error.message)
+    }
+  }
+
+  static async getTrendingGames(){
+    try{
+      const response = await axiosInstance.get('/v1/trending-list')
+      return response.data
+    } catch(error) {
+      console.log(error.message)
+    }
+  }
+
+  static async getFeatureGames(){
+    try{
+      const response = await axiosInstance.get('/v1/feature-list')
+      return response.data
+    } catch(error) {
       console.log(error.message)
     }
   }

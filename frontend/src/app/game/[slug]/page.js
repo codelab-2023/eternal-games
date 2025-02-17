@@ -1,49 +1,57 @@
 'use client'
 import React, { useEffect, useRef, useState } from 'react'
-import { useSearchParams } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { FaFacebookF, FaLinkedinIn, FaPlay, FaRegComments, FaRegThumbsDown, FaRegThumbsUp, FaShareAlt, FaWhatsapp } from 'react-icons/fa'
-import { ImReddit } from 'react-icons/im'
-import { MdClose, MdFullscreen, MdFullscreenExit } from 'react-icons/md'
-import gameService from '../../services/game.service'
+import { FaPlay, FaRegComments, FaRegThumbsDown, FaRegThumbsUp, FaShareAlt } from 'react-icons/fa'
+import { MdFullscreen, MdFullscreenExit } from 'react-icons/md'
+import gameService from '../../../services/game.service'
 import parse from 'html-react-parser'
-import NavBar from '../../components/navbar/page'
-import Footer from '../../components/footer/page'
+import NavBar from '../../../components/navbar/page'
+import Footer from '../../../components/footer/page'
 import PacmanLoader from 'react-spinners/PacmanLoader'
-import Modal from '@mui/material/Modal'
-import { FaXTwitter } from 'react-icons/fa6'
-import { Box } from '@mui/material'
 import { GoogleAnalytics } from '@next/third-parties/google'
+import ShareModal from '../../../components/share-model/page'
+import { LIVE_URL } from '../../../helper/constant'
+import moment from 'moment'
 
-const moment = require('moment')
-
-export default function Page() {
+export default function Page({ params }) {
   const descriptionRef = useRef()
   const iframeRef = useRef(null)
+  const route = useRouter()
+  const { slug } = React.use(params);
 
-  const searchParams = useSearchParams()
   const [ loading, setLoading ] = useState(true)
   const [ games, setGames ] = useState()
   const [ sideGames, setSideGames ] = useState([])
   const [ isFullScreen, setIsFullScreen ] = useState(false)
   const [ playGame, setPlayGame ] = useState(false)
-  const [ isCopied, setIsCopied ] = useState(false)
-  const [ shareModelOpen, setShareModelOpen ] = useState(false)
   const [ mobileExitFullScreen, setMobileExitFullScreen ] = useState(false)
+  const [ isShareModalOpen, setIsShareModalOpen ] = useState(false)
 
   useEffect(() => {
-    const id = searchParams.get('id')
-    fetchGame(id)
-    getSideGames()
-  }, [ searchParams ])
+    const slug = params.slug
+    setIsFullScreen(false)
+    setPlayGame(false)
+    setMobileExitFullScreen(false)
 
-  async function fetchGame(gameID) {
+    if (!slug) {
+      return route.push('/')
+    }
+    fetchGame(slug)
+    getSideGames(slug)
+  }, [ slug ])
+
+  async function fetchGame(slugText) {
     try {
       setLoading(true)
-      const response = await gameService.getGame(`${gameID}`)
 
+      const response = await gameService.getGame(slugText)
+
+      document.title = `EternalGames - ${response?.game?.gameName}`
+      if (descriptionRef.current) {
+        descriptionRef.current.innerHTML = response.data.description
+      }
       setGames(response.game)
-      descriptionRef.current.innerHTML = response.data.description
       setLoading(false)
     } catch (error) {
       console.log(error.message)
@@ -52,10 +60,11 @@ export default function Page() {
     }
   }
 
-  async function getSideGames() {
+  async function getSideGames(currentSlug) {
     try {
       const response = await gameService.getGameList()
-      setSideGames(response.games)
+      const filteredGames = await response?.games.filter(data => data?.slug !== currentSlug)
+      setSideGames(filteredGames)
     } catch (error) {
       console.log(error.message)
     }
@@ -114,15 +123,6 @@ export default function Page() {
     }
   }, [])
 
-  const handleCopy = () => {
-    navigator.clipboard.writeText(window.location.href).then(() => {
-      setIsCopied(true)
-      setTimeout(() => setIsCopied(false), 2000)
-    }).catch(err => {
-      console.error('Failed to copy: ', err)
-    })
-  }
-
   function exitFullScreen() {
     if (window.innerWidth <= 435) {
       setMobileExitFullScreen(true)
@@ -149,38 +149,15 @@ export default function Page() {
     setMobileExitFullScreen(false)
   }
 
+  function handleCloseShareModal() {
+    setIsShareModalOpen(false)
+  }
+
   return (
       <>
         <div className="w-screen text-white min-h-screen overflow-x-hidden">
+          <ShareModal open={isShareModalOpen} handleClose={handleCloseShareModal} shareUrl={`${LIVE_URL}/game/${games?.slug}`}/>
           {isFullScreen ? null : <NavBar/>}
-          {
-            shareModelOpen ?
-                <Modal
-                    open={open}
-                    onClose={() => setShareModelOpen(false)}
-                    aria-labelledby="modal-modal-title"
-                    aria-describedby="modal-modal-description"
-                >
-                  <Box className="absolute w-full h-full flex justify-center z-50">
-                    <div className="bg-slate-800 h-fit p-3 self-center rounded-xl">
-                      <div className="float-right" onClick={() => setShareModelOpen(false)}><MdClose color="#979797" size={26}/></div>
-                      <div className="mt-4 text-xl font-bold text-center">Share the game</div>
-                      <div className="my-4 flex flex-row justify-center gap-3">
-                        <Link href="https://www.facebook.com/" target="_blank" className="p-3 rounded-full bg-[#2b5ee3]"><FaFacebookF size={24}/></Link>
-                        <Link href="https://twitter.com/?lang=en" target="_blank" className="p-3 rounded-full bg-black"><FaXTwitter size={24}/></Link>
-                        <Link href="https://www.whatsapp.com/" target="_blank" className="p-3 rounded-full bg-[#53af52]"><FaWhatsapp size={24}/></Link>
-                        <Link href="https://in.linkedin.com/" target="_blank" className="p-3 rounded-full bg-[#2c5eaf]"><FaLinkedinIn size={24}/></Link>
-                        <Link href="https://www.reddit.com/" target="_blank" className="p-3 rounded-full bg-[#d85e3c]"><ImReddit size={24}/></Link>
-                      </div>
-                      <div className="flex flex-row items-center gap-3 bg-slate-950 py-3 px-4 mb-10 rounded-xl text-gray-500">
-                        <div>{window.location.href}</div>
-                        <button className="py-1 px-3 bg-lime-500 text-white text-base font-bold rounded-full" onClick={() => handleCopy()}>Copy</button>
-                      </div>
-                    </div>
-                  </Box>
-                </Modal>
-                : null
-          }
           {loading ? <div className="absolute w-full top-[46%]">
                 <PacmanLoader
                     color="rgb(190 242 100)"
@@ -202,12 +179,7 @@ export default function Page() {
                             sideGames.slice(0, 13).map((game) => {
                               return (
                                   <div key={game?._id} onClick={() => handleClickOnGame()}>
-                                    <Link href={{
-                                      pathname: '/game',
-                                      query: {
-                                        id: game?._id
-                                      }
-                                    }}>
+                                    <Link href={{ pathname: `/game/${game?.slug}` }}>
                                       <img className="rounded-lg mb-4 h-28" src={game?.thumbnail} width={200} height={100} alt={game?.gameName}/>
                                     </Link>
                                   </div>
@@ -250,11 +222,11 @@ export default function Page() {
                     </div>
                     {isFullScreen ? null : <div className="flex flex-row items-center justify-end pl-3 w-full bg-slate-800">
                       <div className="flex flex-row items-center justify-end gap-5 p-4 ">
-                        <div><FaRegThumbsUp size={18}/></div>
-                        <div><FaRegThumbsDown size={18}/></div>
-                        <div><FaRegComments size={22}/></div>
-                        <div onClick={() => setShareModelOpen(prevState => !prevState)}><FaShareAlt size={18}/></div>
-                        <div className="xs:hidden sm:block">
+                        <div className="cursor-pointer"><FaRegThumbsUp size={18}/></div>
+                        <div className="cursor-pointer"><FaRegThumbsDown size={18}/></div>
+                        <div className="cursor-pointer"><FaRegComments size={22}/></div>
+                        <div className="cursor-pointer" onClick={() => setIsShareModalOpen(prevState => !prevState)}><FaShareAlt size={18}/></div>
+                        <div className="cursor-pointer xs:hidden sm:block">
                           {
                             playGame ? <div onClick={() => goFullscreen()}><MdFullscreen size={30}/></div> :
                                 <div><MdFullscreen color="#616161" size={30}/></div>
@@ -270,12 +242,7 @@ export default function Page() {
                             sideGames.slice(0, 12).map((game) => {
                               return (
                                   <div key={game?._id} onClick={() => handleClickOnGame()}>
-                                    <Link href={{
-                                      pathname: '/game',
-                                      query: {
-                                        id: game?._id
-                                      }
-                                    }}>
+                                    <Link href={{ pathname: `/game/${game?.slug}` }}>
                                       <img className="rounded-lg h-28" src={game?.thumbnail} width={173} height={100} alt={game?.gameName}/>
                                     </Link>
                                   </div>
@@ -291,7 +258,7 @@ export default function Page() {
                               <div className="w-full p-4">
                                 <div className="font-extrabold text-2xl">{games?.gameName}</div>
                                 <div className="flex gap-4 my-4">
-                                  <button className="flex flex-row items-center gap-2 font-bold bg-slate-700 rounded-full py-2 px-4" onClick={() => setShareModelOpen(prevState => !prevState)}>
+                                  <button className="flex flex-row items-center gap-2 font-bold bg-slate-700 rounded-full py-2 px-4" onClick={() => setIsShareModalOpen(prevState => !prevState)}>
                                     <FaShareAlt size={15}/>Share
                                   </button>
                                   {/*<button className="flex flex-row items-center gap-2 font-bold bg-slate-700 rounded-full py-2 px-4"><ImEmbed2 size={20}/>Embed</button>*/}
@@ -330,13 +297,13 @@ export default function Page() {
                                 </div>
                                 <div className="mb-8 text-sm">{games?.shortDescription}</div>
                               </div>
-                              <div className="bg-slate-800 h-96 w-1/3 rounded-xl nm:block xs:hidden"/>
+                              <div className="bg-slate-800 h-96 w-1/3 rounded-xl nm:block xs:hidden">Ad</div>
                             </div>
                             <div className="flex flex-wrap justify-center gap-6 mx-6 mb-8">
                               {
                                 games?.categories?.map((tag, index) => {
                                   return (
-                                      <div key={index} className="flex items-center gap-2 px-4 py-2 bg-slate-600 rounded-full text-sm">
+                                      <div key={tag._id} className="flex items-center gap-2 px-4 py-2 bg-slate-600 rounded-full text-sm">
                                         <img className="rounded-full my-px h-full" src={tag?.categoryIcon} width={20} height={20} alt="game"/>
                                         <div>{tag?.categoryName}</div>
                                       </div>
@@ -344,13 +311,28 @@ export default function Page() {
                                 })
                               }
                             </div>
-                            {/* <img className="m-auto mb-8" src="https://images.crazygames.com/store-logos/steam-button.png?auto=format%2Ccompress&q=45&cs=strip&ch=DPR" width={200} height={100} alt="download" /> */}
                           </div>
                     }
                   </div>
                   {
                     isFullScreen ? null : <div className="w-1/4 xs:hidden xl:block">
-                      <div className="h-1/2 w-full bg-slate-800 rounded-xl"/>
+                      <div className="h-1/2 w-full bg-slate-800 rounded-xl mb-5">Ad</div>
+                      {
+                        isFullScreen ? null :
+                            <div className="xs:hidden 2xl:block">
+                              {
+                                sideGames.slice(0, 4).map((game) => {
+                                  return (
+                                      <div key={game?._id} className="w-full h-auto" onClick={() => handleClickOnGame()}>
+                                        <Link href={{ pathname: `/game/${game?.slug}` }}>
+                                          <img className="rounded-lg mb-4 h-48" src={game?.thumbnail} width={'100%'} alt={game?.gameName}/>
+                                        </Link>
+                                      </div>
+                                  )
+                                })
+                              }
+                            </div>
+                      }
                     </div>
                   }
                 </div>
@@ -361,12 +343,7 @@ export default function Page() {
                           sideGames.slice(0, 18).map((game) => {
                             return (
                                 <div key={game?._id} onClick={() => handleClickOnGame()}>
-                                  <Link href={{
-                                    pathname: '/game',
-                                    query: {
-                                      id: game?._id
-                                    }
-                                  }}>
+                                  <Link href={{ pathname: `/game/${game?.slug}` }}>
                                     <img className="rounded-lg h-28" src={game?.thumbnail} width={173} height={100} alt="game"/>
                                   </Link>
                                 </div>

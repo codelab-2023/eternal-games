@@ -5,8 +5,9 @@ import Link from 'next/link'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Autoplay } from 'swiper/modules'
 import 'swiper/css'
+import { Skeleton } from '@mui/material'
 
-const CarouselMain = ({ helper }) => {
+const CarouselMain = ({ helper, loading }) => {
 
   return (
       <ImageList
@@ -53,25 +54,41 @@ const CarouselMain = ({ helper }) => {
             }}
         >
           {
-            helper.slice(0, 5).map((item) => (
-                <ImageListItem key={item._id} cols={item.cols || 1} rows={item.rows || 1}>
-                  <SwiperSlide>
-                    <Link href={{
-                      pathname: '/game',
-                      query: {
-                        id: item._id
-                      }
-                    }}>
-                      <img
-                          className="rounded-lg h-full"
-                          width={500}
-                          src={item.thumbnail}
-                          alt={item.gameName}
-                      />
-                    </Link>
-                  </SwiperSlide>
-                </ImageListItem>
-            ))}
+            loading ? (
+                    [ 1, 2, 3, 4, 5 ].map((index) => {
+                      // console.log('🚀🚀🚀 carousel-main-1 => index :: ', index)
+                      return (
+                          <ImageListItem key={`main-${index}`} cols={1} rows={1}>
+                            <SwiperSlide>
+                              <Skeleton
+                                  variant="rectangular"
+                                  width={500}
+                                  height={'100%'}
+                                  sx={{ borderRadius: '8px', bgcolor: 'grey.700' }}
+                              />
+                            </SwiperSlide>
+                          </ImageListItem>
+                      )
+                    })) :
+                (
+                    helper.slice(0, 5).map((item, index) => {
+                      // console.log('🚀🚀🚀 i => carousel-main-2 :: ', `main-${item._id}`, index)
+                      return (
+                          <ImageListItem key={`main-${item._id}`} cols={item.cols || 1} rows={item.rows || 1}>
+                            <SwiperSlide>
+                              <Link href={{ pathname: `/game/${item?.slug}` }}>
+                                <img
+                                    className="rounded-lg h-full"
+                                    width={500}
+                                    src={item.thumbnail}
+                                    alt={item.gameName}
+                                />
+                              </Link>
+                            </SwiperSlide>
+                          </ImageListItem>
+                      )
+                    }))
+          }
         </Swiper>
       </ImageList>
   )

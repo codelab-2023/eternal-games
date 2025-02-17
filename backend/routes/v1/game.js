@@ -12,7 +12,7 @@ const {
 
 // User routes - /v1/games
 router.get('/dashboard-cards', dashboardCards)
-router.get('/:id', getGame)
+router.get('/:slug', getGame)
 router.get('/', getGameList)
 router.post('/create', createGame)
 router.put('/:id', updateGame)
