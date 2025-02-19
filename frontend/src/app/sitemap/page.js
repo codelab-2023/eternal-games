@@ -8,6 +8,7 @@ export default async function Sitemap() {
   // Fetch dynamic game pages from API
   let gamePages = []
   try {
+    document.title = `EternalGames - Sitemap`
     const response = await gameService.getGameList()
     if (response?.games) {
       gamePages = response.games.map((game) => ({
