@@ -11,6 +11,7 @@ export default function Games() {
   const [ games, setGames] = useState([])
 
   useEffect(() => {
+    document.title = `EternalGames - Sitemap Games`
     getGames()
   }, [])
 
