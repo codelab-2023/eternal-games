@@ -1,4 +1,5 @@
 import Head from 'next/head'
+import Script from 'next/script'
 import { Inter } from 'next/font/google'
 import './globals.css'
 import { GoogleAnalytics } from '@next/third-parties/google'
@@ -24,10 +25,16 @@ export default function RootLayout({ children }) {
         {/*<meta property="og:image" content={logo}/>*/}
         <meta name="google" content="nositelinkssearchbox" key="sitelinks"/>
         <meta name="google" content="notranslate" key="notranslate"/>
-        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5284860989721758" crossOrigin="anonymous"/>
       </Head>
 
       <body className={`w-screen text-white min-h-screen overflow-x-hidden ${inter.className}`}>
+      <Script
+          id="adsense-script"
+          async
+          strategy="afterInteractive"
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5284860989721758"
+          crossOrigin="anonymous"
+      />
       {/*<Suspense>*/}
       {/*  <NavBar toggleSideBar={handleToggle} />*/}
       {/*</Suspense>*/}
@@ -44,6 +51,7 @@ export default function RootLayout({ children }) {
       {/*<Suspense>*/}
       {/*  <Footer />*/}
       {/*</Suspense>*/}
+
       </body>
       <GoogleAnalytics gaId="G-TF62GHPFEJ"/>
       </html>
