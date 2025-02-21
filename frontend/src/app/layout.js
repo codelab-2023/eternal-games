@@ -24,6 +24,7 @@ export default function RootLayout({ children }) {
         {/*<meta property="og:image" content={logo}/>*/}
         <meta name="google" content="nositelinkssearchbox" key="sitelinks"/>
         <meta name="google" content="notranslate" key="notranslate"/>
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5284860989721758" crossOrigin="anonymous"/>
       </Head>
 
       <body className={`w-screen text-white min-h-screen overflow-x-hidden ${inter.className}`}>
