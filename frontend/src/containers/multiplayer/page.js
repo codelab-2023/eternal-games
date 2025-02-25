@@ -4,7 +4,7 @@ import * as React from 'react'
 
 const Multiplayer = () => {
   return (
-      <div className="flex xs:justify-around nm:justify-between xs:gap-2 nm:gap-6 bg-slate-900 m-6 xs:p-2 base:p-4 rounded-lg">
+      <div className="flex xs:justify-around nm:justify-between xs:gap-2 nm:gap-6 bg-slate-900 m-6 xs:p-2 sm:p-4 rounded-lg">
         <div className="xs:hidden nm:flex flex-row items-center w-fit font-sans font-bold">
           <div className="xs:hidden nm:block nm:text-3xl xs:text-2xl text-wrap pr-2">Play with <br/>friends!</div>
           <Image
@@ -27,7 +27,7 @@ const Multiplayer = () => {
             <div className="md:m-3 text-center font-sans">
               <div className="font-bold mx-2 xs:text-ld md:text-xl">Local multiplayer</div>
               <div className="xs:hidden md:block text-gray-400 xs:text-sm md:text-lg mb-4">Play on same device</div>
-              <button className="xs:text-sm base:text-base bg-lime-500 hover:bg-lime-600 px-4 py-2 rounded-full font-bold">Explore games</button>
+              <button className="xs:text-sm sm:text-base bg-lime-500 hover:bg-lime-600 px-4 py-2 rounded-full font-bold">Explore games</button>
             </div>
           </div>
         </div>
@@ -43,7 +43,7 @@ const Multiplayer = () => {
             <div className="md:m-3 text-center font-sans">
               <div className="font-bold mx-2 md:text-xl xs:text-ld">Online multiplayer</div>
               <div className="xs:hidden md:block text-gray-400 xs:text-sm md:text-lg mb-4">Play on separate devices</div>
-              <button className="xs:text-sm base:text-base bg-lime-500 hover:bg-lime-600 px-4 py-2 rounded-full font-bold">Explore games</button>
+              <button className="xs:text-sm sm:text-base bg-lime-500 hover:bg-lime-600 px-4 py-2 rounded-full font-bold">Explore games</button>
             </div>
           </div>
         </div>

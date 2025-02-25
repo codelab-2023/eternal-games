@@ -44,7 +44,7 @@ export default function RootLayout({ children }) {
 
       {/*<div className={`w-full ${openSideBar ? 'h-screen overflow-y-scroll ' : ''}`}>*/}
       {/*    <SideBar isOpen={openSideBar} onClose={handleToggle} />*/}
-      {/*  <div className={` ${openSideBar ? 'xs:ml-auto base:ml-[190px] h-screen overflow-y-scroll' : ''}`}>*/}
+      {/*  <div className={` ${openSideBar ? 'xs:ml-auto sm:ml-[190px] h-screen overflow-y-scroll' : ''}`}>*/}
 
       {/*  </div>*/}
       {/*</div>*/}

@@ -348,6 +348,7 @@ const Games = () => {
                                 )
                               })
                             }}
+                            required
                             editor={ClassicEditor}
                             data={createGame?.description}
                             value={createGame?.description || ''}

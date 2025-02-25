@@ -170,11 +170,11 @@ export default function Page({ params }) {
                     }}
                 />
               </div> :
-              <div className={`${isFullScreen ? 'mx-1' : 'lg:mx-24 font-sans'}`}>
+              <div className={`${isFullScreen ? 'mx-1' : 'mx-4 font-sans'}`}>
                 <div className={`${isFullScreen ? '' : 'flex flex-row gap-4 pt-3'}`}>
                   {
                     isFullScreen ? null :
-                        <div className="xs:hidden 2xl:block">
+                        <div className="hidden 2xl:block basis-[200px]">
                           {
                             sideGames.slice(0, 13).map((game) => {
                               return (
@@ -188,7 +188,7 @@ export default function Page({ params }) {
                           }
                         </div>
                   }
-                  <div className={`${isFullScreen ? '' : 'nm:w-3/4 xs:w-full nm:mx-auto xs:mx-4'}`}>
+                  <div className={`${isFullScreen ? '' : 'w-full xl:basis-[80%] 2xl:basis-[calc(80%-200px)]'}`}>
                     <div className="game-thumbnail-div flex relative">
                       <div className={`${playGame ? 'hidden' : 'absolute w-full h-full mx-auto xs:hidden sm:flex flex-row items-center justify-center bg-transBlack z-40'}`}>
                         <button className="py-3 px-6 rounded-full flex flex-row items-center gap-2 bg-lime-500 text-base font-extrabold" onClick={() => setPlayGame(true)}><FaPlay/>Play Now</button>
@@ -204,7 +204,7 @@ export default function Page({ params }) {
                       </div>
                       {
                         playGame && !mobileExitFullScreen ? null :
-                            <div>
+                            <div className='w-full'>
                               <div className="relative w-full">
                                 <img className="game-thumbnail w-full" src={games?.thumbnail} alt={games?.gameName}/>
                                 <div className="absolute -bottom-1 bg-gradient-to-b from-transparent via-transBlack to-transBlack2 to-90% w-full h-full xs:block sm:hidden z-20"/>
@@ -239,13 +239,13 @@ export default function Page({ params }) {
                     }
                     {isFullScreen ? null : <div className="h-32 w-full mt-4 bg-slate-800 rounded-xl">Ad</div>}
                     {isFullScreen ? null :
-                        <div className="xs:hidden lg:flex flex-wrap justify-center gap-4 mt-4">
+                        <div className="hidden lg:grid grid-flow-row grid-cols-[repeat(auto-fit,minmax(150px,1fr))] gap-4 mt-4">
                           {
                             sideGames.slice(0, 12).map((game) => {
                               return (
-                                  <div key={game?._id} onClick={() => handleClickOnGame()}>
+                                  <div key={game?._id} className='w-full' onClick={() => handleClickOnGame()}>
                                     <Link href={{ pathname: `/game/${game?.slug}` }}>
-                                      <img className="rounded-lg h-28" src={game?.thumbnail} width={173} height={100} alt={game?.gameName}/>
+                                      <img className="rounded-lg h-28 w-full" src={game?.thumbnail} alt={game?.gameName}/>
                                     </Link>
                                   </div>
                               )
@@ -319,7 +319,7 @@ export default function Page({ params }) {
                     }
                   </div>
                   {
-                    isFullScreen ? null : <div className="w-1/4 xs:hidden xl:block">
+                    isFullScreen ? null : <div className="basis-[20%] hidden xl:block">
                       <div className="h-1/2 w-full bg-slate-800 rounded-xl mb-5">Ad</div>
                       {
                         isFullScreen ? null :
@@ -342,7 +342,7 @@ export default function Page({ params }) {
                 </div>
                 {
                   isFullScreen ? null :
-                      <div className="flex flex-wrap justify-center gap-4 mt-2 mb-4">
+                      <div className="grid grid-flow-row grid-cols-[repeat(auto-fit,minmax(125px,1fr))] sm:grid-cols-[repeat(auto-fit,minmax(140px,1fr))] nm:grid-cols-[repeat(auto-fit,minmax(160px,1fr))] gap-4 mt-4 mb-16">
                         {
                           sideGames.slice(0, 18).map((game) => {
                             return (

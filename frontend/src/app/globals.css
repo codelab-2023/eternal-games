@@ -65,20 +65,17 @@ body {
 }
 
 .homepage-games {
-  width: 300px;
   height: 190px;
 }
 
 @media (min-width: 425px) and (max-width: 655px) {
   .homepage-games {
-    width: 180px;
     height: 120px;
   }
 }
 
 @media (min-width: 375px) and (max-width: 425px) {
   .homepage-games {
-    width: 160px;
     height: 100px;
   }
 
@@ -87,10 +84,9 @@ body {
   }
 }
 
-@media (min-width: 300px) and (max-width: 375px) {
+@media (min-width: 20px) and (max-width: 375px) {
   .homepage-games {
-    width: 135px;
-    height: 80px;
+    height: 90px;
   }
 
   .home-slider {
