@@ -21,7 +21,7 @@ const Footer = () => {
 
       const randomGame = response.games[Math.floor(Math.random() * response.games.length)]
       if (randomGame?.slug) {
-        router.push(`/game?slug=${randomGame.slug}`)
+        router.push(`/game/${randomGame.slug}`)
       } else {
         console.error('No slug found for the selected game')
       }

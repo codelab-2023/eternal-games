@@ -10,8 +10,8 @@ import NavBar from '../../../components/navbar/page'
 import Footer from '../../../components/footer/page'
 import PacmanLoader from 'react-spinners/PacmanLoader'
 import { GoogleAnalytics } from '@next/third-parties/google'
-// import ShareModal from '../../../components/share-model/page'
-// import { LIVE_URL } from '../../../helper/constant'
+import ShareModal from '../../../components/share-model/page'
+import { LIVE_URL } from '../../../helper/constant'
 import moment from 'moment'
 
 export default function Page({ params }) {
@@ -26,7 +26,7 @@ export default function Page({ params }) {
   const [ isFullScreen, setIsFullScreen ] = useState(false)
   const [ playGame, setPlayGame ] = useState(false)
   const [ mobileExitFullScreen, setMobileExitFullScreen ] = useState(false)
-  // const [ isShareModalOpen, setIsShareModalOpen ] = useState(false)
+  const [ isShareModalOpen, setIsShareModalOpen ] = useState(false)
 
   useEffect(() => {
     const slug = params.slug
@@ -149,14 +149,14 @@ export default function Page({ params }) {
     setMobileExitFullScreen(false)
   }
 
-  // function handleCloseShareModal() {
-  //   setIsShareModalOpen(false)
-  // }
+  function handleCloseShareModal() {
+    setIsShareModalOpen(false)
+  }
 
   return (
       <>
         <div className="w-screen text-white min-h-screen overflow-x-hidden">
-          {/*<ShareModal open={isShareModalOpen} handleClose={handleCloseShareModal} shareUrl={`${LIVE_URL}/game/${games?.slug}`}/>*/}
+          <ShareModal open={isShareModalOpen} handleClose={handleCloseShareModal} shareUrl={`${LIVE_URL}game/${games?.slug}`}/>
           {isFullScreen ? null : <NavBar/>}
           {loading ? <div className="absolute w-full top-[46%]">
                 <PacmanLoader
@@ -226,7 +226,7 @@ export default function Page({ params }) {
                         <div className="cursor-pointer"><FaRegThumbsDown size={18}/></div>
                         <div className="cursor-pointer"><FaRegComments size={22}/></div>
                         <div className="cursor-pointer"
-                             // onClick={() => setIsShareModalOpen(prevState => !prevState)}
+                             onClick={() => setIsShareModalOpen(prevState => !prevState)}
                         ><FaShareAlt size={18}/></div>
                         <div className="cursor-pointer xs:hidden sm:block">
                           {
@@ -261,7 +261,7 @@ export default function Page({ params }) {
                                 <div className="font-extrabold text-2xl">{games?.gameName}</div>
                                 <div className="flex gap-4 my-4">
                                   <button className="flex flex-row items-center gap-2 font-bold bg-slate-700 rounded-full py-2 px-4"
-                                          // onClick={() => setIsShareModalOpen(prevState => !prevState)}
+                                          onClick={() => setIsShareModalOpen(prevState => !prevState)}
                                   >
                                     <FaShareAlt size={15}/>Share
                                   </button>
