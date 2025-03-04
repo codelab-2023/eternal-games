@@ -67,7 +67,7 @@ export default function SearchPage() {
                     filteredGames.length < 9 ?
                         <div className="mx-4 mb-5">
                           <p className="mb-5 font-bold text-lg font-sans text-lime-300 mt-4">Must-Play Games</p>
-                          <div className="mt-auto flex flex-row items-center justify-center flex-wrap gap-4">
+                          <div className="grid grid-flow-row grid-cols-[repeat(auto-fit,minmax(120px,1fr))] sm:grid-cols-[repeat(auto-fit,minmax(150px,1fr))] md:grid-cols-[repeat(auto-fit,minmax(200px,1fr))] lg:grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-3 mt-4 mb-10">
                             <GameCards games={games} endSlice={10}/>
                           </div>
                         </div> : null

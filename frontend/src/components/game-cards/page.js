@@ -9,7 +9,7 @@ export default function GameCards({ games, startSlice = 0, endSlice = games.leng
             return (
                 <div key={game?._id}>
                   <Link href={{ pathname: `/game/${game?.slug}` }}>
-                  <img className="rounded-lg ml-4 mb-4 h-28" src={game?.thumbnail} width={200} height={100} alt={game?.gameName}/>
+                  <img className="rounded-lg h-24 md:h-28 lg:h-32 w-[120px] sm:w-[150px] md:w-[200px] lg:w-[250px]" src={game?.thumbnail} alt={game?.gameName}/>
                   </Link>
                 </div>
             )
