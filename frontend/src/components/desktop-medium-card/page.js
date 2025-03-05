@@ -15,7 +15,7 @@ const Desktop = ({ helper, name }) => {
                   helper.map((item) => (
                       <div key={item._id} className='h-24 md:h-28 lg:h-32 w-[120px] sm:w-[170px] md:w-[200px] lg:w-[250px]'>
                         <Link href={{ pathname: `/game/${item?.slug}` }}>
-                        <img className="rounded-xl h-full" src={item.thumbnail} alt={item?.gameName}/>
+                        <img className="rounded-xl h-full w-full" src={item.thumbnail} alt={item?.gameName}/>
                         </Link>
                       </div>
 

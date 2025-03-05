@@ -30,6 +30,7 @@ import {
   TextField,
   Typography
 } from '@mui/material'
+import DoneAllIcon from '@mui/icons-material/DoneAll'
 import CloudUploadIcon from '@mui/icons-material/CloudUpload'
 import { IconBrandGooglePlay, IconDeviceDesktop, IconDeviceMobile, IconEdit, IconTrash, IconUpload, IconX } from '@tabler/icons'
 import categoryService from '../../services/category.service'
@@ -39,7 +40,6 @@ const Game = () => {
   const params = useParams()
   const navigate = useNavigate()
   const [ loading, setLoading ] = useState(true)
-  const [ uploadLoading, setUploadLoading ] = useState(false)
   const [ game, setGame ] = useState({
     gameName: '',
     description: '',
@@ -64,6 +64,10 @@ const Game = () => {
   const [ mobileSupport, setMobileSupport ] = useState()
   const [ desktopSupport, setDesktopSupport ] = useState()
   const [ gameZip, setGameZip ] = useState(null)
+  const [ uploadThumbnailLoading, setUploadThumbnailLoading ] = useState(false)
+  const [ newThumbnail, setNewThumbnail ] = useState('')
+  const [ uploadZipLoading, setUploadZipLoading ] = useState(false)
+
   const id = params.id
 
   useEffect(() => {
@@ -98,11 +102,6 @@ const Game = () => {
   async function updateGame(gameId, game) {
     try {
       setLoading(true)
-      if (gameZip) {
-        const uploadedGameUrl = await handleFileUpload(gameZip)
-        if (!uploadedGameUrl) return alert('The game zip file has been not perfectly uploaded')
-        setGame({ ...game, url: uploadedGameUrl?.gameUrl })
-      }
       const categories = game.categories.map((category) => category._id)
 
       await gameService.updateGame(gameId, {
@@ -133,8 +132,21 @@ const Game = () => {
     setEnableDelete(e.target.value !== `game/${game.gameName}`)
   }
 
+  async function updateGameThumbnail(file) {
+    try {
+      setUploadThumbnailLoading(true)
+      const res = await gameService.uploadGameThumbnailMedia(file, game?._id)
+      await setNewThumbnail(res.url)
+      setGame({ ...game, thumbnail: res.url })
+    } catch (e) {
+      console.log('🚀🚀🚀 updateGameThumbnail => eMessage :: ', e.message)
+    } finally {
+      setUploadThumbnailLoading(false)
+    }
+  }
+
   async function handleFileUpload(file) {
-    setUploadLoading(true)
+    setUploadZipLoading(true)
     if (file && file.type === 'application/zip') {
       const formData = new FormData()
       formData.append('gameZip', file)
@@ -151,7 +163,7 @@ const Game = () => {
         console.error('Error uploading file:', error)
       } finally {
         setGameZip(null)
-        setUploadLoading(false)
+        setUploadZipLoading(false)
       }
     }
   }
@@ -330,182 +342,391 @@ const Game = () => {
                     </Grid>
 
                     <Grid container item xs={12} spacing={2}>
-                      <Grid item xs={5}>
-                        <TextField
-                            required
-                            disabled={!isUpdateMode}
-                            variant="outlined"
-                            type="url"
-                            label="Thumbnail URL"
-                            placeholder="Thumbnail URL"
-                            value={game?.thumbnail}
-                            onChange={(e) =>
-                                setGame({ ...game, thumbnail: e.target.value })
-                            }
-                        />
-                      </Grid>
-                      {/*<Grid item xs={3}>*/}
-                      {/*  <TextField*/}
-                      {/*      required*/}
-                      {/*      disabled={!isUpdateMode}*/}
-                      {/*      variant="outlined"*/}
-                      {/*      type="url"*/}
-                      {/*      label="Game Preview URL"*/}
-                      {/*      placeholder="Game Preview URL"*/}
-                      {/*      value={game?.gamePreview}*/}
-                      {/*      onChange={(e) =>*/}
-                      {/*          setGame({ ...game, gamePreview: e.target.value })*/}
-                      {/*      }*/}
-                      {/*  />*/}
-                      {/*</Grid>*/}
-                      <Grid item xs={5}>
-                        <TextField
-                            required
-                            disabled={!isUpdateMode}
-                            variant="outlined"
-                            type="url"
-                            label="Game URL"
-                            placeholder="Game URL"
-                            value={game?.url}
-                            onChange={(e) =>
-                                setGame({ ...game, url: e.target.value })
-                            }
-                        />
-                      </Grid>
-                      <Grid item xs={2} sx={{ alignSelf: 'center' }}>
-                        <input
-                            accept=".zip"
-                            style={{ display: 'none' }}
-                            id="contained-button-file"
-                            multiple={false}
-                            type="file"
-                            onChange={(e) => setGameZip(e.target.files[0])}
-                        />
-                        <label htmlFor="contained-button-file">
-                          <LoadingButton
-                              loading={uploadLoading}
-                              variant="contained"
-                              disabled={!isUpdateMode}
-                              component="span"
-                              sx={{
-                                backgroundColor: 'rgb(103, 58, 183)',
-                                ':hover': { backgroundColor: 'rgb(126, 82, 201)' }
-                              }}
-                              startIcon={<CloudUploadIcon/>}
-                          >
-                            Upload ZIP
-                          </LoadingButton>
-                        </label>
-                      </Grid>
-                    </Grid>
-                    <Grid
-                        item
-                        xs={12}
-                        sx={{ display: 'flex', gap: '20px', marginY: '8px' }}
-                    >
-                      <Grid item xs={10}>
-                        <FormControl fullWidth>
-                          <InputLabel id="demo-multiple-chip-label">
-                            Categories
-                          </InputLabel>
-                          <Select
-                              multiple
-                              disabled={!isUpdateMode}
-                              labelId="demo-multiple-chip-label"
-                              id="demo-multiple-chip"
-                              name="categories"
-                              value={game?.categories || []}
-                              onChange={(event) => {
-                                setGame({ ...game, categories: event.target.value })
-                              }}
-                              input={
-                                <OutlinedInput
-                                    id="select-multiple-chip"
-                                    label="Chip"
-                                />
-                              }
-                              renderValue={(selected) => (
-                                  <Stack gap={1} direction="row" flexWrap="wrap">
-                                    {selected.map((selectedCategory, index) => (
-                                        <Chip
-                                            key={index}
-                                            label={selectedCategory?.categoryName}
-                                            onDelete={() => {
-                                              const filteredCategories =
-                                                  game?.categories.filter(
-                                                      (category) =>
-                                                          category._id !== selectedCategory?._id
-                                                  )
-                                              setGame({
-                                                ...game,
-                                                categories: filteredCategories
-                                              })
-                                            }}
-                                            deleteIcon={
-                                              <IconX
-                                                  size={18}
-                                                  onMouseDown={(event) =>
-                                                      event.stopPropagation()
-                                                  }
-                                              />
-                                            }
-                                        />
-                                    ))}
-                                  </Stack>
-                              )}
-                          >
-                            {categories?.map((category) => {
-                              const isSelected = game?.categories.find(
-                                  (gameCategory) => gameCategory._id === category._id
-                              )
-                              return (
-                                  <MenuItem
-                                      key={category._id}
-                                      sx={{ display: 'flex', gap: '8px' }}
-                                      value={category}
-                                      divider={true}
-                                      selected={!!isSelected}
+                      <Grid container item xs={5} spacing={2} direction="row" alignItems="center" width={'100%'}>
+                        <Grid item xs={8} fullWidth>
+                          <img src={newThumbnail ? newThumbnail : game?.thumbnail} width={'100%'} height={300} alt={'thumbnail'}/>
+                        </Grid>
+                        <Grid item xs={4} fullWidth sx={{ alignSelf: 'center' }}>
+                          <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', gap: '10px' }}>
+                            <Box width={'100%'}>
+                              <input
+                                  required={true}
+                                  accept="image/png, image/jpeg, image/jpg, image/webp"
+                                  style={{ display: 'none' }}
+                                  disabled={!isUpdateMode}
+                                  id="contained-button-file"
+                                  multiple={false}
+                                  type="file"
+                                  onChange={async (event) => await updateGameThumbnail(event.target.files)}
+                              />
+                              <label htmlFor="contained-button-file">
+                                <LoadingButton
+                                    loading={uploadThumbnailLoading}
+                                    variant="contained"
+                                    disabled={!isUpdateMode}
+                                    component="span"
+                                    sx={{
+                                      width: '100%',
+                                      color: 'white',
+                                      backgroundColor: '#F7BE15',
+                                      ':hover': { backgroundColor: '#e3ab0c' }
+                                    }}
+                                    startIcon={<CloudUploadIcon/>}
+                                >
+                                  {newThumbnail ? 'Change' : 'Upload'} Thumbnail
+                                </LoadingButton>
+                              </label>
+                            </Box>
+                            {
+                              newThumbnail ?
+                                  <Box
+                                      component="div"
+                                      py={'7px'}
+                                      sx={{
+                                        width: '100%',
+                                        borderRadius: 1,
+                                        display: 'flex',
+                                        flexDirection: 'row',
+                                        alignItems: 'center',
+                                        fontWeight: 500,
+                                        justifyContent: 'center',
+                                        gap: 1,
+                                        color: 'white',
+                                        backgroundColor: '#F7BE15'
+                                      }}
                                   >
-                                    <img
-                                        src={category?.categoryIcon}
-                                        width={20}
-                                        height={20}
-                                        alt="icon"
-                                    />
-                                    {category?.categoryName}
-                                  </MenuItem>
-                              )
-                            })}
-                          </Select>
-                        </FormControl>
+                                    <DoneAllIcon size={14}/>
+                                    Thumbnail Uploaded
+                                  </Box> : null
+                            }
+                          </Box>
+                        </Grid>
                       </Grid>
-                      <Grid item xs={2}>
-                        <FormControl fullWidth>
-                          <InputLabel id="demo-simple-select-label">
-                            Status
-                          </InputLabel>
-                          <Select
-                              required
-                              disabled={!isUpdateMode}
-                              variant="outlined"
-                              type="text"
-                              label="Status"
-                              labelId="demo-simple-select-label"
-                              name="status"
-                              value={game?.status || STATUS?.value}
-                              onChange={(e) =>
-                                  setGame({ ...game, status: e.target.value })
-                              }
-                          >
-                            {STATUS.map((status) => (
-                                <MenuItem key={status?.value} value={status?.value}>
-                                  {status?.label}
-                                </MenuItem>
-                            ))}
-                          </Select>
-                        </FormControl>
+                      <Grid container item xs={7} spacing={2} direction="row" alignItems="center" width={'100%'}>
+                        <Box sx={{ marginLeft: 3, display: 'flex', flexDirection: 'column', width: '100%' }}>
+                          <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 2, width: '100%' }}>
+                            <TextField
+                                sx={{ flexBasis: '80%' }}
+                                required
+                                disabled={!isUpdateMode}
+                                variant="outlined"
+                                type="url"
+                                label="Game URL"
+                                placeholder="Game URL"
+                                value={game?.url}
+                                onChange={(e) =>
+                                    setGame({ ...game, url: e.target.value })
+                                }
+                            />
+                            <Box sx={{ flexBasis: '20%' }}>
+                              <input
+                                  accept=".zip"
+                                  disabled={!isUpdateMode}
+                                  style={{ display: 'none' }}
+                                  id="contained-button-file-upload"
+                                  multiple={false}
+                                  type="file"
+                                  onChange={async (event) => await handleFileUpload(event.target.files[0])}
+                              />
+                              <label htmlFor="contained-button-file-upload">
+                                <LoadingButton
+                                    loading={uploadZipLoading}
+                                    variant="contained"
+                                    disabled={!isUpdateMode}
+                                    component="span"
+                                    sx={{
+                                      width: '100%',
+                                      color: 'white',
+                                      backgroundColor: '#F7BE15',
+                                      ':hover': { backgroundColor: '#e3ab0c' }
+                                    }}
+                                    startIcon={<CloudUploadIcon/>}
+                                >
+                                  Upload ZIP
+                                </LoadingButton>
+                              </label>
+                            </Box>
+                          </Box>
+                          <FormControl fullWidth sx={{ marginTop: '16px', marginBottom: '16px' }}>
+                            <InputLabel id="demo-multiple-chip-label">
+                              Categories
+                            </InputLabel>
+                            <Select
+                                multiple
+                                required
+                                disabled={!isUpdateMode}
+                                labelId="demo-multiple-chip-label"
+                                id="demo-multiple-chip"
+                                name="categories"
+                                value={game?.categories || []}
+                                onChange={(event) => {
+                                  setGame({ ...game, categories: event.target.value })
+                                }}
+                                input={
+                                  <OutlinedInput
+                                      id="select-multiple-chip"
+                                      label="Chip"
+                                  />
+                                }
+                                renderValue={(selected) => (
+                                    <Stack gap={1} direction="row" flexWrap="wrap">
+                                      {selected.map((selectedCategory, index) => (
+                                          <Chip
+                                              key={index}
+                                              label={selectedCategory?.categoryName}
+                                              onDelete={() => {
+                                                const filteredCategories =
+                                                    game?.categories.filter(
+                                                        (category) =>
+                                                            category._id !== selectedCategory?._id
+                                                    )
+                                                setGame({
+                                                  ...game,
+                                                  categories: filteredCategories
+                                                })
+                                              }}
+                                              deleteIcon={
+                                                <IconX
+                                                    size={18}
+                                                    onMouseDown={(event) =>
+                                                        event.stopPropagation()
+                                                    }
+                                                />
+                                              }
+                                          />
+                                      ))}
+                                    </Stack>
+                                )}
+                            >
+                              {categories?.map((category) => {
+                                const isSelected = game?.categories.find(
+                                    (gameCategory) => gameCategory._id === category._id
+                                )
+                                return (
+                                    <MenuItem
+                                        key={category._id}
+                                        sx={{ display: 'flex', gap: '8px' }}
+                                        value={category}
+                                        divider={true}
+                                        selected={!!isSelected}
+                                    >
+                                      <img
+                                          src={category?.categoryIcon}
+                                          width={20}
+                                          height={20}
+                                          alt="icon"
+                                      />
+                                      {category?.categoryName}
+                                    </MenuItem>
+                                )
+                              })}
+                            </Select>
+                          </FormControl>
+                          <FormControl fullWidth sx={{ marginTop: '16px', marginBottom: '16px' }}>
+                            <InputLabel id="demo-simple-select-label">
+                              Status
+                            </InputLabel>
+                            <Select
+                                required
+                                disabled={!isUpdateMode}
+                                variant="outlined"
+                                type="text"
+                                label="Status"
+                                labelId="demo-simple-select-label"
+                                name="status"
+                                value={game?.status || STATUS?.value}
+                                onChange={(e) =>
+                                    setGame({ ...game, status: e.target.value })
+                                }
+                            >
+                              {STATUS.map((status) => (
+                                  <MenuItem key={status?.value} value={status?.value}>
+                                    {status?.label}
+                                  </MenuItem>
+                              ))}
+                            </Select>
+                          </FormControl>
+                        </Box>
                       </Grid>
                     </Grid>
+
+                    {/*<Grid container item xs={12} spacing={2}>*/}
+                    {/*  <Grid item xs={5}>*/}
+                    {/*    <TextField*/}
+                    {/*        required*/}
+                    {/*        disabled={!isUpdateMode}*/}
+                    {/*        variant="outlined"*/}
+                    {/*        type="url"*/}
+                    {/*        label="Thumbnail URL"*/}
+                    {/*        placeholder="Thumbnail URL"*/}
+                    {/*        value={game?.thumbnail}*/}
+                    {/*        onChange={(e) =>*/}
+                    {/*            setGame({ ...game, thumbnail: e.target.value })*/}
+                    {/*        }*/}
+                    {/*    />*/}
+                    {/*  </Grid>*/}
+                    {/*  /!*<Grid item xs={3}>*!/*/}
+                    {/*  /!*  <TextField*!/*/}
+                    {/*  /!*      required*!/*/}
+                    {/*  /!*      disabled={!isUpdateMode}*!/*/}
+                    {/*  /!*      variant="outlined"*!/*/}
+                    {/*  /!*      type="url"*!/*/}
+                    {/*  /!*      label="Game Preview URL"*!/*/}
+                    {/*  /!*      placeholder="Game Preview URL"*!/*/}
+                    {/*  /!*      value={game?.gamePreview}*!/*/}
+                    {/*  /!*      onChange={(e) =>*!/*/}
+                    {/*  /!*          setGame({ ...game, gamePreview: e.target.value })*!/*/}
+                    {/*  /!*      }*!/*/}
+                    {/*  /!*  />*!/*/}
+                    {/*  /!*</Grid>*!/*/}
+                    {/*  <Grid item xs={5}>*/}
+                    {/*    <TextField*/}
+                    {/*        required*/}
+                    {/*        disabled={!isUpdateMode}*/}
+                    {/*        variant="outlined"*/}
+                    {/*        type="url"*/}
+                    {/*        label="Game URL"*/}
+                    {/*        placeholder="Game URL"*/}
+                    {/*        value={game?.url}*/}
+                    {/*        onChange={(e) =>*/}
+                    {/*            setGame({ ...game, url: e.target.value })*/}
+                    {/*        }*/}
+                    {/*    />*/}
+                    {/*  </Grid>*/}
+                    {/*  <Grid item xs={2} sx={{ alignSelf: 'center' }}>*/}
+                    {/*    <input*/}
+                    {/*        accept=".zip"*/}
+                    {/*        style={{ display: 'none' }}*/}
+                    {/*        id="contained-button-file"*/}
+                    {/*        multiple={false}*/}
+                    {/*        type="file"*/}
+                    {/*        onChange={(e) => setGameZip(e.target.files[0])}*/}
+                    {/*    />*/}
+                    {/*    <label htmlFor="contained-button-file">*/}
+                    {/*      <LoadingButton*/}
+                    {/*          loading={uploadLoading}*/}
+                    {/*          variant="contained"*/}
+                    {/*          disabled={!isUpdateMode}*/}
+                    {/*          component="span"*/}
+                    {/*          sx={{*/}
+                    {/*            backgroundColor: 'rgb(103, 58, 183)',*/}
+                    {/*            ':hover': { backgroundColor: 'rgb(126, 82, 201)' }*/}
+                    {/*          }}*/}
+                    {/*          startIcon={<CloudUploadIcon/>}*/}
+                    {/*      >*/}
+                    {/*        Upload ZIP*/}
+                    {/*      </LoadingButton>*/}
+                    {/*    </label>*/}
+                    {/*  </Grid>*/}
+                    {/*</Grid>*/}
+                    {/*<Grid*/}
+                    {/*    item*/}
+                    {/*    xs={12}*/}
+                    {/*    sx={{ display: 'flex', gap: '20px', marginY: '8px' }}*/}
+                    {/*>*/}
+                    {/*  <Grid item xs={10}>*/}
+                    {/*    <FormControl fullWidth>*/}
+                    {/*      <InputLabel id="demo-multiple-chip-label">*/}
+                    {/*        Categories*/}
+                    {/*      </InputLabel>*/}
+                    {/*      <Select*/}
+                    {/*          multiple*/}
+                    {/*          disabled={!isUpdateMode}*/}
+                    {/*          labelId="demo-multiple-chip-label"*/}
+                    {/*          id="demo-multiple-chip"*/}
+                    {/*          name="categories"*/}
+                    {/*          value={game?.categories || []}*/}
+                    {/*          onChange={(event) => {*/}
+                    {/*            setGame({ ...game, categories: event.target.value })*/}
+                    {/*          }}*/}
+                    {/*          input={*/}
+                    {/*            <OutlinedInput*/}
+                    {/*                id="select-multiple-chip"*/}
+                    {/*                label="Chip"*/}
+                    {/*            />*/}
+                    {/*          }*/}
+                    {/*          renderValue={(selected) => (*/}
+                    {/*              <Stack gap={1} direction="row" flexWrap="wrap">*/}
+                    {/*                {selected.map((selectedCategory, index) => (*/}
+                    {/*                    <Chip*/}
+                    {/*                        key={index}*/}
+                    {/*                        label={selectedCategory?.categoryName}*/}
+                    {/*                        onDelete={() => {*/}
+                    {/*                          const filteredCategories =*/}
+                    {/*                              game?.categories.filter(*/}
+                    {/*                                  (category) =>*/}
+                    {/*                                      category._id !== selectedCategory?._id*/}
+                    {/*                              )*/}
+                    {/*                          setGame({*/}
+                    {/*                            ...game,*/}
+                    {/*                            categories: filteredCategories*/}
+                    {/*                          })*/}
+                    {/*                        }}*/}
+                    {/*                        deleteIcon={*/}
+                    {/*                          <IconX*/}
+                    {/*                              size={18}*/}
+                    {/*                              onMouseDown={(event) =>*/}
+                    {/*                                  event.stopPropagation()*/}
+                    {/*                              }*/}
+                    {/*                          />*/}
+                    {/*                        }*/}
+                    {/*                    />*/}
+                    {/*                ))}*/}
+                    {/*              </Stack>*/}
+                    {/*          )}*/}
+                    {/*      >*/}
+                    {/*        {categories?.map((category) => {*/}
+                    {/*          const isSelected = game?.categories.find(*/}
+                    {/*              (gameCategory) => gameCategory._id === category._id*/}
+                    {/*          )*/}
+                    {/*          return (*/}
+                    {/*              <MenuItem*/}
+                    {/*                  key={category._id}*/}
+                    {/*                  sx={{ display: 'flex', gap: '8px' }}*/}
+                    {/*                  value={category}*/}
+                    {/*                  divider={true}*/}
+                    {/*                  selected={!!isSelected}*/}
+                    {/*              >*/}
+                    {/*                <img*/}
+                    {/*                    src={category?.categoryIcon}*/}
+                    {/*                    width={20}*/}
+                    {/*                    height={20}*/}
+                    {/*                    alt="icon"*/}
+                    {/*                />*/}
+                    {/*                {category?.categoryName}*/}
+                    {/*              </MenuItem>*/}
+                    {/*          )*/}
+                    {/*        })}*/}
+                    {/*      </Select>*/}
+                    {/*    </FormControl>*/}
+                    {/*  </Grid>*/}
+                    {/*  <Grid item xs={2}>*/}
+                    {/*    <FormControl fullWidth>*/}
+                    {/*      <InputLabel id="demo-simple-select-label">*/}
+                    {/*        Status*/}
+                    {/*      </InputLabel>*/}
+                    {/*      <Select*/}
+                    {/*          required*/}
+                    {/*          disabled={!isUpdateMode}*/}
+                    {/*          variant="outlined"*/}
+                    {/*          type="text"*/}
+                    {/*          label="Status"*/}
+                    {/*          labelId="demo-simple-select-label"*/}
+                    {/*          name="status"*/}
+                    {/*          value={game?.status || STATUS?.value}*/}
+                    {/*          onChange={(e) =>*/}
+                    {/*              setGame({ ...game, status: e.target.value })*/}
+                    {/*          }*/}
+                    {/*      >*/}
+                    {/*        {STATUS.map((status) => (*/}
+                    {/*            <MenuItem key={status?.value} value={status?.value}>*/}
+                    {/*              {status?.label}*/}
+                    {/*            </MenuItem>*/}
+                    {/*        ))}*/}
+                    {/*      </Select>*/}
+                    {/*    </FormControl>*/}
+                    {/*  </Grid>*/}
+                    {/*</Grid>*/}
                     <Grid item xs={12} sx={{ display: 'flex', gap: '20px' }}>
                       <Grid item xs={4}>
                         <TextField

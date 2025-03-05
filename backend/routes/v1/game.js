@@ -1,4 +1,5 @@
 const router = require('express').Router()
+const fileUpload = require('../../middleware/FileUpload')
 
 const {
   createGame,
@@ -8,6 +9,7 @@ const {
   updateGame,
   deleteGames,
   uploadGameZip,
+  uploadGameThumbnail
 } = require('../../controllers/game')
 
 // User routes - /v1/games
@@ -18,5 +20,6 @@ router.post('/create', createGame)
 router.put('/:id', updateGame)
 router.delete('/:id', deleteGames)
 router.post('/upload', uploadGameZip)
+router.post('/upload-thumbnail', fileUpload, uploadGameThumbnail)
 
 module.exports = router

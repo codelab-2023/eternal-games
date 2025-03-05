@@ -23,7 +23,7 @@ export default class gameService {
 
   static async uploadGameZip(formData) {
     try {
-      const response = await axiosInstance.post('v1/games/upload', formData, {
+      const response = await axiosInstance.post('/v1/games/upload', formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
@@ -33,6 +33,22 @@ export default class gameService {
     } catch (error) {
       console.log(error.message)
       throw new Error('Failed to upload game zip');
+    }
+  }
+
+  static async uploadGameThumbnailMedia(files, gameId) {
+    try {
+      const formData = new FormData()
+      formData.append('file', files[0])
+      formData.append('id', gameId)
+
+      const response = await axiosInstance.post('/v1/games/upload-thumbnail', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' }
+      })
+
+      return response.data
+    } catch (error) {
+      console.log(error.message)
     }
   }
 

@@ -29,6 +29,11 @@ const initialize = async () => {
     fs.mkdirSync(uploadDir)
   }
 
+  const thumbnailDir = 'games/'
+  if (!fs.existsSync(thumbnailDir)) {
+    fs.mkdirSync(thumbnailDir)
+  }
+
   const dirname = path.resolve()
   app.use('/games', express.static(path.join(dirname, '/games')))
 

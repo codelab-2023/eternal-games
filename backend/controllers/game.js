@@ -172,6 +172,44 @@ const deleteGames = async (req, res) => {
   }
 }
 
+const uploadGameThumbnail = async (req, res) => {
+  try {
+    const gameId = req.body.id
+    const file = req.files.file
+
+    const allowTypes = [ 'image/png', 'image/jpeg', 'image/jpg', 'image/webp' ]
+    if (!allowTypes.includes(file.mimetype) || file.size > maxFileUploadSize) return sendError(res, 'Error : Invalid file format or size.', null, 400)
+
+    const game = await GameStore.findOne({ _id: gameId });
+    if (!game) return sendError(res, 'Game not found.', null, 404);
+
+    // Delete the previous thumbnail if it exists
+    if (game?.thumbnail) {
+      const oldFilePath = path.join(__dirname, '..', game?.thumbnail);
+      if (fs.existsSync(oldFilePath)) {
+        fs.unlinkSync(oldFilePath); // Delete the file
+        console.log('✅ Previous thumbnail deleted:', oldFilePath);
+      }
+    }
+
+    const fileExtension = file.name.split('.').pop()
+    const timestamp = Date.now();
+    const sanitizedGameName = game.gameName.replaceAll(' ', '_');
+
+    const filename = `${sanitizedGameName}_${timestamp}.${fileExtension}`;
+
+    const filePath = req.directoryPathToStore + filename
+    await file.mv(filePath)
+
+    sendSuccess(res, {
+      url: `http://localhost:${process.env.PORT}/` + filePath,
+      message: 'File uploaded successfully'
+    })
+  } catch (error) {
+    sendError(res, 'Error while fetching upload Game Thumbnail Media.', error)
+  }
+}
+
 const uploadGameZip = async (req, res) => {
   try {
     const zip = req.files.gameZip
@@ -255,5 +293,6 @@ module.exports = {
   dashboardCards,
   updateGame,
   deleteGames,
+  uploadGameThumbnail,
   uploadGameZip
 }
