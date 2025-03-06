@@ -72,7 +72,7 @@ export default function Navbar({ toggleSideBar }) {
         </div>
         {
           isOpen && (
-              <div className="fixed z-50 pt-3 bg-black shadow-lg w-full">
+              <div className="absolute z-50 py-2 bg-black/80 shadow-lg w-full">
                 <div className='relative mx-3 header-search flex items-center'>
                   <input
                       id="searchInput"
