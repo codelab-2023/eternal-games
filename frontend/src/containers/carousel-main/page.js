@@ -56,7 +56,6 @@ const CarouselMain = ({ helper, loading }) => {
           {
             loading ? (
                     [ 1, 2, 3, 4, 5 ].map((index) => {
-                      // console.log('🚀🚀🚀 carousel-main-1 => index :: ', index)
                       return (
                           <ImageListItem key={`main-${index}`} cols={1} rows={1}>
                             <SwiperSlide>
@@ -72,7 +71,6 @@ const CarouselMain = ({ helper, loading }) => {
                     })) :
                 (
                     helper.slice(0, 5).map((item, index) => {
-                      // console.log('🚀🚀🚀 i => carousel-main-2 :: ', `main-${item._id}`, index)
                       return (
                           <ImageListItem key={`main-${item._id}`} cols={item.cols || 1} rows={item.rows || 1}>
                             <SwiperSlide>

@@ -180,29 +180,29 @@ const uploadGameThumbnail = async (req, res) => {
     const allowTypes = [ 'image/png', 'image/jpeg', 'image/jpg', 'image/webp' ]
     if (!allowTypes.includes(file.mimetype) || file.size > maxFileUploadSize) return sendError(res, 'Error : Invalid file format or size.', null, 400)
 
-    const game = await GameStore.findOne({ _id: gameId });
-    if (!game) return sendError(res, 'Game not found.', null, 404);
+    const game = await GameStore.findOne({ _id: gameId })
+    if (!game) return sendError(res, 'Game not found.', null, 404)
 
     // Delete the previous thumbnail if it exists
     if (game?.thumbnail) {
-      const oldFilePath = path.join(__dirname, '..', game?.thumbnail);
+      const oldFilePath = path.join(__dirname, '..', game?.thumbnail)
       if (fs.existsSync(oldFilePath)) {
-        fs.unlinkSync(oldFilePath); // Delete the file
-        console.log('✅ Previous thumbnail deleted:', oldFilePath);
+        fs.unlinkSync(oldFilePath) // Delete the file
+        console.log('✅ Previous thumbnail deleted:', oldFilePath)
       }
     }
 
     const fileExtension = file.name.split('.').pop()
-    const timestamp = Date.now();
-    const sanitizedGameName = game.gameName.replaceAll(' ', '_');
+    const timestamp = Date.now()
+    const sanitizedGameName = game.gameName.replaceAll(' ', '_')
 
-    const filename = `${sanitizedGameName}_${timestamp}.${fileExtension}`;
+    const filename = `${sanitizedGameName}_${timestamp}.${fileExtension}`
 
     const filePath = req.directoryPathToStore + filename
     await file.mv(filePath)
 
     sendSuccess(res, {
-      url: `http://localhost:${process.env.PORT}/` + filePath,
+      url: `https://api.eternalgames.io/${filePath}`,
       message: 'File uploaded successfully'
     })
   } catch (error) {
@@ -241,6 +241,7 @@ const uploadGameZip = async (req, res) => {
 
     const rootDir = `games/${id}`
     const filename = 'index.html'
+
     //finds index.html from zip
     function findFile(rootDir, filename) {
       const files = fs.readdirSync(rootDir)

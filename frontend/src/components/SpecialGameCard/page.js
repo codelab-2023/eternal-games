@@ -58,10 +58,9 @@ export default function SpecialGameCard({ loading, isHorizontal = true, games, n
               loading ?
                   (
                       [ 1, 2, 3, 4, 5 ].map((index) => {
-                        // console.log('��������� special-card-1 => index :: ', `special-${index}`)
                         return (
-                            <ImageListItem key={`special-${index}`} cols={1} rows={1}>
-                              <SwiperSlide>
+                            <ImageListItem  cols={1} rows={1}>
+                              <SwiperSlide key={`special-${index}`}>
                                 <Skeleton
                                     variant="rectangular"
                                     width={500}
@@ -73,8 +72,7 @@ export default function SpecialGameCard({ loading, isHorizontal = true, games, n
                         )
                       })) :
                   (
-                      games.map((item, index) => {
-                        // console.log('��������� special-card-1 => index :: ', `special-${item._id}`, index)
+                      games.map((item) => {
                         return (
                             <ImageListItem key={`special-${item._id}`} cols={item.cols || 1} rows={item.rows || 1}>
                               <SwiperSlide>
