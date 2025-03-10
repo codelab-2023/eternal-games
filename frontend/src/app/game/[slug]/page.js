@@ -323,13 +323,13 @@ export default function Page({ params }) {
                       <div className="h-1/2 w-full bg-slate-800 rounded-xl mb-5">Ad</div>
                       {
                         isFullScreen ? null :
-                            <div className="xs:hidden 2xl:block">
+                            <div className="xs:hidden xl:block">
                               {
                                 sideGames.slice(0, 4).map((game) => {
                                   return (
                                       <div key={game?._id} className="w-full h-auto" onClick={() => handleClickOnGame()}>
                                         <Link href={{ pathname: `/game/${game?.slug}` }}>
-                                          <img className="rounded-lg mb-4 h-48" src={game?.thumbnail} width={'100%'} alt={game?.gameName}/>
+                                          <img className="rounded-lg mb-4 w-full h-48" src={game?.thumbnail} width={'100%'} alt={game?.gameName}/>
                                         </Link>
                                       </div>
                                   )
@@ -348,7 +348,7 @@ export default function Page({ params }) {
                             return (
                                 <div key={game?._id} onClick={() => handleClickOnGame()}>
                                   <Link href={{ pathname: `/game/${game?.slug}` }}>
-                                    <img className="rounded-lg h-28" src={game?.thumbnail} width={173} height={100} alt="game"/>
+                                    <img className="rounded-lg w-full h-28" src={game?.thumbnail} alt="game"/>
                                   </Link>
                                 </div>
                             )

@@ -29,7 +29,7 @@ export default function Page() {
     <div className="flex flex-col items-center py-6">
       <Image src={'/404.png'} width={300} height={160} alt={'error-404'}/>
       <p className="text-5xl text-white font-bold" style={{ fontFamily: '"Jersey 15", serif', fontWeight: 400 }}>Page not found</p>
-      <div className="mt-10 md:mt-20 lg:mt-32 grid grid-rows-2 items-center sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+      <div className="mt-10 mx-4 md:mt-20 lg:mt-32 grid grid-rows-2 items-center grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
         <GameCards games={games} startSlice={0} endSlice={8}/>
       </div>
     </div>

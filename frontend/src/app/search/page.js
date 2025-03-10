@@ -59,7 +59,7 @@ export default function SearchPage() {
                 <div className="mx-auto w-10/12 my-8 rounded-lg py-3 bg-slate-900">
                   <p className="mb-5 font-bold text-center text-lg font-sans text-lime-300 mt-4">No results found for "{query}"</p>
                 </div> :
-                <SearchedGameCard helper={filteredGames} name={'Matching Results'}/>
+                <SearchedGameCard helper={filteredGames} name={'Matching Results'} isWidthFull={false}/>
           }
           {
             !isLoading ?
