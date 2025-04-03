@@ -69,6 +69,17 @@ const getGameList = async (req, res) => {
   }
 }
 
+const getAllGameList = async (req, res) => {
+  try {
+    const games = await GameStore.find().sort({ createdOn: -1 })
+
+    return sendSuccess(res, { games })
+  } catch (error) {
+    return sendError(res, 'can\'t find game list', error)
+  }
+}
+
+
 const dashboardCards = async (req, res) => {
   try {
     const games = await GameStore.countDocuments()
@@ -291,6 +302,7 @@ module.exports = {
   createGame,
   getGame,
   getGameList,
+  getAllGameList,
   dashboardCards,
   updateGame,
   deleteGames,

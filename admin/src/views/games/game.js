@@ -92,7 +92,7 @@ const Game = () => {
 
   async function fetchCategories() {
     try {
-      const response = await categoryService.getCategoryList()
+      const response = await categoryService.getActiveCategoryList()
       setCategories(response.categories)
     } catch (error) {
       console.log(error)

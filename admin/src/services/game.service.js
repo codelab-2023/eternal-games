@@ -11,6 +11,16 @@ export default class gameService {
     }
   }
 
+  static async getAllGameList() {
+    try {
+      const response = await axiosInstance.get('/v1/all-games')
+
+      return response.data
+    } catch (error) {
+      console.log(error.message)
+    }
+  }
+
   static async getGame(id) {
     try {
       const response = await axiosInstance.get(`/v1/games/${id}`)

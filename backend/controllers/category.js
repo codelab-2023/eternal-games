@@ -35,7 +35,16 @@ const getCategory = async (req, res) => {
 
 const getCategoryList = async (req, res) => {
   try {
-    const categories = await CategoryStore.find()
+    const categories = await CategoryStore.find().sort({ createdOn: -1 })
+    return sendSuccess(res, { categories })
+  } catch (error) {
+    return sendError(res, 'can\'t find category list', error)
+  }
+}
+
+const getActiveCategoryList = async (req, res) => {
+  try {
+    const categories = await CategoryStore.find({ status: 'active' }).sort({ createdOn: -1 })
     return sendSuccess(res, { categories })
   } catch (error) {
     return sendError(res, 'can\'t find category list', error)
@@ -84,6 +93,7 @@ const deleteCategory = async (req, res) => {
 module.exports = {
   createCategory,
   getCategory,
+  getActiveCategoryList,
   getCategoryList,
   updateCategory,
   deleteCategory

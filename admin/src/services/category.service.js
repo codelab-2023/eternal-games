@@ -11,6 +11,16 @@ export default class categoryService {
     }
   }
 
+  static async getActiveCategoryList() {
+    try {
+      const response = await axiosInstance.get('/v1/categories/active-categories')
+      return response.data
+    } catch (error) {
+      console.log(error.message)
+    }
+  }
+
+
   static async getCategory(id) {
     try {
       const response = await axiosInstance.get(`/v1/categories/${id}`)

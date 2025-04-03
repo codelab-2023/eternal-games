@@ -178,7 +178,7 @@ const Games = () => {
 
   async function fetchGames() {
     try {
-      const response = await gameService.getGameList()
+      const response = await gameService.getAllGameList()
       const gamesData = response?.games || []
       const sortedData = gamesData.sort(
           (a, b) => new Date(b.createdOn) - new Date(a.createdOn)
@@ -191,7 +191,7 @@ const Games = () => {
 
   async function fetchCategories() {
     try {
-      const response = await categoryService.getCategoryList()
+      const response = await categoryService.getActiveCategoryList()
       setCategories(response.categories)
     } catch (error) {
       console.log(error)
@@ -338,12 +338,12 @@ const Games = () => {
                               editor.editing.view.change((writer) => {
                                 writer.setStyle(
                                     'min-height',
-                                    '200px',
+                                    '150px',
                                     editor.editing.view.document.getRoot()
                                 )
                                 writer.setStyle(
                                     'max-height',
-                                    '300px',
+                                    '180px',
                                     editor.editing.view.document.getRoot()
                                 )
                               })

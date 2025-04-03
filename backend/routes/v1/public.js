@@ -1,7 +1,7 @@
 const router = require('express').Router()
 
 const { login, register, verifyUser } = require('../../controllers/user')
-const { getGame, getGameList} = require('../../controllers/game')
+const { getGame, getGameList, getAllGameList} = require('../../controllers/game')
 const { deletePreviousGameVersion } = require('../../controllers/test')
 const { getWebsiteListPublic } = require('../../controllers/website')
 const { getPageDetails } = require('../../controllers/page')
@@ -16,6 +16,7 @@ router.post('/verify-user', verifyUser)
 // User routes - /v1/game
 router.get('/game/:slug', getGame)
 router.get('/game', getGameList)
+router.get('/all-games', getAllGameList)
 
 // User Routes - /v1/test
 router.get('/hello', deletePreviousGameVersion)

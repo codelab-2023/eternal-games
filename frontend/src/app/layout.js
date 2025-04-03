@@ -1,19 +1,27 @@
+'use client'
 import Head from 'next/head'
 import Script from 'next/script'
 import { Inter } from 'next/font/google'
 import './globals.css'
 import { GoogleAnalytics } from '@next/third-parties/google'
-
-import React, { Suspense } from 'react'
+import React, { Suspense, useEffect } from 'react'
+import { usePathname } from 'next/navigation'
 
 const inter = Inter({ subsets: [ 'latin' ] })
 
-export const metadata = {
-  title: 'Eternal games',
-  description: 'Checkout Eternal Games cool page'
-}
+// export const metadata = {
+//   title: 'Eternal games',
+//   description: 'Checkout Eternal Games cool page'
+// }
+
+const META_PIXEL_ID = "YOUR_PIXEL_ID";
 
 export default function RootLayout({ children }) {
+  const pathname = usePathname();
+
+  // useEffect(() => {
+  //   window.fbq("track", "PageView");
+  // }, [pathname]);
 
   return (
       <html lang="en">
@@ -25,6 +33,23 @@ export default function RootLayout({ children }) {
         {/*<meta property="og:image" content={logo}/>*/}
         <meta name="google" content="nositelinkssearchbox" key="sitelinks"/>
         <meta name="google" content="notranslate" key="notranslate"/>
+        <Script
+            strategy="afterInteractive"
+            dangerouslySetInnerHTML={{
+              __html: `
+              !function(f,b,e,v,n,t,s)
+              {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+              n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+              if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+              n.queue=[];t=b.createElement(e);t.async=!0;
+              t.src=v;s=b.getElementsByTagName(e)[0];
+              s.parentNode.insertBefore(t,s)}(window, document,'script',
+              'https://connect.facebook.net/en_US/fbevents.js');
+              fbq('init', '${META_PIXEL_ID}');
+              fbq('track', 'PageView');
+            `,
+            }}
+        />
       </Head>
 
       <body className={`w-screen text-white min-h-screen overflow-x-hidden ${inter.className}`}>
