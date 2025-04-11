@@ -21,10 +21,8 @@ export default function Navbar({ toggleSideBar }) {
             {/*  <FaBars size={25}/>*/}
             {/*</button>*/}
             <Link href="/">
-              <div className="flex gap-4">
-                <img src={'/logo-full.png'} className='object-cover rounded-lg' width={160} alt={'logo'}/>
-                {/*<FaFantasyFlightGames size={30}/>*/}
-                {/*<div className="text-[24px] font-bold text-lime-400 font-sans">EternalGames</div>*/}
+              <div className="flex gap-4 overflow-y-hidden h-16">
+                <img src={'/trans-logo-full.png'} className='object-cover rounded-lg' width={160} alt={'logo'}/>
               </div>
             </Link>
           </div>
