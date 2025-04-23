@@ -52,7 +52,7 @@ export default function RootLayout({ children }) {
         />
       </Head>
 
-      <body className={`w-screen text-white min-h-screen overflow-x-hidden ${inter.className}`}>
+      <body style={{width: '100%', color: 'white', minHeight: '100%', overflowX: 'hidden' }}>
       <Script
           id="adsense-script"
           async

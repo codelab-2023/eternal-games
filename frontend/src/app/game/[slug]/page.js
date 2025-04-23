@@ -5,7 +5,6 @@ import Link from 'next/link'
 import { FaPlay, FaRegComments, FaRegThumbsDown, FaRegThumbsUp, FaShareAlt } from 'react-icons/fa'
 import { MdFullscreen, MdFullscreenExit } from 'react-icons/md'
 import gameService from '../../../services/game.service'
-import parse from 'html-react-parser'
 import NavBar from '../../../components/navbar/page'
 import Footer from '../../../components/footer/page'
 import PacmanLoader from 'react-spinners/PacmanLoader'
@@ -18,10 +17,10 @@ export default function Page({ params }) {
   const descriptionRef = useRef()
   const iframeRef = useRef(null)
   const route = useRouter()
-  const { slug } = params;
+  const { slug } = params
 
   const [ loading, setLoading ] = useState(true)
-  const [ games, setGames ] = useState()
+  const [ game, setGame ] = useState({})
   const [ sideGames, setSideGames ] = useState([])
   const [ isFullScreen, setIsFullScreen ] = useState(false)
   const [ playGame, setPlayGame ] = useState(false)
@@ -29,14 +28,9 @@ export default function Page({ params }) {
   const [ isShareModalOpen, setIsShareModalOpen ] = useState(false)
 
   useEffect(() => {
-    const slug = params.slug
     setIsFullScreen(false)
     setPlayGame(false)
     setMobileExitFullScreen(false)
-
-    if (!slug) {
-      return route.push('/')
-    }
     fetchGame(slug)
     getSideGames(slug)
   }, [ slug ])
@@ -47,11 +41,12 @@ export default function Page({ params }) {
 
       const response = await gameService.getGame(slugText)
 
+      if (!response) return route.push('/')
       document.title = `EternalGames - ${response?.game?.gameName}`
       if (descriptionRef.current) {
         descriptionRef.current.innerHTML = response.data.description
       }
-      setGames(response.game)
+      setGame(response.game)
       setLoading(false)
     } catch (error) {
       console.log(error.message)
@@ -156,7 +151,7 @@ export default function Page({ params }) {
   return (
       <>
         <div className="w-screen text-white min-h-screen overflow-x-hidden">
-          <ShareModal open={isShareModalOpen} handleClose={handleCloseShareModal} shareUrl={`${LIVE_URL}game/${games?.slug}`}/>
+          <ShareModal open={isShareModalOpen} handleClose={handleCloseShareModal} shareUrl={`${LIVE_URL}game/${game?.slug}`}/>
           {isFullScreen ? null : <NavBar/>}
           {loading ? <div className="absolute w-full top-[46%]">
                 <PacmanLoader
@@ -196,7 +191,7 @@ export default function Page({ params }) {
                       <div className={`${isFullScreen ? 'w-screen h-screen' : 'w-full h-auto'} ${playGame && !mobileExitFullScreen ? 'visible' : 'hidden'}`}>
                         <iframe
                             className={`w-full ${playGame && !mobileExitFullScreen ? 'visible' : 'hidden'}`}
-                            ref={iframeRef} src={games?.url} height={`${isFullScreen ? '100%' : 600}`}/>
+                            ref={iframeRef} src={game?.url} height={`${isFullScreen ? '100%' : 600}`}/>
                         {isFullScreen ? <button className="fixed bottom-2 right-2 p-1 bg-slate-800 rounded-lg" onClick={() => exitFullScreen()}>
                           <MdFullscreenExit size={30}/>
                         </button> : null
@@ -204,13 +199,13 @@ export default function Page({ params }) {
                       </div>
                       {
                         playGame && !mobileExitFullScreen ? null :
-                            <div className='w-full'>
+                            <div className="w-full">
                               <div className="relative w-full">
-                                <img className="game-thumbnail w-full" src={games?.thumbnail} alt={games?.gameName}/>
+                                <img className="game-thumbnail w-full" src={game?.thumbnail} alt={game?.gameName}/>
                                 <div className="absolute -bottom-1 bg-gradient-to-b from-transparent via-transBlack to-transBlack2 to-90% w-full h-full xs:block sm:hidden z-20"/>
                               </div>
                               <div className="absolute bottom-24 w-full z-40 xs:block sm:hidden">
-                                <img className="w-2/4 rounded-xl mx-auto" src={games?.thumbnail} style={{ height: '120px' }} alt={games?.gameName}/>
+                                <img className="w-2/4 rounded-xl mx-auto" src={game?.thumbnail} style={{ height: '120px' }} alt={game?.gameName}/>
                               </div>
                               <div className="h-20 xs:block sm:hidden"/>
                               <div className={`${isFullScreen ? 'hidden' : 'mb-6 mx-auto flex flex-row items-center justify-center sm:hidden xs:flex'}`}>
@@ -243,7 +238,7 @@ export default function Page({ params }) {
                           {
                             sideGames.slice(0, 12).map((game) => {
                               return (
-                                  <div key={game?._id} className='w-full' onClick={() => handleClickOnGame()}>
+                                  <div key={game?._id} className="w-full" onClick={() => handleClickOnGame()}>
                                     <Link href={{ pathname: `/game/${game?.slug}` }}>
                                       <img className="rounded-lg h-28 w-full" src={game?.thumbnail} alt={game?.gameName}/>
                                     </Link>
@@ -258,7 +253,7 @@ export default function Page({ params }) {
                           <div className="my-4 w-full bg-slate-900 p-2 rounded-lg">
                             <div className="flex flex-row gap-4">
                               <div className="w-full p-4">
-                                <div className="font-extrabold text-2xl">{games?.gameName}</div>
+                                <div className="font-extrabold text-2xl">{game?.gameName}</div>
                                 <div className="flex gap-4 my-4">
                                   <button className="flex flex-row items-center gap-2 font-bold bg-slate-700 rounded-full py-2 px-4"
                                           onClick={() => setIsShareModalOpen(prevState => !prevState)}
@@ -270,42 +265,43 @@ export default function Page({ params }) {
                                 <div className="text-sm border-b pb-4 border-gray-700">
                                   {/*<div className="flex gap-2">*/}
                                   {/*  <div className="w-28 mt-1 text-gray-500">Rating:</div>*/}
-                                  {/*  <div><b className="text-lg">{games?.rating}</b></div>*/}
+                                  {/*  <div><b className="text-lg">{game?.rating}</b></div>*/}
                                   {/*</div>*/}
                                   <div className="flex gap-2 mt-1 ">
                                     <div className="w-28 text-gray-500">Released:</div>
-                                    <div>{moment(games?.createdOn).format('DD MMM, YYYY')}</div>
+                                    <div>{moment(game?.createdOn).format('DD MMM, YYYY')}</div>
                                   </div>
                                   <div className="flex gap-2 mt-1 ">
                                     <div className="w-28 text-gray-500">Last Updated:</div>
-                                    <div>{moment(games?.updatedOn).format('DD MMM, YYYY')}</div>
+                                    <div>{moment(game?.updatedOn).format('DD MMM, YYYY')}</div>
                                   </div>
                                   {/*<div className="flex gap-2 mt-1 ">*/}
                                   {/*  <div className="w-28 text-gray-500">Technology:</div>*/}
-                                  {/*  <div>{games?.technology}</div>*/}
+                                  {/*  <div>{game?.technology}</div>*/}
                                   {/*</div>*/}
                                   {/*<div className="flex gap-2 mt-1 ">*/}
                                   {/*  <div className="w-28 text-gray-500">Platforms:</div>*/}
-                                  {/*  <div>{games?.platform}</div>*/}
+                                  {/*  <div>{game?.platform}</div>*/}
                                   {/*</div>*/}
                                   {/*<div className="flex gap-2 mt-1">*/}
                                   {/*  <div className="w-28 text-gray-500">Classification:</div>*/}
                                   {/*  <div className="flex gap-2 text-lime-500">*/}
-                                  {/*    <div className="font-bold hover:text-lime-600">{games?.categories?.categoryName}</div>*/}
+                                  {/*    <div className="font-bold hover:text-lime-600">{game?.categories?.categoryName}</div>*/}
                                   {/*    »*/}
                                   {/*  </div>*/}
                                   {/*</div>*/}
                                 </div>
-                                <div ref={descriptionRef} className="my-6 text-sm leading-6 tracking-wide text-gray-200">
-                                  {parse(games?.description)}
-                                </div>
-                                <div className="mb-8 text-sm">{games?.shortDescription}</div>
+                                {/*<div ref={descriptionRef} className="my-6 text-sm leading-6 tracking-wide text-gray-200">*/}
+                                {/*  {parse(game?.description)}*/}
+                                {/*</div>*/}
+                                <div className="my-6 text-sm leading-6 tracking-wide text-gray-200 reset-all" dangerouslySetInnerHTML={{ __html: game?.description || '' }}/>
+                                <div className="mb-8 text-sm">{game?.shortDescription}</div>
                               </div>
                               <div className="bg-slate-800 h-96 w-1/3 rounded-xl nm:block xs:hidden">Ad</div>
                             </div>
                             <div className="flex flex-wrap justify-start gap-3 mx-6 mb-8">
                               {
-                                games?.categories?.map((tag, index) => {
+                                game?.categories?.map((tag, index) => {
                                   return (
                                       <div key={tag._id} className="flex items-center gap-2 px-4 py-2 bg-slate-600 rounded-full text-sm">
                                         <img className="rounded-full my-px h-full" src={tag?.categoryIcon} width={20} height={20} alt="game"/>
@@ -342,7 +338,8 @@ export default function Page({ params }) {
                 </div>
                 {
                   isFullScreen ? null :
-                      <div className="grid grid-flow-row grid-cols-[repeat(auto-fit,minmax(125px,1fr))] sm:grid-cols-[repeat(auto-fit,minmax(140px,1fr))] nm:grid-cols-[repeat(auto-fit,minmax(160px,1fr))] gap-4 mt-4 mb-16">
+                      <div
+                          className="grid grid-flow-row grid-cols-[repeat(auto-fit,minmax(125px,1fr))] sm:grid-cols-[repeat(auto-fit,minmax(140px,1fr))] nm:grid-cols-[repeat(auto-fit,minmax(160px,1fr))] gap-4 mt-4 mb-16">
                         {
                           sideGames.slice(0, 18).map((game) => {
                             return (

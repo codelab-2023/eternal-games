@@ -58,7 +58,7 @@ const CarouselMain = ({ helper, loading }) => {
                     [ 1, 2, 3, 4, 5 ].map((index) => {
                       return (
                           <ImageListItem key={`main-${index}`} cols={1} rows={1}>
-                            <SwiperSlide>
+                            <SwiperSlide key={`main-${index}`}>
                               <Skeleton
                                   variant="rectangular"
                                   width={500}
@@ -70,10 +70,10 @@ const CarouselMain = ({ helper, loading }) => {
                       )
                     })) :
                 (
-                    helper.slice(0, 5).map((item, index) => {
+                    helper.slice(0, 5).map((item) => {
                       return (
                           <ImageListItem key={`main-${item._id}`} cols={item.cols || 1} rows={item.rows || 1}>
-                            <SwiperSlide>
+                            <SwiperSlide key={`main-${item._id}`}>
                               <Link href={{ pathname: `/game/${item?.slug}` }}>
                                 <img
                                     className="rounded-lg h-full"

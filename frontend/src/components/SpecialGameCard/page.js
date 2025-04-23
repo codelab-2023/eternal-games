@@ -59,7 +59,7 @@ export default function SpecialGameCard({ loading, isHorizontal = true, games, n
                   (
                       [ 1, 2, 3, 4, 5 ].map((index) => {
                         return (
-                            <ImageListItem  cols={1} rows={1}>
+                            <ImageListItem key={`special-${index}`} cols={1} rows={1}>
                               <SwiperSlide key={`special-${index}`}>
                                 <Skeleton
                                     variant="rectangular"
@@ -75,7 +75,7 @@ export default function SpecialGameCard({ loading, isHorizontal = true, games, n
                       games.map((item) => {
                         return (
                             <ImageListItem key={`special-${item._id}`} cols={item.cols || 1} rows={item.rows || 1}>
-                              <SwiperSlide>
+                              <SwiperSlide key={`special-${item._id}`}>
                                 <Link href={{ pathname: `/game/${item?.gameId?.slug}` }}>
 
                                 <img
