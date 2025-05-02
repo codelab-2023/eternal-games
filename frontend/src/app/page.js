@@ -57,7 +57,7 @@ export default function Home() {
       <>
         <div className="w-screen text-white min-h-screen overflow-x-hidden">
           <NavBar/>
-                <div className="h-auto px-3 sm:px-5">
+                <div className="home-page-sliders h-auto px-3 !z-30 sm:px-5">
                   <CarouselMain helper={game} loading={loading}/>
                   <SpecialCard isHorizontal={true} games={trendingGames} name={'Trending Games'} loading={loading}/>
                   <SpecialCard isHorizontal={true} games={featureGames} name={'Feature Games'} loading={loading}/>

@@ -6,6 +6,7 @@ const websiteRoutes = require('./website')
 const pagesRoutes = require('./page')
 const trendingRoutes = require('./trending')
 const featuresRoutes = require('./feature')
+const blogRoutes = require('./blog')
 
 v1Routes.use('/games', gameRoutes)
 v1Routes.use('/categories', categoryRoutes)
@@ -14,6 +15,7 @@ v1Routes.use('/websites', websiteRoutes)
 v1Routes.use('/pages', pagesRoutes)
 v1Routes.use('/trending', trendingRoutes)
 v1Routes.use('/feature', featuresRoutes)
+v1Routes.use('/blogs', blogRoutes)
 v1Routes.get('/', (_req, res) => res.send('Welcome! V1 service.'))
 
 module.exports = v1Routes

@@ -10,8 +10,9 @@ import Footer from '../../../components/footer/page'
 import PacmanLoader from 'react-spinners/PacmanLoader'
 import { GoogleAnalytics } from '@next/third-parties/google'
 import ShareModal from '../../../components/share-model/page'
-import { LIVE_URL } from '../../../helper/constant'
+import { ADSENCE_CLIENT_ID, LIVE_URL } from '../../../helper/constant'
 import moment from 'moment'
+import { Adsense } from '@ctrl/react-adsense'
 
 export default function Page({ params }) {
   const descriptionRef = useRef()
@@ -232,7 +233,14 @@ export default function Page({ params }) {
                       </div>
                     </div>
                     }
-                    {isFullScreen ? null : <div className="h-32 w-full mt-4 bg-slate-800 rounded-xl">Ad</div>}
+                    {isFullScreen ? null : <div className="h-32 w-full mt-4 bg-slate-800 rounded-xl">
+                      <Adsense
+                          client={ADSENCE_CLIENT_ID}
+                          slot="7259870550"
+                          style={{ height: '128px' }}
+                          format=""
+                      />
+                    </div>}
                     {isFullScreen ? null :
                         <div className="hidden lg:grid grid-flow-row grid-cols-[repeat(auto-fit,minmax(150px,1fr))] gap-4 mt-4">
                           {
@@ -297,7 +305,14 @@ export default function Page({ params }) {
                                 <div className="my-6 text-sm leading-6 tracking-wide text-gray-200 reset-all" dangerouslySetInnerHTML={{ __html: game?.description || '' }}/>
                                 <div className="mb-8 text-sm">{game?.shortDescription}</div>
                               </div>
-                              <div className="bg-slate-800 h-96 w-1/3 rounded-xl nm:block xs:hidden">Ad</div>
+                              <div className="bg-slate-800 h-96 w-1/3 rounded-xl nm:block xs:hidden">
+                                <Adsense
+                                    client={ADSENCE_CLIENT_ID}
+                                    slot="7259870550"
+                                    style={{ height: '384px', width: '33.33%' }}
+                                    format=""
+                                />
+                              </div>
                             </div>
                             <div className="flex flex-wrap justify-start gap-3 mx-6 mb-8">
                               {
@@ -316,7 +331,14 @@ export default function Page({ params }) {
                   </div>
                   {
                     isFullScreen ? null : <div className="basis-[20%] hidden xl:block">
-                      <div className="h-1/2 w-full bg-slate-800 rounded-xl mb-5">Ad</div>
+                      <div className="h-1/2 w-full bg-slate-800 rounded-xl mb-5">
+                        <Adsense
+                            client={ADSENCE_CLIENT_ID}
+                            slot="7259870550"
+                            style={{ height: '50%' }}
+                            format=""
+                        />
+                      </div>
                       {
                         isFullScreen ? null :
                             <div className="xs:hidden xl:block">

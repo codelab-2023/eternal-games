@@ -7,6 +7,7 @@ const { getWebsiteListPublic } = require('../../controllers/website')
 const { getPageDetails } = require('../../controllers/page')
 const { getAllTrendings } = require('../../controllers/trending')
 const { getAllFeatures } = require('../../controllers/feature')
+const { getBlogList, getBlog } = require('../../controllers/blog')
 
 // User routes - /v1/users
 router.post('/login', login)
@@ -17,6 +18,9 @@ router.post('/verify-user', verifyUser)
 router.get('/game/:slug', getGame)
 router.get('/game', getGameList)
 router.get('/all-games', getAllGameList)
+
+router.get('/blog', getBlogList)
+router.get('/blog/:slug', getBlog)
 
 // User Routes - /v1/test
 router.get('/hello', deletePreviousGameVersion)

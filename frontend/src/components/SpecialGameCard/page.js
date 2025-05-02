@@ -23,11 +23,11 @@ export default function SpecialGameCard({ loading, isHorizontal = true, games, n
               spaceBetween={10}
               slidesPerView={isHorizontal ? 4 : 1}
               speed={1700}
-              autoplay={{
-                delay: 1500,
-                disableOnInteraction: false
-              }}
-              modules={[ Autoplay ]}
+              // autoplay={{
+              //   delay: 1500,
+              //   disableOnInteraction: false
+              // }}
+              // modules={[ Autoplay ]}
               loop={true}
               pagination={{ clickable: true }}
               scrollbar={false}

@@ -34,8 +34,14 @@ const initialize = async () => {
     fs.mkdirSync(thumbnailDir)
   }
 
+  const blogDir = 'blogs/'
+  if (!fs.existsSync(blogDir)) {
+    fs.mkdirSync(blogDir)
+  }
+
   const dirname = path.resolve()
   app.use('/games', express.static(path.join(dirname, '/games')))
+  app.use('/blogs', express.static(path.join(dirname, 'blogs')))
 
   // Public Routes! i.e. Login, SignUp etc.
   app.use('/', publicRoutes)

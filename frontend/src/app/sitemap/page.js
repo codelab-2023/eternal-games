@@ -3,7 +3,7 @@ import { GoogleAnalytics } from '@next/third-parties/google'
 import React from 'react'
 
 export default async function Sitemap() {
-  const baseUrl = 'https://emoongames.com'
+  const baseUrl = 'https://www.eternalgames.io/'
 
   // Fetch dynamic game pages from API
   let gamePages = []

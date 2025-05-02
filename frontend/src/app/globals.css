@@ -21,6 +21,7 @@
 body {
   color: rgb(var(--foreground-rgb));
   background-color: black;
+  overflow-x: hidden;
   /* background: linear-gradient(
       to bottom,
       transparent,
@@ -144,4 +145,8 @@ body {
     height: 250Px !important;
     width: 100% !important;
   }
+}
+
+.home-page-sliders .swiper, .home-page-sliders .swiper-wrapper{
+  z-index: 0 !important;
 }

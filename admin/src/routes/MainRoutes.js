@@ -14,6 +14,9 @@ const Category = Loadable(lazy(() => import('views/categories/category')))
 const Websites = Loadable(lazy(() => import('views/websites/List')))
 const Website = Loadable(lazy(() => import('views/websites/website')))
 
+const Blogs = Loadable(lazy(() => import('views/blogs/List')))
+const Blog = Loadable(lazy(() => import('views/blogs/blog')))
+
 const Privacy = Loadable(lazy(() => import('views/privacy/Privacy')))
 const TermsAndCondition = Loadable(lazy(() => import('views/termsAndCondition/TermsCondition')))
 
@@ -55,6 +58,14 @@ const MainRoutes = {
     {
       path: 'categories',
       element: <Categories/>
+    },
+    {
+      path: 'blogs/:id',
+      element: <Blog/>
+    },
+    {
+      path: 'blogs',
+      element: <Blogs/>
     },
     {
       path: 'privacy',

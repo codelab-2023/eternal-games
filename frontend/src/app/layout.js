@@ -6,6 +6,7 @@ import './globals.css'
 import { GoogleAnalytics } from '@next/third-parties/google'
 import React, { Suspense, useEffect } from 'react'
 import { usePathname } from 'next/navigation'
+import { ADSENCE_CLIENT_ID } from '../helper/constant'
 
 const inter = Inter({ subsets: [ 'latin' ] })
 
@@ -56,8 +57,8 @@ export default function RootLayout({ children }) {
       <Script
           id="adsense-script"
           async
-          strategy="afterInteractive"
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5284860989721758"
+          // strategy="afterInteractive"
+          src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENCE_CLIENT_ID}`}
           crossOrigin="anonymous"
       />
       {/*<Suspense>*/}

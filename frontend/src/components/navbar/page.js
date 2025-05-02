@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { FaFantasyFlightGames } from 'react-icons/fa6'
 import { IoSearch } from 'react-icons/io5'
@@ -12,6 +12,17 @@ export default function Navbar({ toggleSideBar }) {
 
   const [ searchedGame, setSearchedGame ] = useState('')
   const [ isOpen, setIsOpen ] = useState(false)
+  const [currentPath, setCurrentPath] = useState('')
+
+  const navLinks = [
+    { title: 'Home', link: '/' },
+    { title: 'Contact Us', link: '/contact-us' },
+    { title: 'Blogs', link: '/blogs' }
+  ]
+
+  useEffect(() => {
+    setCurrentPath(window.location.pathname)
+  }, [])
 
   return (
       <>
@@ -59,6 +70,21 @@ export default function Navbar({ toggleSideBar }) {
               <IoSearch size={23}/>
             </button>
           </div>
+          <div className='hidden md:flex flex-row items-center gap-5 mr-3'>
+            {navLinks.map((item, index) => {
+              const isActive = currentPath === item.link
+              return (
+                  <Link href={item.link} key={index} className="group relative">
+                    <p className={`text-base font-medium transition-all duration-300 ease-in-out ${
+                        (currentPath.includes('/game') && index === 0) || (currentPath.includes('/blogs') && index === 3) || isActive ? 'text-lime-500' : 'text-white hover:text-lime-500'
+                    }`}>
+                      {item.title}
+                    </p>
+                    <span className={`absolute -bottom-1 left-0 w-0 h-[2px] bg-lime-500 transition-all duration-300 group-hover:w-full ${(currentPath.includes('/game') && index === 0) || (currentPath.includes('/blogs') && index === 3) || isActive ? 'w-full' : ''}`}></span>
+                  </Link>
+              )
+            })}
+          </div>
           <button
               className="md:hidden bg-black p-2 rounded text-gray-700 focus:outline-none"
               onClick={() => setIsOpen(!isOpen)}
@@ -104,6 +130,22 @@ export default function Navbar({ toggleSideBar }) {
                   <button className="absolute right-3 h-auto text-lime-300" onClick={() => route.push(`/search?query=${searchedGame}`)}>
                     <IoSearch size={23}/>
                   </button>
+                </div>
+                <div className='w-full gap-5 md:hidden'>
+                  <div className="flex flex-col items-center py-4 space-y-1">
+                    {navLinks.map((item, index) => (
+                        <Link
+                            href={item.link}
+                            key={index}
+                            className="group w-full text-center py-3 rounded-lg transition-all duration-300 ease-in-out hover:bg-lime-300"
+                            onClick={() => setIsOpen(false)}
+                        >
+                          <p className="text-lg font-medium text-lime-500 group-hover:text-lime-700 transition-colors duration-200">
+                            {item.title}
+                          </p>
+                        </Link>
+                    ))}
+                  </div>
                 </div>
               </div>
           )

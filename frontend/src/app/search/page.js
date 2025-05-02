@@ -18,6 +18,9 @@ export default function SearchPage() {
   const [ games, setGames ] = useState([])
 
   useEffect(() => {
+    if(!query) {
+      setIsResultNotExist(true)
+    }
     document.title = `EternalGames - Search`
     handleSearch()
   }, [ query ])

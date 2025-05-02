@@ -5,6 +5,7 @@ const WebsiteStore = require('./website')
 const PageStore = require('./page')
 const FeatureStore = require('./feature')
 const TrendingStore = require('./trending')
+const BlogStore = require('./blog')
 
 module.exports = {
   UserStore,
@@ -14,4 +15,5 @@ module.exports = {
   PageStore,
   FeatureStore,
   TrendingStore,
+  BlogStore
 }

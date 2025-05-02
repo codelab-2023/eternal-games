@@ -31,8 +31,8 @@ export default function Games() {
         <Header/>
         <div className="max-w-6xl mx-5 xl:mx-auto pt-12 pb-20">
           <div className='mb-8 flex flex-col gap-1'>
-            <p className='text-3xl text-white font-bold'>All Emoon Games</p>
-            <p className='text-gray-400'>Page 1</p>
+            <p className='text-3xl text-white font-bold'>All Eternal Games</p>
+            {/*<p className='text-gray-400'>Page 1</p>*/}
           </div>
           <div className='mx-8 grid grid-flow-row grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-y-2'>
             {

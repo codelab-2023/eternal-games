@@ -1,4 +1,4 @@
-import { IconClipboardTypography, IconDashboard, IconDeviceGamepad2, IconGoGame, IconShieldLock, IconTags, IconTrendingUp, IconWorld } from '@tabler/icons'
+import { IconClipboardTypography, IconDashboard, IconDeviceGamepad2, IconGoGame, IconShieldLock, IconTags, IconTrendingUp, IconWorld, IconArticle } from '@tabler/icons'
 
 const QuickView = {
   id: 'quickView',
@@ -53,6 +53,14 @@ const pages = {
       type: 'item',
       url: '/categories',
       icon: IconTags,
+      breadcrumbs: false
+    },
+    {
+      id: 'blogs',
+      title: 'Blogs',
+      type: 'item',
+      url: '/blogs',
+      icon: IconArticle,
       breadcrumbs: false
     }
   ]
