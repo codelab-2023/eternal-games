@@ -26,7 +26,7 @@ export default function Navbar({ toggleSideBar }) {
 
   return (
       <>
-        <div className="w-dvw flex text-lime-400 items-center justify-between top-0 left-0 right-0 md:px-6 xs:px-4 py-4 bg-slate-900/90 z-50 backdrop-blur-sm relative">
+        <div className="w-dvw flex text-lime-400 items-center justify-between top-0 left-0 right-0 md:px-6 xs:px-4 py-4 bg-slate-900/90 z-30 backdrop-blur-sm relative">
           <div className="flex ">
             {/*<button className="mr-10" onClick={toggleSideBar}>*/}
             {/*  <FaBars size={25}/>*/}

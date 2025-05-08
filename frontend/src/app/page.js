@@ -8,6 +8,8 @@ import PacmanLoader from 'react-spinners/PacmanLoader'
 import gameService from '../services/game.service'
 import { GoogleAnalytics } from '@next/third-parties/google'
 import SpecialCard from '../components/SpecialGameCard/page'
+import { Adsense } from '@ctrl/react-adsense'
+import { ADSENCE_CLIENT_ID } from '../helper/constant'
 
 export default function Home() {
 
@@ -58,6 +60,12 @@ export default function Home() {
         <div className="w-screen text-white min-h-screen overflow-x-hidden">
           <NavBar/>
                 <div className="home-page-sliders h-auto px-3 !z-30 sm:px-5">
+                  <Adsense
+                      client={ADSENCE_CLIENT_ID}
+                      slot="9209979480"
+                      style={{ height: '100px', width:'100%' }}
+                      format=""
+                  />
                   <CarouselMain helper={game} loading={loading}/>
                   <SpecialCard isHorizontal={true} games={trendingGames} name={'Trending Games'} loading={loading}/>
                   <SpecialCard isHorizontal={true} games={featureGames} name={'Feature Games'} loading={loading}/>

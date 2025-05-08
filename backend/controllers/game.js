@@ -4,6 +4,7 @@ const fs = require('fs')
 const path = require('path')
 const unzipper = require('unzipper')
 
+const backendUrl = 'https://api.eternalgames.io'
 const maxFileUploadSize = process.env.MAX_FILE_UPLOAD_SIZE // default 2 GB
 
 const createGame = async (req, res) => {
@@ -213,7 +214,7 @@ const uploadGameThumbnail = async (req, res) => {
     await file.mv(filePath)
 
     sendSuccess(res, {
-      url: `https://api.eternalgames.io/${filePath}`,
+      url: `${backendUrl}/${filePath}`,
       message: 'File uploaded successfully'
     })
   } catch (error) {
@@ -230,7 +231,7 @@ const uploadGameZip = async (req, res) => {
       return res.status(400).send('No files were uploaded.')
     }
 
-    const zipPath = `zip/${zip.name}`
+    const zipPath = `zip/${zip.name}/game`
 
     if (zip.mimetype !== 'application/zip' || zip.size > maxFileUploadSize) return sendError(res, 'Error : Invalid file format or size.', null, 400)
 
@@ -250,7 +251,7 @@ const uploadGameZip = async (req, res) => {
       fs.createReadStream(zipPath).pipe(unzipper.Extract({ path: `games/${id}` })).on('finish', () => resolve()).on('error', (err) => reject(err))
     })
 
-    const rootDir = `games/${id}`
+    const rootDir = `games/${id}/game`
     const filename = 'index.html'
 
     //finds index.html from zip
@@ -290,7 +291,7 @@ const uploadGameZip = async (req, res) => {
       return sendError(res, 'index.html not found from zip', null, 404)
     }
 
-    const gameUrl = `https://api.eternalgames.io/${filePath}`
+    const gameUrl = `${backendUrl}/${filePath}`
 
     return sendSuccess(res, { gameUrl: gameUrl })
   } catch (error) {

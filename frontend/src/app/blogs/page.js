@@ -70,9 +70,9 @@ export default function Blogs() {
                       <div className={`aspect-video bg-no-repeat bg-center ${blog?.blogImage === '/white-logo3.png' ? 'bg-contain' : 'bg-cover' } rounded-t-lg`} style={{ backgroundImage: `url(${encodeURI(blog?.blogImage)})`, backgroundColor: '#171717' }}/>
                       <div className="pt-3 pb-8 px-4 bg-[#121212] h-full rounded-b-lg">
                         <p className='text-end text-gray-300 text-xs font-medium'>{moment(blog?.updatedOn ? blog?.updatedOn : blog?.createdOn).format('MMMM D, YYYY')}</p>
-                        <p className="font-bold text-[#f7bf16]/90 text-xl tracking-wide line-clamp-2 mb-1 mt-2">{blog?.blogTitle}</p>
+                        <p className="font-bold text-lime-500/90 text-xl tracking-wide line-clamp-2 mb-1 mt-2">{blog?.blogTitle}</p>
                         <p className="line-clamp-[7] mt-5 text-sm">{blog?.shortDescription}</p>
-                        <button className='absolute bottom-2 right-4 flex flex-row items-center ml-auto gap-2 text-[#f7bf16]/70 hover:text-[#f7bf16] transition duration-300 ease-in-out text-xs'>Read more <FaArrowRight /></button>
+                        <button className='absolute bottom-2 right-4 flex flex-row items-center ml-auto gap-2 text-lime-500/70 hover:text-[#f7bf16] transition duration-300 ease-in-out text-xs'>Read more <FaArrowRight /></button>
                       </div>
                     </div>
                 )
