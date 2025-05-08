@@ -4,6 +4,7 @@
 /node_modules
 /games
 /zip
+/blogs
 /.pnp
 .pnp.js
 .vscode
@@ -39,3 +40,4 @@ yarn-error.log*
 *.lock
 
 #zip-upload
+zip-upload
