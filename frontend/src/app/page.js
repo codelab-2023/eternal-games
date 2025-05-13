@@ -1,22 +1,19 @@
 'use client'
-import React, { useEffect, useState } from 'react'
-import CarouselMain from '../containers/carousel-main/page'
-import Desktop from '../components/desktop-medium-card/page'
-import NavBar from '../components/navbar/page'
-import Footer from '../components/footer/page'
-import PacmanLoader from 'react-spinners/PacmanLoader'
-import gameService from '../services/game.service'
 import { GoogleAnalytics } from '@next/third-parties/google'
+import { useEffect, useState } from 'react'
+import Desktop from '../components/desktop-medium-card/page'
+import Footer from '../components/footer/page'
+import NavBar from '../components/navbar/page'
 import SpecialCard from '../components/SpecialGameCard/page'
-import { Adsense } from '@ctrl/react-adsense'
-import { ADSENCE_CLIENT_ID } from '../helper/constant'
+import CarouselMain from '../containers/carousel-main/page'
+import gameService from '../services/game.service'
 
 export default function Home() {
 
-  const [ game, setGame ] = useState([])
-  const [ loading, setLoading ] = useState(false)
-  const [ trendingGames, setTrendingGames ] = useState([])
-  const [ featureGames, setFeatureGames ] = useState([])
+  const [game, setGame] = useState([])
+  const [loading, setLoading] = useState(false)
+  const [trendingGames, setTrendingGames] = useState([])
+  const [featureGames, setFeatureGames] = useState([])
 
   useEffect(() => {
     document.title = 'EternalGames'
@@ -37,43 +34,54 @@ export default function Home() {
     }
   }
 
-  async function fetchTrendingGames(){
-    try{
+  async function fetchTrendingGames() {
+    try {
       const response = await gameService.getTrendingGames();
       setTrendingGames(response.trendings)
-    } catch(error) {
+    } catch (error) {
       console.log(error.message)
     }
   }
 
-  async function fetchFeatureGames(){
-    try{
+  async function fetchFeatureGames() {
+    try {
       const response = await gameService.getFeatureGames();
       setFeatureGames(response.features)
-    } catch(error) {
+    } catch (error) {
       console.log(error.message)
     }
   }
 
+  useEffect(() => {
+    const script = document.createElement('script');
+    script.src = '/ad_script.js';
+    script.async = true;
+    document.body.appendChild(script);
+
+    return () => {
+      document.body.removeChild(script);
+    };
+  }, [])
+
   return (
-      <>
-        <div className="w-screen text-white min-h-screen overflow-x-hidden">
-          <NavBar/>
-                <div className="home-page-sliders h-auto px-3 !z-30 sm:px-5">
-                  <Adsense
-                      client={ADSENCE_CLIENT_ID}
-                      slot="9209979480"
-                      style={{ height: '100px', width:'100%' }}
-                      format=""
-                  />
-                  <CarouselMain helper={game} loading={loading}/>
-                  <SpecialCard isHorizontal={true} games={trendingGames} name={'Trending Games'} loading={loading}/>
-                  <SpecialCard isHorizontal={true} games={featureGames} name={'Feature Games'} loading={loading}/>
-                  <Desktop name="New Games" helper={game}/>
-                </div>
-          <Footer/>
-          <GoogleAnalytics gaId="G-TF62GHPFEJ" />
+    <>
+      <div className="w-screen text-white min-h-screen overflow-x-hidden">
+        <NavBar />
+        <div className="home-page-sliders h-auto px-3 !z-30 sm:px-5">
+          <ins className="adsbygoogle"
+            style={{ display: 'block' }}
+            data-ad-client="ca-pub-5284860989721758"
+            data-ad-slot="9209979480"
+            data-ad-format="auto"
+            data-full-width-responsive="true" />
+          <CarouselMain helper={game} loading={loading} />
+          <SpecialCard isHorizontal={true} games={trendingGames} name={'Trending Games'} loading={loading} />
+          <SpecialCard isHorizontal={true} games={featureGames} name={'Feature Games'} loading={loading} />
+          <Desktop name="New Games" helper={game} />
         </div>
-      </>
+        <Footer />
+        <GoogleAnalytics gaId="G-TF62GHPFEJ" />
+      </div>
+    </>
   )
 }
