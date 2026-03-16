@@ -7,7 +7,7 @@ import { ADSENCE_CLIENT_ID } from '../helper/constant'
 
 const inter = Inter({ subsets: [ 'latin' ] })
 
-// Modern Metadata API (replaces manual <Head> tags)
+// Modern Metadata API (replaces manual <Head> tags )
 export const metadata = {
   title: 'Play External Games Online – Free Brain Games & Mind Puzzles',
   description: 'Discover ultimate eternal games and mind-bending puzzles that will energize your brain. Challenge yourself with thrilling mental adventures today!',
