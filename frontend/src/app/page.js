@@ -1,6 +1,6 @@
 'use client'
 import { GoogleAnalytics } from '@next/third-parties/google'
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Desktop from '../components/desktop-medium-card/page'
 import Footer from '../components/footer/page'
 import NavBar from '../components/navbar/page'
@@ -16,8 +16,6 @@ export default function Home() {
   const [featureGames, setFeatureGames] = useState([])
 
   useEffect(() => {
-    document.title = 'EternalGames'
-
     getGames()
     fetchTrendingGames()
     fetchFeatureGames()
@@ -74,10 +72,11 @@ export default function Home() {
             data-ad-slot="9209979480"
             data-ad-format="auto"
             data-full-width-responsive="true" />
+          <h1 className="font-medium text-3xl font-sans text-lime-300 mt-5">Play the Best External Games Online – Brain Games & Mind Puzzles</h1>
           <CarouselMain helper={game} loading={loading} />
-          <SpecialCard isHorizontal={true} games={trendingGames} name={'Trending Games'} loading={loading} />
-          <SpecialCard isHorizontal={true} games={featureGames} name={'Feature Games'} loading={loading} />
-          <Desktop name="New Games" helper={game} />
+          <SpecialCard isHorizontal={true} games={trendingGames} name={'Discover Fun and Challenging External Games'} loading={loading} />
+          <SpecialCard isHorizontal={true} games={featureGames} name={'External Brain Games to Boost Your Thinking Skills'} loading={loading} />
+          <Desktop name={'Free External Puzzle Games for Mental Challenges'} helper={game} />
         </div>
         <Footer />
         <GoogleAnalytics gaId="G-TF62GHPFEJ" />

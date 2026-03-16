@@ -9,7 +9,7 @@ import { Skeleton } from '@mui/material'
 export default function SpecialGameCard({ loading, isHorizontal = true, games, name }) {
   return (
       <div>
-        <p className="font-bold text-lg font-sans text-lime-300 mt-4">{name}</p>
+          <h2 className="font-medium text-2xl font-sans text-lime-300 mt-4">{name}</h2>
         <ImageList
             sx={{ margin: '16px 20px 60px', width: 'auto', display: 'flex' }}
             className="home-slider"

@@ -1,5 +1,4 @@
 import React from 'react'
-import ImageListItem from '@mui/material/ImageListItem'
 import Link from 'next/link'
 import 'swiper/css'
 import { Box, Skeleton } from '@mui/material'
@@ -7,7 +6,7 @@ import { Box, Skeleton } from '@mui/material'
 const Desktop = ({ helper, name, isWidthFull = true }) => {
   return (
       <div className="mx-1 sm:mx-4">
-        <p className="font-bold text-lg font-sans text-lime-300 mt-4">{name}</p>
+        <h2 className="font-medium text-2xl font-sans text-lime-300 mt-4">{name}</h2>
         {
           helper.length ?
               <div className="grid grid-flow-row grid-cols-[repeat(auto-fit,minmax(120px,1fr))] sm:grid-cols-[repeat(auto-fit,minmax(170px,1fr))] md:grid-cols-[repeat(auto-fit,minmax(200px,1fr))] lg:grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-3 mt-4 mb-10">

@@ -11,7 +11,7 @@ const CarouselMain = ({ helper, loading }) => {
 
   return (
       <ImageList
-          sx={{ margin: '40px 20px 60px', width: 'auto', display: 'flex' }}
+          sx={{ margin: '20px 20px 60px', width: 'auto', display: 'flex' }}
           className="home-slider"
           variant="quilted"
           cols={4}

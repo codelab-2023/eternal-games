@@ -1,43 +1,62 @@
-'use client'
-import Head from 'next/head'
-import Script from 'next/script'
 import { Inter } from 'next/font/google'
 import './globals.css'
 import { GoogleAnalytics } from '@next/third-parties/google'
-import React, { Suspense, useEffect } from 'react'
-import { usePathname } from 'next/navigation'
+import Script from 'next/script'
+import React, { Suspense } from 'react'
 import { ADSENCE_CLIENT_ID } from '../helper/constant'
 
 const inter = Inter({ subsets: [ 'latin' ] })
 
-// export const metadata = {
-//   title: 'Eternal games',
-//   description: 'Checkout Eternal Games cool page'
-// }
+// Modern Metadata API (replaces manual <Head> tags)
+export const metadata = {
+  title: 'Play External Games Online – Free Brain Games & Mind Puzzles',
+  description: 'Discover ultimate eternal games and mind-bending puzzles that will energize your brain. Challenge yourself with thrilling mental adventures today!',
+  alternates: {
+    canonical: 'https://www.eternalgames.io',
+  },
+  openGraph: {
+    title: 'Play External Games Online – Free Brain Games & Mind Puzzles',
+    description: 'Discover ultimate eternal games and mind-bending puzzles that will energize your brain. Challenge yourself with thrilling mental adventures today!',
+    url: 'https://www.eternalgames.io',
+    siteName: 'External games',
+    images: [
+      {
+        url: "https://emoongames.com/logo-full.png",
+        width: 735,
+        height: 735,
+        alt: "External games post image",
+      }
+    ],
+    type: 'website',
+  },
+  // other: {
+  //   'google': 'nositelinkssearchbox',
+  //   'google-site-verification': 'your-verification-code', // optional
+  // },
+}
 
 const META_PIXEL_ID = "YOUR_PIXEL_ID";
 
 export default function RootLayout({ children }) {
-  const pathname = usePathname();
-
-  // useEffect(() => {
-  //   window.fbq("track", "PageView");
-  // }, [pathname]);
-
   return (
-      <html lang="en">
-      <Head>
-        <title>Eternal Games</title>
-        <meta name="description" content="Checkout Eternal Games cool page" key="desc" />
-        <meta property="og:title" content="Eternal Games is a platform for play offline games" />
-        <meta property="og:description" content="Eternal Games is a platform for play offline games"/>
-        {/*<meta property="og:image" content={logo}/>*/}
-        <meta name="google" content="nositelinkssearchbox" key="sitelinks"/>
-        <meta name="google" content="notranslate" key="notranslate"/>
-        <Script
-            strategy="afterInteractive"
-            dangerouslySetInnerHTML={{
-              __html: `
+      <html lang="en" className={inter.className}>
+      <body style={{ width: '100%', color: 'white', minHeight: '100vh', overflowX: 'hidden', margin: 0 }}>
+
+      {/* AdSense Script */}
+      <Script
+          id="adsense-script"
+          async
+          src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENCE_CLIENT_ID}`}
+          crossOrigin="anonymous"
+          strategy="afterInteractive"
+      />
+
+      {/* Meta Pixel (Facebook) */}
+      <Script
+          id="fb-pixel"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `
               !function(f,b,e,v,n,t,s)
               {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
               n.callMethod.apply(n,arguments):n.queue.push(arguments)};
@@ -49,37 +68,16 @@ export default function RootLayout({ children }) {
               fbq('init', '${META_PIXEL_ID}');
               fbq('track', 'PageView');
             `,
-            }}
-        />
-      </Head>
-
-      <body style={{width: '100%', color: 'white', minHeight: '100%', overflowX: 'hidden' }}>
-      <Script
-          id="adsense-script"
-          async
-          // strategy="afterInteractive"
-          src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENCE_CLIENT_ID}`}
-          crossOrigin="anonymous"
+          }}
       />
-      {/*<Suspense>*/}
-      {/*  <NavBar toggleSideBar={handleToggle} />*/}
-      {/*</Suspense>*/}
-      <Suspense>
+
+      <Suspense fallback={<div>Loading...</div>}>
         {children}
       </Suspense>
 
-      {/*<div className={`w-full ${openSideBar ? 'h-screen overflow-y-scroll ' : ''}`}>*/}
-      {/*    <SideBar isOpen={openSideBar} onClose={handleToggle} />*/}
-      {/*  <div className={` ${openSideBar ? 'xs:ml-auto sm:ml-[190px] h-screen overflow-y-scroll' : ''}`}>*/}
-
-      {/*  </div>*/}
-      {/*</div>*/}
-      {/*<Suspense>*/}
-      {/*  <Footer />*/}
-      {/*</Suspense>*/}
-
+      {/* Google Analytics component */}
+      <GoogleAnalytics gaId="G-TF62GHPFEJ" />
       </body>
-      <GoogleAnalytics gaId="G-TF62GHPFEJ"/>
       </html>
   )
 }
