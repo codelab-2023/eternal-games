@@ -1,0 +1,4 @@
+User-agent: *
+Disallow:
+
+sitemap: https://www.eternalgames.io/sitemap.xml
